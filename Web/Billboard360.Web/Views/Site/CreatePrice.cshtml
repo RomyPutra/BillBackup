@@ -1,0 +1,36 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Billboard360.Web.Models.AddSitePriceInputModel
+@{
+	ViewData["Title"] = "Add Price";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Add Price </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when submitting.")
+			</div>
+		}
+		<form method="post" action="AddPrice">
+			<input type="text" class="fadeIn first form-control" asp-for="Dasar" placeholder="Dasar" data-val="true" data-val-required="The basic is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Dasar" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="Kelipatan" placeholder="Kelipatan" data-val="true" data-val-required="The multiple is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Kelipatan" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn third form-control" asp-for="HargaAwal" placeholder="Harga Awal" data-val="true" data-val-required="The first price is required" data-val-regex="Valid input is numbers only" data-val-regex-pattern="^\d+$">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="HargaAwal" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn third form-control" asp-for="HargaAkhir" placeholder="Harga Akhir" data-val="true" data-val-required="The final price is required" data-val-regex="Valid input is numbers only" data-val-regex-pattern="^\d+$">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="HargaAkhir" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Submit">
+		</form>
+	</div>
+</div>
+
+

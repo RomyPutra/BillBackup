@@ -1,0 +1,42 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Billboard360.Web.Models.EditDetail
+@{
+	ViewData["Title"] = "Update Site Detail";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Update Site Item </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when updating.")
+			</div>
+		}
+		<form method="post" action="~/Site/UpdateItm">
+			<input type="hidden" asp-for="input.SiteItemID" value="@Model.val.SiteItemID">
+			<input type="text" class="fadeIn second form-control" asp-for="input.KodeLokasi" placeholder="Kode Arah Lokasi" value="@Model.val.KodeLokasi" data-val="true" data-val-required="Kode Lokasi harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="KodeArahLokasi" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="input.ArahLokasi" placeholder="Arah Lokasi" value="@Model.val.ArahLokasi" data-val="true" data-val-required="Arah Lokasi harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="ArahLokasi" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="input.Panjang" placeholder="Panjang" value="@Model.val.Panjang" data-val="true" data-val-required="Panjang harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Panjang" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="input.Lebar" placeholder="Lebar" value="@Model.val.Lebar" data-val="true" data-val-required="Lebar harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Lebar" data-valmsg-replace="true"></span>
+			<input type="hidden" asp-for="input.SitePriceID" value="@Model.val.SitePriceID">
+			<input type="text" class="fadeIn second form-control" asp-for="input.MinimDasar" placeholder="Dasar" value="@Model.val.MinimDasar" data-val="true" data-val-required="Dasar Order harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.MinimDasar" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="input.MinimOrder" placeholder="Minimum Order" value="@Model.val.MinimOrder" data-val="true" data-val-required="Min Order harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.MinimOrder" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="input.HargaAwal" placeholder="Harga Awal" value="@Model.val.HargaAwal" data-val="true" data-val-required="Harga harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.HargaAwal" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Submit">
+		</form>
+	</div>
+</div>

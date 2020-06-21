@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="67" height="52" viewBox="0 0 67 52">
+  <g id="Group_696" data-name="Group 696" transform="translate(-698 -99)">
+    <rect id="Rectangle_471" data-name="Rectangle 471" width="67" height="52" rx="9" transform="translate(698 99)" fill="#0e62ac"/>
+    <path id="Subtraction_2" data-name="Subtraction 2" d="M-18444-13444a16.9,16.9,0,0,1-12.023-4.979A16.9,16.9,0,0,1-18461-13461a16.888,16.888,0,0,1,4.98-12.02A16.9,16.9,0,0,1-18444-13478a16.878,16.878,0,0,1,12.018,4.979,16.888,16.888,0,0,1,4.98,12.02,16.9,16.9,0,0,1-4.98,12.023A16.878,16.878,0,0,1-18444-13444Zm0-32a15.016,15.016,0,0,0-15,15,15.018,15.018,0,0,0,15,15,15.017,15.017,0,0,0,15-15A15.015,15.015,0,0,0-18444-13476Z" transform="translate(19176 13586)" fill="#fff"/>
+    <text id="v" transform="translate(731.368 119.768) rotate(45)" fill="#fff" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">v</tspan></text>
+    <circle id="Ellipse_47" data-name="Ellipse 47" cx="2" cy="2" r="2" transform="translate(730 123)" fill="#fff"/>
+  </g>
+</svg>

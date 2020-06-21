@@ -1,0 +1,237 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Iklan.Models.ViewResultBookModel>
+@{
+	ViewData["Title"] = "Detail Pembayaran";
+}
+<script src="~/scripts/Booking/BookDetail.js" asp-append-version="true"></script>
+<section class="gray">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-md-8 col-sm-12">
+				<div class="dashboard-wrapers">
+					<div class="row" style="margin-bottom:2%;">
+						<div class="col-lg-12 col-md-12 col-sm-12" style="text-align:center;">
+							<h3 class="box-title txt-red">Detail Pembayaran</h3>
+						</div>
+					</div>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card-detail items">
+                                    <p style="margin-bottom:0px;width:100%;" class="txt-grey"><strong> Status</strong></p>
+                                    @if (@Model[0].StatusApproval == "Reject")
+                                    {
+                                        <p style="font-size:1.2rem;margin-bottom:2px;color:#F0555A">@Model[0].StatusApproval</p>
+                                    }
+                                    else if (@Model[0].StatusApproval == "On Progress")
+                                    {
+                                        <p style="font-size:1.2rem;margin-bottom:2px;color:#F3B22F">@Model[0].StatusApproval</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="font-size: 1.2rem; margin-bottom: 2px; color: #56BE6B">@Model[0].StatusApproval</p>
+                                    }
+                                    <div class="row" style="width:100%;padding-left:15px;margin-top:20px;">
+                                        <div class="col-md-6" style="text-align:left;padding-left:0px;">
+                                            <p style="margin-bottom:10px;width:100%;" class="txt-grey"><strong> Tanggal Pemesanan</strong></p>
+                                            <p style="margin-bottom:5%;width:100%;" class="txt-grey"><strong> Nomor Invoice</strong></p>
+                                        </div>
+                                        <div class="col-md-6" style="text-align:right;padding-right:0px;">
+                                            <p style="font-size:0.8rem;margin-bottom:10px;width:100%;" class="txt-black cust-date">@Html.DisplayFor(x => Model[0].CreateDate)</p>
+                                            <p style="font-size: 1rem;margin-bottom:5%;width:100%;width:100%;" class="txt-black"><i><strong>@Model[0].BookNo</strong></i></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @{string status = ""; string sitedetail = "";}
+                                @foreach (var list in Model)
+                                {
+                                    @foreach (var detail in list.ListBookDetail)
+                                    {
+                                        @if (@detail.StatusPerItem == "On Progress")
+                                        {
+                                            status = "On Going";
+                                        }
+                                        else
+                                        {
+                                            status = detail.StatusPerItem;
+                                        }
+                                        <div class="card-detail items">
+                                            <div class="card-title-box item-detail">
+                                                <p style="margin-bottom:0px;" class="txt-grey"><strong>@detail.Site.NoBillboard</strong></p>
+                                            </div>
+                                            <div class="row" style="padding: 10px 0px 10px 0px;">
+                                                <div class="col-md-4" style="text-align:center;padding-top:5%;">
+                                                    @if (detail.Site.Item.Image.Count > 0)
+                                                    {
+                                                        <img src="@detail.Site.Item.Image[0].Image" alt="" style="margin-right: 5px;flex: 1;max-width: 125px;max-height: 125px;border-radius: 15%;overflow: hidden;" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="~/images/NoImage.jpg" alt="" style="margin-right: 5px;flex: 1;max-width: 125px;max-height: 125px;border-radius: 15%;overflow: hidden;" />
+                                                    }
+                                                </div>
+                                                <div class="col-md-8" style="padding-left:5%;padding-top:2%;">
+                                                    <div class="row" style="width:95%;">
+                                                        <div class="col-md-8" style="padding:0px;">
+                                                            <p style="margin-bottom:5px;">Ukuran: <b>@detail.Site.Item.Panjang X @detail.Site.Item.Lebar Meter</b></p>
+                                                            <p style="margin-bottom:5px;">Tipe: <b>@detail.Site.Tipe</b></p>
+                                                            @if (status == "Reject")
+                                                            {
+                                                                <p style="font-size:1.2rem;margin-bottom:2px;color:#F0555A"><b>@status</b></p>
+                                                            }
+                                                            else if (status == "On Going")
+                                                            {
+                                                                <p style="font-size:1.2rem;margin-bottom:2px;color:#F3B22F"><b>@status</b></p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p style="font-size:1.2rem;margin-bottom:2px;color:#56BE6B"><b>@status</b></p>
+                                                            }
+                                                        </div>
+                                                        <div class="col-md-4" style="padding-right:0px !important;text-align:right;padding-top:10px;">
+                                                            @{ int score = (int)Math.Round(detail.Site.RateScoreAverage); }
+                                                            @for (int i = 0; i < 5; i++)
+                                                            {
+                                                                if (i < score)
+                                                                {
+                                                                    <span class="fa fa-star checked"></span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="fa fa-star"></span>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="width:95%;">
+                                                        <div class="col-md-6" style="text-align:left;padding-left:0px;">
+                                                            <p style="font-size:1.2rem;"><strong>Durasi</strong></p>
+                                                        </div>
+                                                        <div class="col-md-6" style="text-align:right;padding-right:0px;">
+                                                            <p style="font-size:1.2rem;margin-bottom:2px !important;"><strong>@detail.EndDate.Subtract(detail.StartDate).Days.ToString() Hari</strong></p>
+                                                            <p style="font-size:0.8rem;margin-bottom:2px !important;"><span class="cust-date">@Html.DisplayFor(x => detail.StartDate)</span> - <span class="cust-date">@Html.DisplayFor(x => detail.EndDate)</span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="width:95%;height:25px;">
+                                                        <div class="col-md-6" style="text-align:left;padding-left:0px;">
+                                                            <p style="font-size:1.2rem;margin-bottom:2px !important;"><strong>Total Harga</strong></p>
+                                                        </div>
+                                                        <div class="col-md-6" style="text-align:right;padding-right:0px;">
+                                                            <p style="font-size:1.2rem;margin-bottom:2px !important;" class="txt-red">Rp. <span class="cart-price">@detail.TotalHargaPerItem</span>,-</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @if (status != "Reject")
+                                            {
+                                                <div class="row" style="width:100%;height:25px;">
+                                                    <div class="col-md-12" style="text-align:left;">
+                                                        <label id="siteDetail" style="visibility:hidden;height:0px;">@detail.Site.Item.SiteID</label>
+                                                        @if (status == "Approve")
+                                                        {
+                                                            <p style="font-size:0.8rem;margin-bottom:2px !important;">*Apabila ada kendala pada iklan anda, beritahu kami. Klik <a id="reportSite" style="cursor:pointer;"><strong style="color:red;">Report</strong></a></p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p style="font-size: 0.8rem;margin-bottom:2px !important;">*Apabila ada kendala pada iklan anda, beritahu kami. Klik <a id="reportSite" style="cursor:not-allowed;"><strong style="color:red;">Report</strong></a></p>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="row" style="width:100%;height:25px;">
+                                                    <div class="col-md-12" style="text-align:left;">
+                                                        <p style="font-size:0.8rem;margin-bottom:2px !important;">Mohon maaf untuk saat ini site dengan nomor <strong style="color:red;">@detail.Site.NoBillboard</strong> sedang tidak tersedia</p>
+                                                    </div>
+                                                    <div class="col-md-12" style="display:inline-flex;padding:10px;padding-left:20%;">
+                                                        <button class="btn btn-secondary txt-white smenu" style="width:40%;border-radius:15px;display:block;margin: 0px 10px 0px 0px;" onclick="changeSite('@Url.Action("ChangeList", "Booking")', '@detail.BookDetailID')">Ganti</button>
+                                                        <button class="btn btn-danger txt-white smenu" style="width:40%;border-radius:15px;display:block;" onclick="deleteSite('@Url.Action("DeleteItemFromBook", "Booking")', '@list.ListBookDetail')">Delete</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card-detail">
+                                    <div class="card-title-box">
+                                        <p class="box-title txt-black" style="margin:0px;">Informasi Pembayaran</p>
+                                    </div>
+                                    @{double harga = 0; double item = 0; double disc = 0; double bayarFull = 0; double bayarSetengah = 0;}
+                                    @foreach (var list in Model)
+                                    {
+                                        @foreach (var detail in list.ListBookDetail)
+                                        {
+                                            harga += @detail.TotalHargaPerItem;
+                                            item += 1;
+                                            bayarFull += (detail.TotalHargaPerItem - disc);
+                                        }
+                                        bayarSetengah = bayarFull / 2;
+                                    }
+                                    <div class="card-content">
+                                        <div class="row mb-0" style="padding-left:15px;">
+                                            <div class="col-md-6" style="text-align:left;padding-left:20px;">
+                                                <label style="font-size: 1.5rem;">
+                                                    <input type="radio" name="optradio" class="optradio" style="position:inherit;" value="@bayarFull" checked> <b>Bayar Penuh</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6" style="text-align:left;padding-right:30px">
+                                                <label style="font-size: 1.5rem;">
+                                                    <input type="radio" name="optradio" class="optradio" style="position:inherit;" value="@bayarSetengah"> <b>Bayar DP</b>
+                                                </label>
+                                            </div>
+                                            <input type="hidden" id="amtHarga" value="@harga" />
+                                            <input type="hidden" id="amtDisc" value="@disc" />
+                                            <input type="hidden" id="amtTotal" value="@bayarFull" />
+                                            <input type="hidden" id="amtBayar" value="@bayarFull" />
+                                        </div>
+                                        <div class="row mb-0" style="padding-left:15px;">
+                                            <div class="col-md-6" style="text-align:left;padding-left:20px;">
+                                                <p class="mb-0">Total Harga (@item Site)</p>
+                                            </div>
+                                            <div class="col-md-6" style="text-align:right;padding-right:30px">
+                                                <p style="font-size:1.2rem;">Rp. <span class="cart-price">@harga</span>,-</p>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-0" style="padding-left:15px;">
+                                            <div class="col-md-6" style="text-align:left;padding-left:20px;">
+                                                <p class="mb-0">Potongan</p>
+                                            </div>
+                                            <div class="col-md-6" style="text-align:right;padding-right:30px">
+                                                <p style="font-size:1.2rem;">Rp. <span class="cart-price">@disc</span>,-</p>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-0" style="padding-left:15px;">
+                                            <div class="col-md-6" style="text-align:left;padding-left:20px;">
+                                                <p class="mb-0"><strong>Total Pembayaran</strong></p>
+                                            </div>
+                                            <div class="col-md-6" style="text-align:right;padding-right:30px">
+                                                <p style="font-size:1.2rem;">Rp. <span id="pamount" class="cart-price">@bayarFull</span>,-</p>
+                                            </div>
+                                            <p style="font-size:0.8rem;padding-left:20px;">*Mohon baca syarat dan ketentuan terlebih dahulu. Klik <a istyle="cursor:pointer;" asp-controller="Home" asp-action="SyaratKetentuan"><strong style="color:red;">S&K</strong>.</a></p>
+                                        </div>
+                                        <div class="detailbtn" style="height:100px;">
+                                            @if (Model[0].StatusApproval == "Approve")
+                                            {
+                                                <button class="btn btn-danger txt-white smenu" onclick="bayarSekarang('@Url.Action("ProceedPayment", "Booking")','@Model[0].BookID',@bayarFull)" style="width:40%;border-radius:15px;display:block;margin: 10px 10px 10px 30%;">Bayar Sekarang</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-danger txt-white smenu" disabled style="width:40%;border-radius:15px;display:block;margin: 10px 10px 10px 30%;">Bayar Sekarang</button>
+                                            }
+                                            <button class="btn btn-secondary txt-white smenu" onclick="gotoHome()" style="width:40%;border-radius:15px;display:block;margin: 10px 10px 10px 30%;">Pesan Lagi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

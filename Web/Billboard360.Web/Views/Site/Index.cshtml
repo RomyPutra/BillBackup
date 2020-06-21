@@ -1,0 +1,144 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@*@model IEnumerable<Billboard360.Web.Models.SiteListOutputModel>*@
+@model List<Billboard360.Web.Models.SiteListOutputModel>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+	ViewData["Title"] = "Site Listing";
+}
+<div class="row">
+	<div class="col-12">
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">Manage Site</h3>
+				<p align="right">
+					<a class="text-dark" style="padding: 5px;" asp-area="" asp-controller="Site" asp-action="Create"><img src="~/image/add-create.png" style="height: 15px;width: 15px;" /> Add Site</a>
+				</p>
+			</div>
+			@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+			{
+				<div class="alert alert-danger" role="alert">
+					@Html.ValidationSummary(true, "Error when getting data.")
+				</div>
+			}
+			<!-- /.box-header -->
+			<div class="box-body auto-table">
+				<table id="listSite" class="table table-bordered table-striped" style="width:100%;">
+					<thead>
+						<tr>
+							@*<th>Site ID</th>*@
+							<th>Billboard No</th>
+							<th>Alamat</th>
+							<th>Kota</th>
+							<th>Provinsi</th>
+							<th>Pulau</th>
+							<th>Cabang</th>
+							<th>Tipe</th>
+							<th style="display:none;">latitude</th>
+							<th style="display:none;">longitude</th>
+							@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+							{
+								<th>View</th>
+								<th>Action</th>
+							}
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model)
+						{
+						<tr>
+							@*<td>@Html.DisplayFor(modelItem => item.siteID)</td>*@
+							<td>@Html.DisplayFor(modelItem => item.NoBillboard)</td>
+							<td>@Html.DisplayFor(modelItem => item.Alamat)</td>
+							<td>@Html.DisplayFor(modelItem => item.Kota)</td>
+							<td>@Html.DisplayFor(modelItem => item.Provinsi)</td>
+							<td>@Html.DisplayFor(modelItem => item.Pulau)</td>
+							<td>@Html.DisplayFor(modelItem => item.Cabang)</td>
+							<td>@Html.DisplayFor(modelItem => item.Tipe)</td>
+							<td style="display:none;">@Html.DisplayFor(modelItem => item.Latitude)</td>
+							<td style="display:none;">@Html.DisplayFor(modelItem => item.Longitude)</td>
+							@*@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+		{
+			<td><a href="Site/IndexItem/@item.SiteID">Detail</a></td>
+			<td><a href="Site/Update/@item.SiteID">Update</a> | <a href="" onclick="Delete('@item.SiteID')">Delete</a></td>
+		}*@
+							@*<td><a href="Site/IndexPrice/@item.SiteID">Price</a> | <a href="Site/IndexImage/@item.SiteID">Image</a></td>*@
+							@*<td><a href="Site/Update/@item.SiteID">Update</a></td>*@
+						</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- /.col -->
+</div>
+<!-- DataTables -->
+@*<script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>*@
+@*<script src="~/js/jquery.dataTables.min.js"></script>
+	<script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>*@
+<!-- page script -->
+<script>
+    //$(function () {
+    //    $('#example1').DataTable();
+    //});
+    function Disabled(siteID, Mode, noBillboard){
+        var txt;
+        var r = Mode == "Disable" ? confirm("Are you sure you want to Disabled Billboard " + noBillboard + "?") : confirm("Are you sure you want to Enabled Billboard " + noBillboard + "?");
+        if (r == true) {
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("UpdateSiteStatus", "Site")',
+                data: {
+					siteID: siteID,
+					Mode: Mode
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+                        var baseUrl="/Site";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+    }
+
+	function Delete(id) {
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "Site")',
+                data: {
+                    id: id
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+                        var baseUrl="/Site";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,42 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Billboard360.Web.Models.CustomSiteDetailItemModel
+@{
+	ViewData["Title"] = "Add Site Detail";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Add Site Item </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when submitting.")
+			</div>
+		}
+		<form method="post" action="AddSiteItem">
+			<input type="hidden" class="fadeIn first" asp-for="SiteID">
+			<input type="text" class="fadeIn second form-control" asp-for="KodeLokasi" placeholder="Kode Arah Lokasi" data-val="true" data-val-required="Kode Lokasi harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="KodeArahLokasi" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="ArahLokasi" placeholder="Arah Lokasi" data-val="true" data-val-required="Arah Lokasi harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="ArahLokasi" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="Panjang" placeholder="Panjang" data-val="true" data-val-required="Panjang harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Panjang" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="Lebar" placeholder="Lebar" data-val="true" data-val-required="Lebar harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Lebar" data-valmsg-replace="true"></span>
+			<input type="hidden" asp-for="SitePriceID">
+			<input type="text" class="fadeIn second form-control" asp-for="MinimDasar" placeholder="Dasar" data-val="true" data-val-required="Dasar Order harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="MinimDasar" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="MinimOrder" placeholder="Minimum Order" data-val="true" data-val-required="Min Order harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="MinimOrder" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="HargaAwal" placeholder="Harga Awal" data-val="true" data-val-required="Harga harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="HargaAwal" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Submit">
+		</form>
+	</div>
+</div>

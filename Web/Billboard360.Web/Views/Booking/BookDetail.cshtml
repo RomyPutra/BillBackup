@@ -1,0 +1,315 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Billboard360.Web.Models.ViewResultBookModel>
+@{
+	ViewData["Title"] = "Detail Pembayaran";
+}
+<div class="row">
+	<div class="col-12">
+		<div class="box">
+			<div class="box-header" style="text-align:center;margin-top:30px;margin-bottom:50px;">
+				<h3 class="box-title txt-red">Detail Pembayaran</h3>
+			</div>
+			<div class="row" style="padding-left:15px;">
+				<div id="divitem" class="col-md-6">
+					<div class="row items shadowed" style="width:100%;padding-left:inherit;margin-bottom:60px;padding-top:15px;padding-bottom:15px;">
+						<p style="margin-bottom:0px;width:100%;" class="txt-grey"><strong> Status</strong></p>
+						@if (@Model[0].StatusApproval == "Reject")
+						{
+							<p style="font-size:1.2rem;margin-bottom:2px;color:#F0555A">@Model[0].StatusApproval</p>
+						}
+						else if (@Model[0].StatusApproval == "On Progress")
+						{
+							<p style="font-size:1.2rem;margin-bottom:2px;color:#F3B22F">@Model[0].StatusApproval</p>
+						}
+						else
+						{
+							<p style="font-size:1.2rem;margin-bottom:2px;color:#56BE6B">@Model[0].StatusApproval</p>
+						}
+						<div class="row" style="width:100%;padding-left:15px;margin-top:20px;">
+							<div class="col-md-6" style="text-align:left;padding-left:0px;">
+								<p style="margin-bottom:10px;width:100%;" class="txt-grey"><strong> Tanggal Pemesanan</strong></p>
+								<p style="margin-bottom:5%;width:100%;" class="txt-grey"><strong> Nomor Invoice</strong></p>
+							</div>
+							<div class="col-md-6" style="text-align:right;padding-right:0px;">
+								<p style="font-size:0.8rem;margin-bottom:10px;width:100%;" class="txt-black">@Model[0].CreateDate</p>
+								<p style="font-size: 1rem;margin-bottom:5%;width:100%;width:100%;" class="txt-black"><i><strong>@Model[0].BookNo</strong></i></p>
+							</div>
+						</div>
+					</div>
+					@{string status = ""; string sitedetail = "";}
+					@foreach (var list in Model)
+					{
+						@foreach (var detail in list.ListBookDetail)
+						{
+							@if (@detail.StatusPerItem == "On Progress")
+							{
+								status = "On Going";
+							}
+							else
+							{
+								status = detail.StatusPerItem;
+							}
+							@*@if (@detail.StatusPerItem == "Paid")
+							{
+								sitedetail = @detail.Site.NoBillboard + "|" + @detail.Site.Kota + "|" + detail.Site.Provinsi + "|true|true";
+							}
+							else
+							{
+								sitedetail = @detail.Site.NoBillboard + "|" + @detail.Site.Kota + "|" + detail.Site.Provinsi + "|true|false";
+							}*@
+							<div class="row items shadowed @status" style="width:100%;padding-left:inherit;margin-bottom:5%;">
+								<div class="row" style="background-color:#D8D8D8;padding-top:5px;padding-bottom:5px;font-size:1.3rem;width: 103.5%;border-top-left-radius: 6px;border-top-right-radius: 6px;padding-left:15px;">
+									<p style="margin-bottom:0px;" class="txt-grey"><strong>Produk</strong></p>
+								</div>
+								<div class="row" style="width: 100%;height: 170px !important;padding-right: 20px;padding-top: 10px;">
+									<div class="col-md-8" style="text-align:left !important;padding-top:10px;">
+										<div class="row">
+											<div class="col-md-6">
+												@if (detail.Site.Item.Image.Count > 0)
+												{
+													<img src="@detail.Site.Item.Image[0].Image" alt="" style="width:140px;height:120px;" />
+												}
+												else
+												{
+													<img src="~/image/NoImage.jpg" alt="" style="width:140px;height:120px;" />
+												}
+											</div>
+											<div class="col-md-6" style="padding:0px;">
+												<p style="margin-bottom:5px;"><b>@detail.Site.NoBillboard</b></p>
+												<p style="margin-bottom:5px;">Ukuran: <b>@detail.Site.Item.Panjang X @detail.Site.Item.Lebar Meter</b></p>
+												<p style="margin-bottom:5px;">Kategori: <b>@detail.Site.Tipe</b></p>
+												@if (status == "Reject")
+												{
+													<p style="font-size:1.2rem;margin-bottom:2px;color:#F0555A"><b>@status</b></p>
+												}
+												else if (status == "On Going")
+												{
+													<p style="font-size:1.2rem;margin-bottom:2px;color:#F3B22F"><b>@status</b></p>
+												}
+												else
+												{
+													<p style="font-size:1.2rem;margin-bottom:2px;color:#56BE6B"><b>@status</b></p>
+												}
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4" style="padding-right:0px !important;text-align:right;padding-top:10px;">
+										@{ int score = (int)Math.Round(detail.Site.RateScoreAverage); }
+										@for (int i = 0; i < 5; i++)
+										{
+											if (i < score)
+											{
+												<span class="fa fa-star checked"></span>
+											}
+											else
+											{
+												<span class="fa fa-star"></span>
+											}
+										}
+									</div>
+								</div>
+								<div class="row" style="width:100%;">
+									<div class="col-md-6" style="text-align:left;">
+										<p style="font-size:1.2rem;"><strong>Durasi</strong></p>
+									</div>
+									<div class="col-md-6" style="text-align:right;">
+										<p style="font-size:1.2rem;"><strong>@detail.EndDate.Subtract(detail.StartDate).Days.ToString() Hari</strong></p>
+										<p style="font-size:0.8rem;"><span class="cust-date">@Html.DisplayFor(x => detail.StartDate)</span> - <span class="cust-date">@Html.DisplayFor(x => detail.EndDate)</span></p>
+									</div>
+								</div>
+								<div class="row" style="width:100%;">
+									<div class="col-md-6" style="text-align:left;">
+										<p style="font-size:1.2rem;"><strong>Total Harga</strong></p>
+									</div>
+									<div class="col-md-6" style="text-align:right;">
+										<p style="font-size:1.2rem;" class="txt-red">Rp. <span class="cart-price">@detail.TotalHargaPerItem</span>,-</p>
+									</div>
+								</div>
+								@if (status != "Reject")
+								{
+									<div class="row" style="width:100%;">
+										<div class="col-md-12" style="text-align:left;">
+											<label id="siteDetail" style="visibility:hidden;height:0px;">@detail.Site.Item.SiteID</label>
+											@if (status == "Approve")
+											{
+												<p style="font-size:0.8rem;">*Apabila ada kendala pada iklan anda, beritahu kami. Klik <a id="reportSite" style="cursor:pointer;"><strong style="color:red;">Report</strong></a></p>
+											}
+											else
+											{
+												<p style="font-size:0.8rem;">*Apabila ada kendala pada iklan anda, beritahu kami. Klik <a id="reportSite" style="cursor:not-allowed;"><strong style="color:red;">Report</strong></a></p>
+											}
+										</div>
+									</div>
+								} 
+								else
+								{
+									<div class="row" style="width:100%;">
+										<div class="col-md-12" style="text-align:left;">
+											<p style="font-size:0.8rem;">Mohon maaf untuk saat ini site dengan nomor <strong style="color:red;">@detail.Site.NoBillboard</strong> sedang tidak tersedia</p>
+										</div>
+										<div class="col-md-12" style="display:inline-flex;padding:10px;padding-left:20%;">
+											<button class="btn btn-secondary txt-white smenu" style="width:40%;border-radius:15px;display:block;margin: 0px 10px 0px 0px;" onclick="changeSite('@Url.Action("ChangeList", "Booking")', '@detail.BookDetailID')">Ganti</button>
+											<button class="btn btn-danger txt-white smenu" style="width:40%;border-radius:15px;display:block;" onclick="deleteSite('@Url.Action("DeleteItemFromBook", "Booking")', '@list.ListBookDetail')">Delete</button>
+										</div>
+									</div>
+								}
+							</div>
+						}
+					}
+				</div>
+				<div class="col-md-6">
+					<div class="box shadowed">
+						<div class="box-header" style="padding:10px 10px 10px 20px;font-size:1.2rem;text-align:justify;background-color:#EBEEEE;">
+							<p class="box-title txt-black" style="margin:0px;">Informasi Pembayaran</p>
+						</div>
+						@{double harga = 0; double item = 0; double disc = 0; double bayarFull = 0; double bayarSetengah = 0;}
+						@foreach (var list in Model)
+						{
+							@foreach (var detail in list.ListBookDetail)
+							{
+								harga += @detail.TotalHargaPerItem;
+								item += 1;
+								bayarFull += (detail.TotalHargaPerItem - disc);
+							}
+							bayarSetengah = bayarFull / 2;
+						}
+					<div style="margin-top:15px;">
+						<div class="row mb-0" style="padding-left:15px;">
+							<div class="col-md-6" style="text-align:left;padding-left:20px;">
+								<label style="font-size: 1.5rem;">
+									<input type="radio" name="optradio" class="optradio" value="@bayarFull" checked> <b>Bayar Penuh</b>
+								</label>
+							</div>
+							<div class="col-md-6" style="text-align:left;padding-right:30px">
+								<label style="font-size: 1.5rem;">
+									<input type="radio" name="optradio" class="optradio" value="@bayarSetengah"> <b>Bayar DP</b>
+								</label>
+							</div>
+							<input type="hidden" id="amtHarga" value="@harga" />
+							<input type="hidden" id="amtDisc" value="@disc" />
+							<input type="hidden" id="amtTotal" value="@bayarFull" />
+							<input type="hidden" id="amtBayar" value="@bayarFull" />
+						</div>
+						<div class="row mb-0" style="padding-left:15px;">
+							<div class="col-md-6" style="text-align:left;padding-left:20px;">
+								<p class="mb-0">Total Harga (@item Site)</p>
+							</div>
+							<div class="col-md-6" style="text-align:right;padding-right:30px">
+								<p style="font-size:1.2rem;">Rp. <span class="cart-price">@harga</span>,-</p>
+							</div>
+						</div>
+						<div class="row mb-0" style="padding-left:15px;">
+							<div class="col-md-6" style="text-align:left;padding-left:20px;">
+								<p class="mb-0">Potongan</p>
+							</div>
+							<div class="col-md-6" style="text-align:right;padding-right:30px">
+								<p style="font-size:1.2rem;">Rp. <span class="cart-price">@disc</span>,-</p>
+							</div>
+						</div>
+						<div class="row mb-0" style="padding-left:15px;">
+							<div class="col-md-6" style="text-align:left;padding-left:20px;">
+								<p class="mb-0"><strong>Total Pembayaran</strong></p>
+							</div>
+							<div class="col-md-6" style="text-align:right;padding-right:30px">
+								<p style="font-size:1.2rem;">Rp. <span id="pamount" class="cart-price">@bayarFull</span>,-</p>
+							</div>
+							<p style="font-size:0.8rem;padding-left:20px;">*Mohon baca syarat dan ketentuan terlebih dahulu. Klik <a istyle="cursor:pointer;" asp-controller="Booking" asp-action="SyaratKetentuan"><strong style="color:red;">S&K</strong>.</a></p>
+						</div>
+						<div class="detailbtn" style="height:100px;">
+							@if (Model[0].StatusApproval == "Approve")
+							{
+								<button class="btn btn-danger txt-white smenu" onclick="bayarSekarang('@Url.Action("ProceedPayment", "Booking")','@Model[0].BookID',@bayarFull)" style="width:40%;border-radius:15px;display:block;margin: 10px 10px 10px 30%;">Bayar Sekarang</button>
+							}
+							else
+							{
+								<button class="btn btn-danger txt-white smenu" disabled style="width:40%;border-radius:15px;display:block;margin: 10px 10px 10px 30%;">Bayar Sekarang</button>
+							}
+							<button class="btn btn-secondary txt-white smenu" onclick="gotoHome()" style="width:40%;border-radius:15px;display:block;margin: 10px 10px 10px 30%;">Pesan Lagi</button>
+						</div>
+					</div>
+					</div>
+				</div>
+				<div class="modal fade" tabindex="-1" id="reportModal"
+					 data-keyboard="false" data-backdrop="static">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content" style="text-align:left !important;">
+							<h2 class="active" style="color:red;"> Laporkan Site </h2>
+							<div class="modal-body">
+								<form method="post" action="">
+									<div class="form-group">
+										<label style="width:100%;text-align:left;padding-left:15%;">Kendala</label>
+										<div style="padding-left:15%;padding-right:15%;">
+											<label id="siteReport" style="visibility:hidden;height:0px;"></label>
+											<textarea id="laporan" rows="5" cols="50" style="width:100%;"></textarea>
+										</div>
+									</div>
+									<div style="text-align:center;">
+										<input id="popsubmitfilter" type="button" value="Laporkan" style="margin-bottom:15px;width:220px;" onclick="laporkanSite('@Url.Action("ReportSite", "Booking")')" />
+										<input id="btnHideModalreport" type="button" style="background-color:red;margin-bottom:15px;width:220px;" value="Batal">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- /.col -->
+</div>
+<script>
+	function laporkanSite(target) {
+		document.getElementById("loading").style.display = "block";
+		var siteID = document.getElementById('siteReport').textContent;
+		var desc = document.getElementById('laporan').value;
+		$.post(target, { siteID: siteID, desc: desc },
+			function (data) {
+				document.getElementById("loading").style.display = "none";
+				alert("Report Submitted");
+				$("#reportModal").modal('hide');
+				location.reload(true);
+			}).fail(function (e) {
+				document.getElementById("loading").style.display = "none";
+				alert("Fail to Added Data");
+			});
+	}
+	function bayarSekarang(target, bookID, bookAMT) {
+		document.getElementById("loading").style.display = "block";
+		let priceAMT = $('#amtHarga').val();
+		let discAMT = $('#amtDisc').val();
+		let totalAMT = $('#amtTotal').val();
+		bookAMT = $('#amtBayar').val();
+		$.post(target, { bookID: bookID, hargaAmt: priceAMT, discAMT: discAMT, totalAmt: totalAMT, payAMT: bookAMT },
+			function (data) {
+				document.getElementById("loading").style.display = "none";
+				window.location.href = data.redirect_url;
+			}).fail(function (e) {
+				document.getElementById("loading").style.display = "none";
+				alert("Fail to Added Data");
+			});
+	}
+	function changeSite(target, bookDetailID) {
+		let tipe = "";
+		let prov = "";
+		let city = "";
+		let minPrice = 0;
+		let maxPrice = 0;
+		var url = target + "?tipeBillboard=" + tipe + "&provinsi=" + prov + "&kota=" + city + "&prevSite=" + bookDetailID + "&minHarga=" + minPrice + "&maxHarga=" + maxPrice;
+		window.location.href = url;
+	}
+	function deleteSite(target, bookDetailID) {
+		document.getElementById("loading").style.display = "block";
+		$.post(target, { BookDetailID: bookDetailID },
+			function (data) {
+				document.getElementById("loading").style.display = "none";
+				alert("Site Deleted");
+				location.reload(true);
+			}).fail(function (e) {
+				document.getElementById("loading").style.display = "none";
+				alert("Fail to Delete Data");
+			});
+	}
+</script>

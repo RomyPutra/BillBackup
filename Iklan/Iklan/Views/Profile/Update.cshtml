@@ -1,0 +1,118 @@
+﻿@model Iklan.Models.EditProfile
+@{
+	ViewData["Title"] = "Perbarui Profil";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<script type="text/javascript">
+	var urlUpdate = '@Url.Action("UpdateProfile","Profile")';
+</script>
+<script src="~/scripts/Profile/Update.js" asp-append-version="true"></script>
+<section class="gray">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-3 col-md-4 col-sm-12">
+				<div class="dashboard-navbar">
+
+					<div class="d-user-avater">
+						<img src="~/images/user.png" class="img-fluid avater" alt="">
+						<h4>@HttpContextAccessor.HttpContext.Session.GetString("_FNAME")</h4>
+					</div>
+
+					<div class="d-navigation">
+						<ul>
+							@*<li><a href="dashboard.html"><i class="ti-dashboard"></i>Dashboard</a></li>*@
+							<li class="active"><a asp-area="" asp-controller="Profile" asp-action="Update"><i class="ti-user"></i>Profil</a></li>
+							<li><a asp-area="" asp-controller="Booking" asp-action="Index"><i class="ti-layers"></i>Pesanan</a></li>
+							<li><a asp-area="" asp-controller="Wish" asp-action="Index"><i class="ti-heart"></i>Item Tersimpan</a></li>
+							<li><a asp-area="" asp-controller="Profile" asp-action="ChangePassword"><i class="ti-unlock"></i>Ganti Sandi</a></li>
+							<li><a asp-area="" asp-controller="Profile" asp-action="LogOut"><i class="ti-power-off"></i>Keluar</a></li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div class="col-lg-9 col-md-8 col-sm-12">
+				<div class="dashboard-wraper">
+					@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+					{
+						<div class="alert alert-danger" role="alert">
+							@Html.ValidationSummary(true, "Terjadi kesalahan saat perbaruan.")
+						</div>
+					}
+					<!-- Basic Information -->
+					<div class="form-submit">
+						<h4 style="margin-left:10px;">Akun Saya</h4>
+						<div class="submit-section">
+							<div class="form-row">
+
+								<div class="form-group col-md-6">
+									<label>Nama Depan</label>
+									<input type="text" id="firstname" class="form-control" asp-for="input.FirstName" value="@Model.val.FirstName" data-val="true" data-val-required="The first name is required">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Nama Pengguna</label>
+									<input type="email" id="userlogin" class="form-control" asp-for="input.UserName" value="@Model.val.UserName" data-val="true" data-val-required="The user name is required" data-val-email="User name using email format.">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Nama Belakang</label>
+									<input type="text" id="lastname" class="form-control" asp-for="input.LastName" value="@Model.val.LastName" data-val="true" data-val-required="The last name is required">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Email Perusahaan</label>
+									<input type="email" id="comemail" class="form-control" asp-for="input.EmailPerusahaan" value="@Model.val.EmailPerusahaan" data-val="true" data-val-required="The company email is required" data-val-email="Email format is wrong">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Nama Perusahaan</label>
+									<input type="text" id="comname" class="form-control" asp-for="input.NamaPerusahaan" value="@Model.val.NamaPerusahaan" data-val="true" data-val-required="The company name is required">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Telp Perusahaan</label>
+									<input type="number" id="comphone" class="form-control" asp-for="input.NoTelp" value="@Model.val.NoTelp" data-val="true" data-val-required="The company phone is required">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Alamat Perusahaan</label>
+									<input type="text" id="comaddress" class="form-control" asp-for="input.Alamat" value="@Model.val.Alamat" data-val="true" data-val-required="The company address is required">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Kategori</label>
+									<input type="text" id="category" class="form-control" asp-for="input.Kategori" value="@Model.val.Kategori" data-val="true" data-val-required="The category is required">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>NPWP</label>
+									<input type="number" id="npwp" class="form-control" asp-for="input.NPWP" value="@Model.val.NPWP" data-val="true" data-val-required="The NPWP is required">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Situs Web (Opsional)</label>
+									<input type="text" id="website" class="form-control" asp-for="input.Website" value="@Model.val.Website">
+								</div>
+
+								<div class="form-group col-md-12">
+									<label>Catatan (Opsional)</label>
+									<textarea id="notes" class="form-control" asp-for="input.Catatan" value="@Model.val.Catatan"></textarea>
+								</div>
+
+								<div class="form-group col-lg-12 col-md-12">
+									<button class="btn btn-theme" type="submit" onclick="updateProfile()">Simpan Perubahan</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+

@@ -1,0 +1,117 @@
+﻿@model List<Iklan.Models.WishListOutputModel>
+@{
+	ViewData["Title"] = "Wishlist";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<script>
+    var urlPopUpRequest = '@Url.Action("PopUpRequest", "MediaBuyer")';
+	var urlAddToCart = '@Url.Action("AddtoCart", "MediaBuyer")';
+	var urlDeleteWish = '@Url.Action("DeleteFromWishList", "Wish")';
+	var urlWish = '@Url.Action("Index", "Wish")';
+</script>
+<section class="gray">
+	<div class="container-fluid">
+		<div class="row">
+
+			<div class="col-lg-3 col-md-4 col-sm-12">
+				<div class="dashboard-navbar">
+					<div class="d-user-avater">
+						<img src="~/images/user.png" class="img-fluid avater" alt="">
+						<h4>@HttpContextAccessor.HttpContext.Session.GetString("_FNAME")</h4>
+					</div>
+					<div class="d-navigation">
+						<ul>
+							@*<li><a href="dashboard.html"><i class="ti-dashboard"></i>Dashboard</a></li>*@
+							<li><a asp-area="" asp-controller="Profile" asp-action="Update"><i class="ti-user"></i>Profil</a></li>
+							<li><a asp-area="" asp-controller="Booking" asp-action="Index"><i class="ti-layers"></i>Pesanan</a></li>
+							<li class="active"><a asp-area="" asp-controller="Wish" asp-action="Index"><i class="ti-heart"></i>Item Tersimpan</a></li>
+							<li><a asp-area="" asp-controller="Profile" asp-action="ChangePassword"><i class="ti-unlock"></i>Ganti Sandi</a></li>
+							<li><a asp-area="" asp-controller="Profile" asp-action="LogOut"><i class="ti-power-off"></i>Keluar</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-9 col-md-8 col-sm-12">
+				<div class="dashboard-wrapers">
+
+					<div class="dashboard-gravity-list mt-0">
+						<h4>Daftar Tersimpan</h4>
+						<ul>
+							@foreach (var item in Model)
+							{
+								<li>
+									<div class="list-box-listing">
+										<div class="list-box-listing-img">
+											@if (item.Image.Count > 0)
+											{
+												<a href="#"><img src="@item.Image[0]" alt=""></a>
+											}
+											else
+											{
+												<a href="#"><img src="~/images/NoImage.jpg" alt=""></a>
+											}
+										</div>
+										<div class="list-box-listing-content">
+											<div class="inner">
+												<h3><a href="#">@item.BillboardType @item.NoBillboard</a></h3>
+												<span>@item.Kota</span>, <span>@item.Provinsi</span>
+												<div class="star-rating">
+													<div class="rating-counter">(10 reviews)</div>
+													<span class="ti-star"></span><span class="ti-star"></span><span class="ti-star"></span><span class="ti-star"></span><span class="ti-star empty"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="buttons-to-right">
+										<a href="#" class="button gray" onclick="cartOnClick('@item.SiteID');"><i class="ti-pencil"></i> Tambah Keranjang</a>
+										<a href="#" class="button gray" onclick="delOnClick('@item.WishlistID');"><i class="ti-trash"></i> Hapus</a>
+									</div>
+								</li>
+							}
+						</ul>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<div class="modal fade" id="AddCartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Add Cart</h5>
+				<span class="mod-close" data-dismiss="modal"><i class="ti-close"></i></span>
+			</div>
+			<div id="detailForm">
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function cartOnClick(id) {
+        var link = urlPopUpRequest;
+        link = link + "/?id=" + id + "&act=addcart";
+        $("#detailForm").load(link, function () {
+            $('#AddCartModal').modal('show');
+        });
+    }
+
+	function delOnClick(id) {
+        var link = urlDeleteWish;
+		var result = confirm("Anda ingin menghapus data ini?");
+		if (result) {
+			link = link + "/?ID=" + id;
+			$("#detailForm").load(link, function () {
+				window.location.href = urlWish;
+			});
+		}
+    }
+
+</script>

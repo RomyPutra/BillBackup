@@ -1,0 +1,39 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	ViewData["Title"] = "Forgot Password";
+}
+
+<div class="wrapper fadeInDown login-back">
+	@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+	{
+		<div class="alert alert-danger" role="alert">
+			@Html.ValidationSummary(true, "Error when submitting.")
+		</div>
+	}
+	<div id="formContent" class="regis">
+		<!-- Tabs Titles -->
+		<h2 class="active"> Forgot your password? </h2>
+		<p> Enter your email. </p>
+
+		<!-- Icon -->
+		<div class="fadeIn first">
+			<img src="~/image/user.png" id="icon" alt="User Icon" style="height: 75px;width: 75px;" />
+		</div>
+
+		<!-- Login Form -->
+		<form method="post" action="ForgotPass">
+			<input type="text" id="email" class="fadeIn second form-control" name="email" placeholder="Your email address">
+			<input type="submit" class="fadeIn fourth" value="Send Email Reset">
+		</form>
+
+		<!-- Remind Passowrd -->
+		<div id="formFooter">
+			<a asp-area="" asp-controller="Login" asp-action="Logon">Sign In </a>
+		</div>
+
+	</div>
+</div>
+
+

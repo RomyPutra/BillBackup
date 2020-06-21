@@ -1,0 +1,51 @@
+﻿@model Billboard360.Web.Models.CityOutputModel
+@{
+    ViewData["Title"] = "Perbarui Kota";
+}
+
+<div class="col-md-6 offset-md-3">
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<h3 class="card-label">Perbarui Kota</h3>
+			</div>
+		</div>
+
+		<form method="post" action="~/City/UpdateCity">
+			<div class="card-body">
+				@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+				{
+					<div class="alert alert-danger" role="alert">
+						@Html.ValidationSummary(true, "Terjadi kesalahan saat mengirim.")
+					</div>
+				}
+
+				<input type="hidden" id="CityID" name="CityID" value="@Model.CityID">
+
+				<div class="form-group">
+					<label>Kode Kota</label>
+					<input type="text" class="form-control" id="kodes" name="kodes" placeholder="Kode Kota" value="@Model.Kode" data-val="false" data-val-required="The city code is required" disabled />
+					<input type="text" class="form-control" style="display:none;" id="kode" name="kode" placeholder="Kode Kota" value="@Model.Kode" data-val="true" data-val-required="The city code is required" visible="false"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="kode" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Nama Kota</label>
+					<input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Kota" value="@Model.Kota" data-val="true" data-val-required="The city name is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="nama" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Pilih Provinsi</label>
+					<select class="form-control" id="lstprovince" name="lstprovince" data-val="true" data-val-required="The Province field is required."></select>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Detail.Provinsi" data-valmsg-replace="true"></span>
+				</div>
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary mr-2" value="Perbarui">
+				<button type="button" id="backLink" class="btn btn-secondary">Batal</button>
+			</div>
+		</form>
+	</div>
+</div>
+

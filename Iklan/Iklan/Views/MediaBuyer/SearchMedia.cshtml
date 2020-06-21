@@ -1,0 +1,371 @@
+﻿
+@{
+    ViewData["Title"] = "SearchMedia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    var urlPopUpRequest = '@Url.Action("PopUpRequest", "MediaBuyer")';
+     var urlAddToCart = '@Url.Action("AddtoCart", "MediaBuyer")';
+    var urlAddtoBook = '@Url.Action("AddtoBookNew", "Booking")';
+</script>
+
+@model Iklan.Models.SiteListResponseModel
+
+
+<script src="~/scripts/MediaBuyer/SearchMedia.js" asp-append-version="true"></script>
+<script type="text/javascript">
+        var urlGetBillBoardType = '@Url.Action("GetBillBoardType", "Base")';
+        var urlGetCity = '@Url.Action("GetCity", "Base")';
+        var urlLogin = '@Url.Action("Login","Login")';
+</script>
+
+<div class="clearfix"></div>
+<!-- ============================================================== -->
+<!-- Top header  -->
+<!-- ============================================================== -->
+<!-- ============================ Page Title Start================================== -->
+@*<div class="image-cover page-title" style="background:url(../assets/img/banner-1.jpg) no-repeat;" data-overlay="6">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+
+                   <h2 class="ipt-title">Hotel List Layout</h2>
+                        <span class="ipn-subtitle text-light">Hotel List Layout with Sidebar</span>
+
+                </div>
+            </div>
+        </div>
+    </div>*@
+<!-- ============================ Page Title End ================================== -->
+<!-- =================== Sidebar Search ==================== -->
+<section class="gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+
+                <!-- property Sidebar -->
+                <div class="exlip-page-sidebar">
+
+                    <!-- Find New Property -->
+                    <div class="sidebar-widgets">
+
+                        <div class="form-group">
+                            <div class="input-with-icon">
+                                <input type="text" class="form-control" placeholder="Location" id="Location">
+                                <i class="ti-location-pin"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-with-icon">
+                                <select id="type" class="form-control search-dropdown">
+                                    <option value="">&nbsp;</option>
+                                </select>
+                                <i class="ti-brush"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-with-icon">
+                                <select id="city" class="form-control">
+                                    <option value="">&nbsp;</option>
+
+                                </select>
+                                <i class="ti-briefcase"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="number" class="form-control" placeholder="Panjang" id="Panjang" min="1">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="number" class="form-control" placeholder="Lebar" id="Lebar" min="1">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="range-slider">
+                                    <label>Price Minimum</label>
+                                    <div id="priceMinimumStr" class="distance-title"><span class="theme-cl" id="priceMinimumStr1"></span> </div>
+                                    <input id="priceMinimum" class="distance-radius rangeslider--horizontal" type="range" min="0" max="100000000" step="1" value="0" data-title="Price around selected" onchange="priceMinimumChanged();">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="range-slider">
+                                    <label>Price Maximum</label>
+                                    <div id="priceMaximumStr" class="distance-title"><span class="theme-cl" id="priceMaximumStr1"></span> </div>
+                                    <input id="priceMaximum" class="distance-radius rangeslider--horizontal" type="range" min="0" max="100000000" step="1" value="0" data-title="Price around selected" onchange="priceMaximumChanged();">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button onclick="filterSearchMedia(); return false;" class="btn book_list_btn btn-theme white-smoke" style="border-radius:8px;width:100%;height: 50px;background: #ff2231;border-color: #ff2231;cursor:pointer;" type="submit">Cari</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sidebar End -->
+
+            <div class="col-md-8">
+                <div class="row">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="shorting-wrap">
+                            @*<h5 class="shorting-title">507 Results</h5>*@
+                            <div class="shorting-right">
+                                <label>Filter By:</label>
+                                <div class="dropdown show">
+                                    <a class="btn btn-filter dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="selection" id="sortingcbo">A-Z</span>
+                                    </a>
+                                    <div class="drp-select dropdown-menu">
+                                        <a class="dropdown-item" href="@Url.Action("SearchMedia", new { page = 1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting="AtoZ" })">A-Z</a>
+                                        <a class="dropdown-item" href="@Url.Action("SearchMedia", new { page = 1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting="ZtoA" })">Z-A</a>
+                                        <a class="dropdown-item" href="@Url.Action("SearchMedia", new { page = 1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting="Termurah" })">Termurah</a>
+                                        <a class="dropdown-item" href="@Url.Action("SearchMedia", new { page = 1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting="Termahal" })">Termahal</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row m-0">
+                    <div class="col-lg-12 col-xl-12  col-md-12 col-sm-12">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" style="border-color:#35434e;border: 1px solid #35434e;background: #35434e;background-color: #35434e;" href="@Url.Action("SearchMedia", new { page = 1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">First</a>
+                            </li>
+
+                            @if (Model.CurrentPage != 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" style="color:white; border-color:#35434e;border: 1px solid #35434e;background: #35434e;background-color: #35434e;" href="@Url.Action("SearchMedia", new { page = Model.CurrentPage-1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">Prev</a>
+                                </li>
+
+                            }
+
+                            @for (int i = Model.CurrentPage; i <= Model.CurrentPage + 5; i++)
+                            {
+                                <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                                    <a class="page-link" href="@Url.Action("SearchMedia", new { page = i, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">@i</a>
+                                </li>
+
+                            }
+                            @if (Model.CurrentPage != Model.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" style="color:white; border-color:#35434e;border: 1px solid #35434e;background: #35434e;background-color: #35434e;" href="@Url.Action("SearchMedia", new { page = Model.CurrentPage+1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">Next</a>
+                                </li>
+
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("SearchMedia", new { page = Model.TotalPages, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">Last</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Single List -->
+                    @foreach (var item in Model.data)
+                    {
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="book_list_box popular_item " style="width:100%;">
+                                <div class="row no-gutters" onclick="onViewClick('@item.Status','@item.SiteID')" style="cursor:pointer;">
+                                    <div class="col-lg-3 col-md-3">
+                                        <div class="tour-simple-thumb">
+                                            <span class="onsale-section"><span class="onsale" style="max-width:185px;width:100%;">@item.Status</span></span>
+                                            @if (item.ImageHeader != null)
+                                            {
+                                                <img src="@item.ImageHeader" class="img-fluid img-responsive image-site" alt="" height="100" width="100" />
+
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/NoImage.jpg" class="img-fluid img-responsive image-site" alt="" height="100" width="100" />
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-5 col-md-5 pl-4 side-br">
+                                        <div class="book_list_header">
+
+                                            <h4 class="book_list_title">@item.NoBillboard</h4>
+                                            <span class="location">Bentuk : @item.HorV</span>
+                                            <br />
+                                            <span class="location">Ukuran : @item.SiteItem.FirstOrDefault().Panjang X @item.SiteItem.FirstOrDefault().Lebar Meter</span>
+                                            <br />
+
+                                            <span class="location"><i class="ti-location-pin"></i>@item.Alamat</span>
+                                        </div>
+                                        <div class="book_list_description">
+                                            <p>@item.Kota, @item.Provinsi</p>
+                                        </div>
+                                        @*<div class="book_list_rate">
+                                                <h5 class="over_all_rate high"><span class="rating_status"><i class="ti-eye"></i>  @item.TotalView</span></h5>
+                                            </div>*@
+                                        <div class="book_list_offers">
+                                            <ul>
+                                                <li><i class="ti-eye"></i>@item.TotalView View(s)</li>
+                                                <li><i class="ti-location-pin"></i>@item.Kota</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 padd-2-0">
+                                        <div class="book_list_foot">
+                                            <p class="book_list_price" style="text-align:right; padding-right:15px;">Rp. @item.HargaPerhari.ToString("#,##0.00")</p>
+                                            <p class="booking-time" style="text-align:right; padding-right:15px;">per @item.MinimDasar</p>
+                                            <p class="book_list_price" style="text-align:right; padding-right:15px;">Minimal Order:</p>
+                                            <p class="book_list_price" style="text-align:right; padding-right:15px;"> @item.MinimOrder @item.MinimDasar</p>
+                                            @*<a asp-area="" asp-controller="MediaBuyer" asp-action="ViewDetail" asp-route-id="@item.SiteID" class="book_list_btn btn-theme" style="padding-right:15px;">Detail</a>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+                                @if (item.Status.ToString().ToUpper() == "TERSEDIA")
+                                {
+                                    @if (Model.isLogin == true)
+                                    {
+                                        <div class="row button-section">
+
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-3"></div>
+
+                                            <div class="col-md-3" onclick="cartOnClick('@item.SiteID');">
+                                                <div class="book_list_foot btn-section">
+                                                    <a class="book_list_btn btn-theme white-smoke">Add Cart</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" onclick="bookingOnClick('@item.SiteID');">
+                                                <div class="book_list_foot btn-section">
+                                                    <a class="book_list_btn btn-info white-smoke">Booking Now</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row button-secion">
+
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-3"></div>
+
+                                            <div class="col-md-3">
+                                                <div class="book_list_foot btn-section" style="padding:0 0 0 0;margin-top:0px;margin-bottom:10px;">
+                                                    <a href="#" data-toggle="modal" data-target="#login" class="book_list_btn btn-theme white-smoke">Add Cart</a>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="book_list_foot btn-section" style="padding:0 0 0 0;margin-top:0px;margin-bottom:10px;">
+                                                    <a href="#" data-toggle="modal" data-target="#login" class="book_list_btn btn-info white-smoke">Booking Now</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+
+
+                    }
+
+
+                    <div class="col-lg-12 col-xl-12  col-md-12 col-sm-12">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" style="border-color:#35434e;border: 1px solid #35434e;background: #35434e;background-color: #35434e;" href="@Url.Action("SearchMedia", new { page = 1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">First</a>
+                            </li>
+
+                            @if (Model.CurrentPage != 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" style="color:white; border-color:#35434e;border: 1px solid #35434e;background: #35434e;background-color: #35434e;" href="@Url.Action("SearchMedia", new { page = Model.CurrentPage-1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">Prev</a>
+                                </li>
+
+                            }
+
+                            @for (int i = Model.CurrentPage; i <= Model.CurrentPage + 5; i++)
+                            {
+                                <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                                    <a class="page-link" href="@Url.Action("SearchMedia", new { page = i, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">@i</a>
+                                </li>
+
+                            }
+                            @if (Model.CurrentPage != Model.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" style="color:white; border-color:#35434e;border: 1px solid #35434e;background: #35434e;background-color: #35434e;" href="@Url.Action("SearchMedia", new { page = Model.CurrentPage+1, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">Next</a>
+                                </li>
+
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("SearchMedia", new { page = Model.TotalPages, type=Model.type, city=Model.city, provinsi=Model.provinsi, filterfrom=Model.startDate, filterto=Model.endDate, minprice=Model.MinimumPrice, maxprice=Model.MaximumPrice, sorting=Model.sorting })">Last</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="AddCartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Cart</h5>
+                <span class="mod-close" data-dismiss="modal"><i class="ti-close"></i></span>
+            </div>
+            <div id="detailForm">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- =================== Sidebar Search ==================== -->
+
+
+<script type="text/javascript">
+    var urlView = '@Url.Action("ViewDetail", "MediaBuyer")';
+    function onViewClick(status, id) {
+        if (status.toUpperCase() == "TERSEDIA") {
+            window.location.href = urlView + "/" + id;
+        }
+        else {
+              alert("Item " + status);
+        }
+
+    }
+
+    function cartOnClick(id) {
+        var link = urlPopUpRequest;
+        link = link + "/?id=" + id + "&act=addcart";
+        $("#detailForm").load(link, function () {
+            $('#AddCartModal').modal('show');
+        });
+    }
+
+    function bookingOnClick(id) {
+       var link = urlPopUpRequest;
+        link = link + "/?id=" + id + "&act=booking";
+        $("#detailForm").load(link, function () {
+            $('#AddCartModal').modal('show');
+        });
+    }
+</script>

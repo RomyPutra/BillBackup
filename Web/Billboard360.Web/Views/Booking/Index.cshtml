@@ -1,0 +1,126 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@*@model IEnumerable<Billboard360.Web.Models.SiteListOutputModel>*@
+@model List<Billboard360.Web.Models.ViewResultBookModel>
+@{
+	ViewData["Title"] = "Status Pesanan";
+}
+<div class="row">
+	<div class="col-12">
+		<div class="box">
+			<div class="box-header" style="text-align:center;margin-top:30px;margin-bottom:50px;">
+				<h3 class="box-title txt-red">Status Pesanan</h3>
+			</div>
+			<div class="row">
+				<div id="divitem" class="col-md-8">
+					@{string status = "";}
+					@foreach (var list in Model)
+					{
+						@foreach (var detail in list.ListBookDetail)
+						{
+							@if (@detail.StatusPerItem == "On Progress")
+							{
+								status = "OnProgress";
+							}
+							else
+							{
+								status = detail.StatusPerItem;
+							}
+							<div class="row items shadowed @status" onclick="bookDetail('@list.BookID')" style="cursor:pointer;width:90%;padding-left:inherit;margin-bottom:5%;border-left-width: 10px;border-left-color: #ED3239;border-left-style: outset;">
+								<div class="row" style="background-color:#F3D7D8;padding-left:40%;padding-top:5px;padding-bottom:5px;font-size:1.3rem;width: 102.5%;border-top-right-radius: 6px;">
+									<p style="margin-bottom:0px;" class="txt-grey"><strong>@detail.StatusPerItem Order</strong></p>
+								</div>
+								<div class="row" style="width:100%;height:40px !important;padding-left:15px;">
+									<p style="font-size:0.8rem;margin-bottom:0px;width:100%;" class="txt-black">@list.CreateDate</p>
+									<p style="font-size: 1rem; margin-bottom: 10%;" class="txt-black"><i><strong>@list.BookNo</strong></i></p>
+								</div>
+								<div class="row" style="width: 100%;height: 170px !important;padding-right: 20px;padding-top: 10px;">
+									<div class="col-md-6" style="text-align:left !important;padding-top:2%;">
+										@if (detail.Site.Item.Image.Count > 0)
+										{
+											<img src="@detail.Site.Item.Image[0].Image" alt="" style="width:140px;height:120px;" />
+										}
+										else
+										{
+											<img src="~/image/NoImage.jpg" alt="" style="width:140px;height:120px;" />
+										}
+									</div>
+									<div class="col-md-6" style="padding-right:0px !important;text-align:right;">
+										<p style="font-size:2rem;margin-bottom:10%;" class="txt-red"><strong>@detail.Site.NoBillboard</strong></p>
+										@if (@detail.StatusPerItem == "Reject")
+										{
+											<p style="font-size:1.2rem;margin-bottom:2px;color:#F0555A">@detail.StatusPerItem</p>
+										}
+										else if (@detail.StatusPerItem == "On Progress")
+										{
+											<p style="font-size:1.2rem;margin-bottom:2px;color:#F3B22F">@detail.StatusPerItem</p>
+										}
+										else
+										{
+											<p style="font-size:1.2rem;margin-bottom:2px;color:#56BE6B">@detail.StatusPerItem</p>
+										}
+										<p style="font-size:1.2rem;">Rp. <span class="cart-price">@detail.TotalHargaPerItem</span>,-</p>
+									</div>
+								</div>
+							</div>
+						}
+					}
+				</div>
+				<div class="col-md-4">
+					<div class="box shadowed">
+						<div class="box-header" style="padding:10px;font-size:0.8rem;text-align:justify;background-color:#EBEEEE;">
+							<p class="box-title txt-black" style="margin:0px;">Pesanan akan melalui admin kami untuk di review konten dan kelengkapan detail pemesanan. Status selanjutnya akan dikonfirmasi melalui email.</p>
+						</div>
+						<div style="margin-top:5px;">
+							<div class="row detailprod" style="height:100px !important;">
+								<div class="col-md-6" style="padding-left:10%;">
+									<a class="smenu" style="border-style: ridge;border-color: #56BE6B;width: 100%;padding: 5px;text-align:center;margin:5px;cursor:pointer;color: #56BE6B;">Approve</a>
+									<a class="smenu" style="border-style: ridge;border-color: #56BE6B;width: 100%;padding: 5px;text-align:center;margin:5px;cursor:pointer;color: #56BE6B;">Paid</a>
+								</div>
+								<div class="col-md-6" style="padding-right:10%;">
+									<a class="smenu" style="border-style: ridge;border-color: #F3B22F;width: 100%;padding: 5px;text-align:center;margin:5px;cursor:pointer;color: #F3B22F;">On Progress</a>
+									<a class="smenu" style="border-style: ridge;border-color: #F0555A;width: 100%;padding: 5px;text-align:center;margin:5px;cursor:pointer;color: #F0555A;">Reject</a>
+								</div>
+							</div>
+							<div class="detailbtn" style="text-align:center !important;height:50px;">
+								<button class="btn btn-danger txt-white smenu" style="width:40%;border-radius:15px;">Semua</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- /.col -->
+</div>
+<script>
+    var btns = document.getElementsByClassName("smenu");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function () {
+			var headers = document.getElementById("divitem");
+			if (headers != null || headers != undefined) {
+				var divs = headers.getElementsByClassName("items");
+				for (var j = 0; j < divs.length; j++) {
+					if (this.innerHTML.toUpperCase() == "SEMUA")
+					{
+						divs[j].style.display = "block";
+					}
+					else if (divs[j].className.toUpperCase().includes(this.innerHTML.toUpperCase()))
+					{
+						divs[j].style.display = "block";
+					}
+					else if (this.innerHTML.toUpperCase() == "ON PROGRESS" && divs[j].className.toUpperCase().includes("ONPROGRESS"))
+					{
+						divs[j].style.display = "block";
+					}
+					else
+					{
+						divs[j].style.display = "none";
+					}
+				}
+			}
+		}, false);
+	}
+</script>

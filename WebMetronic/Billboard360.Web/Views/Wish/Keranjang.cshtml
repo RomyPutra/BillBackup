@@ -1,0 +1,104 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@*@model IEnumerable<Billboard360.Web.Models.SiteListOutputModel>*@
+@model List<Billboard360.Web.Models.ViewResultCartModel>
+@{
+	ViewData["Title"] = "Keranjang Pesanan";
+}
+<div class="row">
+	<div class="col-12">
+		<div class="box">
+			<div class="box-header" style="text-align:center;margin-top:50px;">
+				<h3 class="box-title txt-red">Keranjang Pesanan</h3>
+			</div>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="row">
+						@foreach (var item in Model)
+						{
+							<div class="column shadowed" style="width:90%;height:180px !important;border-left-width: 10px;border-left-color: #ED3239;border-left-style: outset;padding-left:20px;padding-top:10px;">
+								<div class="detailprod" style="height:60% !important;">
+									<div style="text-align:right;margin-bottom:-30px;font-size:1.3rem;padding-right:30px;">
+										@{ int score = (int)Math.Round(item.Site.Detail.RateScoreAverage); }
+										@for (int i = 0; i < 5; i++)
+										{
+											if (i < score)
+											{
+												<span class="fa fa-star checked"></span>
+											}
+											else
+											{
+												<span class="fa fa-star"></span>
+											}
+										}
+									</div>
+									<p style="font-size:1.5rem;"><strong>@item.Site.Detail.NoBillboard</strong></p>
+									<p style="font-size:1.2rem;padding: 5px 0px 5px;">Lokasi : @item.Site.Detail.Kota, @item.Site.Detail.Provinsi </p>
+									<p style="font-size:0.8rem;">Durasi @item.EndDate.Subtract(item.StartDate).Days.ToString() Hari (<span class="cust-date">@Html.DisplayFor(x => item.StartDate)</span> - <span class="cust-date">@Html.DisplayFor(x => item.EndDate)</span>)</p>
+								</div>
+								<div class="detailbtn" style="text-align:left !important;">
+									<button class="btn-dtl" style="background-color:#F0A205;border-radius: 8px;width: 25%;margin-top:5px;" onclick="deleteCart('@Url.Action("DeleteFromKeranjang", "Wish")', '@item.CartID')">
+										<span class="text-white">Hapus</span>
+									</button>
+								</div>
+								<div class="detailprice" style="padding-right:0px !important;">
+									<div style="float: right;text-align: center;background: #D31010;margin-top: -10px;height: 216%;padding-top: 6px;padding-left:10px;padding-right:10px;">
+										<p class="text-white" style="border:none;color:none;">Rp. <span class="cart-price">@item.TotalHargaPerItem</span>,-</p>
+									</div>
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="box shadowed">
+						<div class="box-header" style="padding-top:15px;padding-left:10px;border-bottom:1px solid gray;">
+							<p class="box-title txt-red">Rincian Belanja</p>
+						</div>
+						<div style="">
+							@{int durasi = 0; double total = 0;}
+							@if (Model != null && Model.Count > 0)
+							{
+								@foreach(var item in Model)
+								{
+									durasi += item.EndDate.Subtract(item.StartDate).Days;
+									total += item.TotalHargaPerItem;
+								}
+								<div class="detailprod" style="height:60% !important;border-bottom:1px solid gray;">
+									<p style="font-size:1.2rem;padding: 5px 0px 5px;">Total Durasi</p>
+									<p style="font-size:1.2rem;padding: 5px 0px 5px;"><strong>@durasi Hari</strong></p>
+									<p style="font-size:1.2rem;padding: 5px 0px 5px;">Total Bayar</p>
+									<p style="font-size:1.2rem;padding: 5px 0px 5px;"><strong>Rp. <span id="dtlPrice">@total</span>,-</strong></p>
+								</div>
+								<div class="detailbtn" style="text-align:center !important;height:50px;">
+									<button class="btn btn-secondary" style="width:60%;">
+										<a asp-controller="Booking" asp-action="AddToBooked">
+											<span class="text-white">Booking</span>
+										</a>
+									</button>
+								</div>
+							}
+							else
+							{
+								<div class="detailprod" style="height:60% !important;border-bottom:1px solid gray;">
+									<p style="font-size:1.2rem;padding: 5px 0px 5px;">Total Durasi</p>
+									<p style="font-size:1.2rem;padding: 5px 0px 5px;"><strong>@durasi Hari</strong></p>
+									<p style="font-size:1.2rem;padding: 5px 0px 5px;">Total Bayar</p>
+									<p style="font-size:1.2rem;padding: 5px 0px 5px;"><strong>Rp. <span id="dtlPrice">@total</span>,-</strong></p>
+								</div>
+								<div class="detailbtn" style="text-align:center !important;height:50px;">
+									<button class="btn btn-secondary" style="width:60%;" disabled>
+										<span class="text-white">Booking</span>
+									</button>
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- /.col -->
+</div>

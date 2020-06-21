@@ -1,0 +1,99 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Billboard360.Web.Models.SiteDetailItemModel>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+	ViewData["Title"] = "Site Detial Listing";
+}
+<div class="row">
+	<div class="col-12">
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">Manage Site Detail</h3>
+				<p align="right">
+					<a class="arrowLeft" id="backLink" style="float:left;">Back</a>
+					<a class="text-dark" style="padding: 5px;" asp-area="" asp-controller="Site" asp-action="CreateItem"><img src="~/image/add-create.png" style="height: 15px;width: 15px;" /> Add Site Detail</a>
+				</p>
+			</div>
+			@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+			{
+				<div class="alert alert-danger" role="alert">
+					@Html.ValidationSummary(true, "Error when getting data.")
+				</div>
+			}
+			<!-- /.box-header -->
+			<div class="box-body auto-table">
+				<table id="example1" class="table table-bordered table-striped" style="width:100%;">
+					<thead>
+						<tr>
+							<th>Arah Lokasi</th>
+							<th>Kode Lokasi</th>
+							<th>Panjang</th>
+							<th>Lebar</th>
+							@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+							{
+								<th>View</th>
+								<th>Action</th>
+							}
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model)
+						{
+							<tr>
+								<td>@Html.DisplayFor(modelItem => item.ArahLokasi)</td>
+								<td>@Html.DisplayFor(modelItem => item.KodeLokasi)</td>
+								<td>@Html.DisplayFor(modelItem => item.Panjang)</td>
+								<td>@Html.DisplayFor(modelItem => item.Lebar)</td>
+								@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+								{
+									<td><a asp-controller="Site" asp-action="IndexPrice" asp-route-id="@item.SiteItemID">View Price</a> | <a asp-controller="Site" asp-action="IndexImage" asp-route-id="@item.SiteItemID">View Image</a></td>
+									<td><a asp-controller="Site" asp-action="UpdateItem" asp-route-id="@item.SiteItemID">Update</a></td>
+								}
+								@*<td><a href="Site/Update/@item.SiteID">Update</a> | <a href="" onclick="Delete('@item.SiteID')">Delete</a></td>*@
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- /.col -->
+</div>
+<!-- page script -->
+<script>
+    //$(function () {
+    //    $('#example1').DataTable();
+    //});
+    function Delete(id){
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "Site")',
+                data: {
+                    id: id
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+                        var baseUrl="/Site";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+    }
+</script>

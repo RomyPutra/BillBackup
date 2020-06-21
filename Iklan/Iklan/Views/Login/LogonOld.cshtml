@@ -1,0 +1,50 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	ViewData["Title"] = "Login";
+}
+<div class="wrapper login-back fadeInDown">
+	<div id="formContent">
+		<!-- Tabs Titles -->
+		<h2 class="active"> Sign In </h2>
+		<h2 class="inactive underlineHover">
+			<a asp-area="" asp-controller="Login" asp-action="Register">Sign Up </a>
+		</h2>
+
+		<!-- Icon -->
+		<div class="fadeIn first">
+			<img src="~/image/user.png" id="icon" alt="User Icon" style="height: 75px;width: 75px;" />
+		</div>
+
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Terjadi kesalahan saat mengirim.")
+			</div>
+		}
+		else if (Html.ViewData.ModelState.ContainsKey("Info"))
+		{
+			<div class="alert alert-info" role="alert">
+				Email notification sended. Please check your email.
+			</div>
+		}
+		<form method="post" action="Login">
+			<input type="text" id="username" class="fadeIn second" name="username" placeholder="user name" data-val="true" data-val-required="The user name is required" data-val-email="The format is wrong" value="">
+			@*<input type="text" id="username" class="fadeIn second" name="username" placeholder="user name" data-val="true" data-val-required="The user name is required" data-val-email="The format is wrong" value="conetest@test.com">*@
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="username" data-valmsg-replace="true"></span>
+			<input type="password" id="password" class="fadeIn third" name="password" placeholder="password" data-val="true" data-val-required="The password is required" value="">
+			@*<input type="password" id="password" class="fadeIn third" name="password" placeholder="password" data-val="true" data-val-required="The password is required" value="conetest">*@
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="password" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Log In">
+		</form>
+
+		<!-- Remind Passowrd -->
+		<div id="formFooter">
+			<a asp-area="" asp-controller="Login" asp-action="Forgot">Lupa Sandi?</a>
+		</div>
+	</div>
+</div>
+
+

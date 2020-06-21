@@ -1,0 +1,130 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+
+@model Iklan.Models.LandingPageModel
+
+<script src="~/scripts/Home/Index.js" asp-append-version="true"></script>
+<div class="clearfix"></div>
+<!-- ============================================================== -->
+<!-- Top header  -->
+<!-- ============================================================== -->
+<!-- ======================= Start Banner ===================== -->
+<div class="main-banner" style="background-image:url(./assets/img/banner-3.jpg)" data-overlay="5">
+    <div class="container">
+        <div class="col-md-12 col-sm-12">
+
+            <div class="caption text-center cl-white">
+                @*<h2>Find Your Career. You Deserve it.</h2>
+                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium</p>*@
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- ======================= End Banner ===================== -->
+<!-- ================= Activities start ========================= -->
+<section class="pb-4">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="owl-carousel owl-theme" id="lists-slide">
+                    @foreach (var item in Model.BillBoardType)
+                    {
+                        <div class="single-item">
+                            <div class="destination-item top-flap">
+
+                                <figure class="destination-list-wrap">
+                                    <a class="destination-listlink" asp-area="" asp-controller="MediaBuyer" asp-action="SearchMedia" asp-route-type="@item.ID">
+                                        <img class="cover" src="~/images/1.png" alt="room">
+                                    </a>
+                                </figure>
+
+                                <div class="destination-listdetails">
+                                    <div class="destination-list-reviews">
+                                        @*<i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star-half filled"></i>
+                                            <span class="review-count">840 Reviews</span>*@
+                                    </div>
+                                    @*<h4 class="title"><a class="title-ln" href="map-search.html">Great Barrier Reef</a></h4>
+                                        <p class="dst-location"><i class="ti-location-pin"></i>Exlio Bridge, London</p>*@
+                                </div>
+
+                                <div class="main-link-wrap"><a asp-area="" asp-controller="MediaBuyer" asp-action="SearchMedia" asp-route-type="@item.Type" asp-route-page="1" class="mlw-btn btn-theme">@item.Type</a></div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= End Activities Section ============================ -->
+<!-- ================= Travel start ========================= -->
+<section class="gray">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="sec-heading center">
+                    @*<p>Popular Travel Packages</p>*@
+                    <h2>Provinsi terpopuler di Indonesia</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!-- Single Tour Place -->
+            @foreach (var item in Model.Province)
+            {
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="tour-simple-wrap style-3">
+                        @*<span class="onsale-section"><span class="onsale">Save 15%</span></span>*@
+                        <div class="tour-simple-thumb">
+                            <a asp-area="" asp-controller="MediaBuyer" asp-action="SearchMedia" asp-route-provinsi="@item.Provinsi" asp-route-page="1"><img src="~/assets/img/destination/des-2.jpg" class="img-fluid img-responsive" alt="" /></a>
+                        </div>
+                        <div class="tour-simple-caption">
+                            <div class="ts-caption-left">
+                                @*<div class="ovrall-rating">
+                                        <i class="ti-star filled"></i>
+                                        4.7 Good
+                                    </div>*@
+                                <h4 class="ts-title">
+                                    @*  <a href="tour-detail.html">@item.Provinsi</a>*@
+                                    <a asp-area="" asp-controller="MediaBuyer" asp-action="SearchMedia" asp-route-provinsi="@item.Provinsi" asp-route-page="1">@item.Provinsi</a>
+                                    @*<a href="@Url.Action("SearchMedia", new { page = 1, provinsi=item.Provinsi })">@item.Provinsi</a>*@
+
+                                </h4>
+                            </div>
+                            <div class="ts-caption-right">
+                                @*<span class="price-off">$349.33</span>
+                                    <h5 class="ts-price theme-cl">$250.00</h5>*@
+                            </div>
+                        </div>
+                        <div class="tour-simple-footer">
+                            <ul>
+                                <li><i class="ti-time"></i>3 Item</li>
+                                @*<li><i class="ti-user"></i>2 person</li>
+                                    <li><i class="ti-location-pin"></i>London</li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+</section>
+<!-- ========================= End Travel Section ============================ -->
+<!-- ============================ Footer Start ================================== -->

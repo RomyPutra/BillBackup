@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Tambah Kota";
+}
+
+<div class="col-md-6 offset-md-3">
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<h3 class="card-label">Tambah Kota</h3>
+			</div>
+		</div>
+
+		<form method="post" action="AddCity">
+			<div class="card-body">
+				@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+				{
+					<div class="alert alert-danger" role="alert">
+						@Html.ValidationSummary(true, "Terjadi kesalahan saat mengirim.")
+					</div>
+				}
+
+				@*<div class="form-group">
+					<label>Kode Kota</label>
+					<input type="text" class="form-control" id="kode" name="kode" placeholder="Kode Kota" data-val="true" data-val-required="The city code is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="kode" data-valmsg-replace="true"></span>
+				</div>*@
+
+				<div class="form-group">
+					<label>Nama Kota</label>
+					<input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Kota" data-val="true" data-val-required="The city name is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="nama" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Pilih Provinsi</label>
+					<select class="form-control" id="lstprovince" name="lstprovince"></select>
+				</div>
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary mr-2" value="Simpan">
+				<button type="button" id="backLink" class="btn btn-secondary">Batal</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+

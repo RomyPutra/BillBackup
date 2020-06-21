@@ -1,0 +1,58 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Iklan.Models.RegisterInputModel
+@{
+	ViewData["Title"] = "Tambah Supervisor";
+}
+<link href="~/css/login.css" rel="stylesheet" asp-append-version="true">
+<div class="wrapper fadeInDown">
+	<div id="regContent">
+		<!-- Tabs Titles -->
+		<h2 class="active"> Add Supervisor </h2>
+
+		<!-- Icon -->
+		<div class="fadeIn first">
+			<img src="~/image/user.png" id="icon" alt="User Icon" style="height: 75px;width: 75px;" />
+		</div>
+
+		<!-- Login Form -->
+		@Html.ValidationMessage("Error")
+		<form method="post" action="Regist">
+			<div style="margin:auto; width:80%" class="regis">
+				<div class="row" style="margin-left:5%;">
+					<input type="text" class="fadeIn second form-control" asp-for="FirstName" placeholder="Nama Depan" data-val="true" data-val-required="Nama Depan wajib diisi.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="FistName" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn second form-control" asp-for="LastName" placeholder="Nama Belakang" data-val="true" data-val-required="Nama Belakang wajib diisi.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn second form-control" asp-for="Username" placeholder="Nama Pengguna" data-val="true" data-val-required="Nama Pengguan wajib diisi." data-val-email="Nama Pengguna format email.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Username" data-valmsg-replace="true"></span>
+					<input type="password" class="fadeIn second form-control" asp-for="Password" placeholder="Sandi" data-val="true" data-val-required="Sandi wajib diisi.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+					<input type="password" id="conpassword" class="fadeIn second form-control" name="conpassword" placeholder="Konfirmasi Sandi" data-val="true" data-val-required="Konfirmasi Sandi wajib diisi.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="conpassword" data-valmsg-replace="true"></span>
+				</div>
+				@*<div class="row" style="border-bottom:double;"></div>*@
+				<div class="row" style="margin-left:5%;">
+					<input type="text" class="fadeIn third form-control" asp-for="NamaPerusahaan" placeholder="Nama Perusahaan" data-val="true" data-val-required="Nama Perusahaan wajib diisi.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="NamaPerusahaan" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="EmailPerusahaan" placeholder="Email Perusahaan" data-val="true" data-val-required="Email Perusahaan wajib diisi." data-val-email="Email format is wrong">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="EmailPerusahaan" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="NoTelp" placeholder="Telp Perusahaan" data-val="true" data-val-required="Telp Perusahaan wajib diisi.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="NoTelp" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="Kategori" placeholder="Kategori" data-val="true" data-val-required="Ketegori wajib diisi.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Kategori" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="NPWP" placeholder="NPWP" data-val="true" data-val-required="NPWP wajib diisi.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="NPWP" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="Alamat" placeholder="Alamat Perusahaan" data-val="true" data-val-required="Alamat Perusahaan wajib diisi.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Alamat" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="Website" placeholder="Situs Web (Opsional)">
+					<input type="text" class="fadeIn third form-control" asp-for="Catatan" placeholder="Catatan (Opsional)">
+				</div>
+				<input type="submit" class="fadeIn fourth" value="Daftar">
+			</div>
+		</form>
+	</div>
+</div>
+
+

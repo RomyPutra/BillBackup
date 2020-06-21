@@ -1,0 +1,85 @@
+﻿@model Billboard360.Web.Models.AddSiteResultDetailInputModel
+@{
+	ViewData["Title"] = "Add Site";
+}
+
+<div class="col-md-6 offset-md-3">
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<h3 class="card-label">Tambah Site</h3>
+			</div>
+		</div>
+
+		<form method="post" action="AddSite">
+			<div class="card-body">
+				@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+				{
+					<div class="alert alert-danger" role="alert">
+						@Html.ValidationSummary(true, "Terjadi kesalahan saat mengirim.")
+					</div>
+				}
+
+				<div class="form-group">
+					<label>Billboard No</label>
+					<input type="text" class="form-control" asp-for="Detail.NoBillboard" data-val="true" data-val-required="The billboard number is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Detail.NoBillboard" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Alamat</label>
+					<input type="text" class="form-control" asp-for="Detail.Address" data-val="true" data-val-required="The Address field is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Detail.Address" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Pulau</label>
+					<input type="text" class="form-control" asp-for="Detail.Pulau" data-val="true" data-val-required="The pulau field is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Detail.Pulau" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Provinsi</label>
+					<select id="lstprovince" class="form-control" data-val="true" data-val-required="The Province field is required." asp-for="Detail.Provinsi"></select>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Detail.Provinsi" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Kota</label>
+					<select id="lstcity" class="form-control" data-val="true" data-val-required="The City field is required." asp-for="Detail.Kota"></select>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Detail.Kota" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Cabang</label>
+					<input type="text" class="form-control" asp-for="Detail.Cabang" data-val="true" data-val-required="The branch is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Detail.Cabang" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Horizontal / Vertical</label>
+					<input type="text" class="form-control" asp-for="Detail.HorV" data-val="true" data-val-required="The horv is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Detail.HorV" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Tipe</label>
+					<select id="lsttype" class="form-control" data-val="true" data-val-required="The Type field is required." asp-for="Detail.Tipe"></select>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Detail.Tipe" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Link Google Maps</label>
+					<input type="text" class="form-control" id="link" name="link" placeholder="copy link google maps site anda"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="link" data-valmsg-replace="true"></span>
+				</div>
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary mr-2" value="Simpan">
+				<button type="button" id="backLink" class="btn btn-secondary">Batal</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+

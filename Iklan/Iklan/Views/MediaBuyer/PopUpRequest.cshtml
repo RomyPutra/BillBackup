@@ -1,0 +1,405 @@
+﻿@model Iklan.Models.SiteDetailResponseModel
+
+<input type="hidden" id="LatitudeH" value="@Model.data.Detail.Latitude" />
+<input type="hidden" id="longitudeH" value="@Model.data.Detail.Longitude" />
+<input type="hidden" id="SiteIDH" value="@Model.data.Detail.SiteID" />
+<input type="hidden" id="SitePriceIDH" value="@Model.data.Item.FirstOrDefault().Price.FirstOrDefault().SitePriceID" />
+
+<input type="hidden" id="SiteItemIDH" value="@Model.data.Item.FirstOrDefault().SiteItemID" />
+<input type="hidden" id="HargaAwalH" value="@Model.data.Item.FirstOrDefault().Price.FirstOrDefault().HargaAwal" />
+
+<div class="side-booking-wraps ">
+    <div class="side-booking-wrap hotel-booking">
+
+        <div class="side-booking-header light">
+            <div class="author-with-rate">
+                <div class="head-author">
+                    <h5 id="alamat">@Model.data.Detail.Alamat</h5>
+                    <span id="kota"><i class="ti-location-pin"></i>@Model.data.Detail.Kota, @Model.data.Detail.Provinsi</span>
+                </div>
+                <div class="head-ratting">
+                    <h4 class="head-list-titleup">@Model.data.Detail.Tipe</h4>
+                    <h4 class="head-list-titleup">@Model.data.Detail.NoBillboard</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="side-booking-body">
+            <!-- Single Row Booking -->
+            <div class="single-row-booking">
+                <input type="hidden" id="imgH" value="@Model.data.Detail.ImageHeader" />
+                @if (Model.data.Item.FirstOrDefault().Price.Count > 0)
+                {
+                    <input type="hidden" id="priceH" value="@Model.data.Item.FirstOrDefault().Price.FirstOrDefault().HargaAwal.ToString("#,##0")" />
+                    <span class="onsale-section"><span class="onsale" style="max-width:185px;width:100%;">Rp. @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().HargaAwal.ToString("#,##0.00")<small>per @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().MinimDasar</small></span></span>
+
+                }
+                else
+                {
+                    <span class="onsale-section"><span class="onsale" style="max-width:185px;width:100%;">Rp. 0</span></span>
+
+                    <input type="hidden" id="priceH" value="0" />
+                }
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 small-spilx">
+                        @if (Model.data.Item.FirstOrDefault().Price.Count > 0)
+                        {
+                            <h4 class="booking-title">Minimal @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().MinimOrder @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().MinimDasar</h4>
+
+                        }
+
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 small-spilx">
+                        <div class="form-group">
+                            <div class="guests">
+                                <div class="advance-bboking">
+
+                                    <div class="guest-type">
+                                        <h5>Start Date</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="cld-box">
+                                            <i class="ti-calendar"></i>
+                                            <input type="text" name="startdate" id="startdate" class="form-control" value="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 small-spilx brl">
+                        <div class="form-group">
+                            <div class="guests">
+                                <div class="advance-bboking">
+
+                                    <div class="guest-type">
+                                        <h5>End Date</h5>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="cld-box">
+                                            <i class="ti-calendar"></i>
+                                            <input type="text" name="enddate" id="enddate" class="form-control" value="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Single Row Booking -->
+
+        </div>
+
+        <div class="side-booking-footer light">
+            <div class="stbooking-footer-top">
+                <div class="stbooking-left">
+                    <h5 class="st-subtitle">Duration</h5>
+                </div>
+                <h4 class="stbooking-title"><span id="totDuration" style="font-size: 17px;font-weight: 700;">0 </span><span id="totDuration" style="font-size: 17px;font-weight: 700;"> @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().MinimDasar</span></h4>
+            </div>
+            <div class="stbooking-footer-top">
+                <div class="stbooking-left">
+                    <h5 class="st-subtitle">Total Amount</h5>
+                </div>
+                <h4 class="stbooking-title"><span id="totAmt" style="font-size: 17px;font-weight: 700;">Rp 0</span></h4>
+            </div>
+            @if (Model.act == "addcart")
+            {
+                <div class="stbooking-footer-bottom">
+                    <a onclick="addToCartClicked()" class="books-btn btn-theme" style="width:100%;">Add Cart</a>
+                </div>
+            }
+            else
+            {
+                <div class="stbooking-footer-bottom">
+                    <a onclick="bookingNowClicked()" class="books-btn black" style="width:100%;">Booking Now</a>
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    //$(function () {
+    //    $('input[name="enddate"]').daterangepicker({
+    //        singleDatePicker: true,
+    //        locale: {
+    //            format: "dd/mm/yyyy",
+    //        }
+    //    });
+    //    $('input[name="enddate"]').val('');
+    //    $('input[name="enddate"]').attr("placeholder", "End Date");
+    //});
+
+    //$(function () {
+    //    $('input[name="startdate"]').daterangepicker({
+    //        singleDatePicker: true,
+    //        locale: {
+    //            format: "dd/mm/yyyy"
+    //        },
+    //        //minDate: moment().format('MM/DD/YYYY'),
+    //        //format: 'dd/mm/yyyy'
+    //    });
+    //    $('input[name="startdate"]').val(moment().format('dd/mm/yyyy'));
+    //    $('input[name="startdate"]').attr("placeholder", "Start Date");
+    //});
+
+    $(document).ready(function () {
+
+        initPopup();
+
+        ////init start
+        //$('input[name="startdate"]').daterangepicker({
+        //    singleDatePicker: true,
+        //    locale: {
+        //        format: "DD/MM/YYYY"
+        //    },
+        //    //minDate: moment().format('MM/DD/YYYY'),
+        //    //format: 'dd/mm/yyyy'
+        //});
+        //$('input[name="startdate"]').val('');
+        //$('input[name="startdate"]').attr("placeholder", "Start Date");
+
+        ////init end
+        //$('input[name="enddate"]').daterangepicker({
+        //    singleDatePicker: true,
+        //    locale: {
+        //        format: "DD/MM/YYYY",
+        //    }
+        //});
+        //$('input[name="enddate"]').val('');
+        //$('input[name="enddate"]').attr("placeholder", "End Date");
+
+        //$("#startdate").on("change", function (e) {
+        //    //let duration = 30;
+        //    //console.log("xxx");
+        //    //var dateTemp = e.currentTarget.value;
+        //    //console.log(dateTemp);
+            
+        //    //var curDate = new Date(dateTemp);
+        //    //var newDate = new Date();
+        //    //var oldDatecart = new Date();
+        //    //if (oldDatecart.getDate() != curDate.getDate()) {
+        //    //    newDate.setMonth(curDate.getMonth());
+        //    //    newDate.setDate(curDate.getDate() + duration);
+        //    //    oldDatecart = curDate;
+        //    //} else {
+        //    //    newDate.setDate(oldDatecart.getDate() + duration);
+        //    //}
+
+        //    ////$('input[name="enddate"]').daterangepicker({
+        //    ////    singleDatePicker: true,
+        //    ////    locale: 'en',
+        //    ////    minDate: moment(newDate).format('dd/mm/yyyy'),
+        //    ////    format: 'dd/mm/yyyy'
+        //    ////});
+
+        //    //if ($("#startdate").val() != null && $("#startdate").val() != "") {
+        //    //    var diff = date_diff_indays(curDate, newDate);
+        //    //    var price = $("#HargaAwalH").val();
+
+        //    //    var totAmt = diff * (price * 1);
+
+        //    //    $("#totAmt").text("Rp " + addCommas(totAmt.toString()));
+        //    //    $("#totDuration").text(addCommas(diff.toString()));
+        //    //}
+
+
+        //    if ($("#startdate").val() != null && $("#startdate").val() != "") {
+
+        //        var curDate = new Date(moment(e.currentTarget.value).format("MM/DD/YYYY"));
+
+        //        var mydate = new Date(moment($("#startdate").val()).format("MM/DD/YYYY"));
+
+        //        if (mydate == "Invalid Date") {
+        //            mydate = moment($("#startdate").val(), 'DD/MM/YYYY');
+        //        }
+
+        //        if (curDate == "Invalid Date") {
+        //            curDate = moment(e.currentTarget.value, 'DD/MM/YYYY');
+        //        }
+        //        var start = new Date(moment(mydate).format("MM/DD/YYYY"));
+        //        var end = new Date(moment(curDate).format("MM/DD/YYYY"));
+
+        //        $('input[name="startdate"]').val(moment(start).format('DD/MM/YYYY'));
+
+        //        var diff = date_diff_indays(start, end);
+        //        var price = $("#HargaAwalH").val();
+
+        //        var totAmt = diff * (price * 1);
+
+        //        $("#totAmt").text("Rp " + addCommas(totAmt.toString()));
+
+        //        $("#totDuration").text(addCommas(diff.toString()));
+        //    }
+            
+        //});
+
+
+
+        //$("#enddate").on("change", function (e) {
+            
+        //    if ($("#startdate").val() != null && $("#startdate").val() != "") {
+
+        //        var curDate = new Date(moment(e.currentTarget.value).format("MM/DD/YYYY"));
+
+        //        var mydate = new Date(moment($("#startdate").val()).format("MM/DD/YYYY"));
+
+        //        if (mydate == "Invalid Date") {
+        //            mydate = moment($("#startdate").val(), 'DD/MM/YYYY');
+        //        }
+
+        //        if (curDate == "Invalid Date") {
+        //            curDate = moment(e.currentTarget.value, 'DD/MM/YYYY');
+        //        }
+        //        var start = new Date(moment(mydate).format("MM/DD/YYYY"));
+        //        var end = new Date(moment(curDate).format("MM/DD/YYYY"));
+
+        //        $('input[name="enddate"]').val(moment(end).format('DD/MM/YYYY'));
+
+        //        var diff = date_diff_indays(start, end);
+        //        var price = $("#HargaAwalH").val();
+
+        //        var totAmt = diff * (price * 1);
+
+        //        $("#totAmt").text("Rp " + addCommas(totAmt.toString()));
+
+        //        $("#totDuration").text(addCommas(diff.toString()));
+        //    }
+
+        //});
+
+        //if ($("#enddate").val() == null || $("#enddate").val() == "") {
+        //    alert('x');
+        //    const urlParams = new URLSearchParams(window.location.search);
+        //    const filterfrom = urlParams.get('filterfrom');
+
+
+        //    let duration = 30;
+        //    var curDate = new Date();
+        //    var newDate = new Date();
+        //    var oldDatecart = new Date();
+
+        //    if (filterfrom != null && filterfrom != "") {
+        //        $('input[name="startdate"]').val(filterfrom);
+        //        curDate = new Date(filterfrom);
+        //    }
+
+        //    if (oldDatecart.getDate() != curDate.getDate()) {
+        //        newDate.setMonth(curDate.getMonth());
+        //        newDate.setDate(curDate.getDate() + duration);
+        //        oldDatecart = curDate;
+        //    } else {
+        //        newDate.setDate(oldDatecart.getDate() + duration);
+        //    }
+
+        //    $('input[name="enddate"]').daterangepicker({
+        //        singleDatePicker: true,
+        //        locale: 'en',
+        //        minDate: moment(newDate).format('MM/DD/YYYY'),
+        //        format: 'DD/MM/YYYY'
+        //    });
+
+        //    $('input[name="enddate"]').val(moment(newDate).format('DD/MM/YYYY'));
+
+        //}
+
+
+    });
+
+    function addCommas(nStr) {
+        nStr += '';
+        var x = nStr.split('.');
+        var x1 = x[0];
+        var x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+    function date_diff_indays(date1, date2) {
+        dt1 = new Date(date1);
+        dt2 = new Date(date2);
+        return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+    }
+
+    function addToCartClicked() {
+        var savedata = {
+            "SiteID": $("#SiteIDH").val(),
+            "SiteItemID": $("#SiteItemIDH").val(),
+            "SitePriceID": $("#SitePriceIDH").val(),
+            "Price": $("#HargaAwalH").val(),
+            "StartDate": $("#startdate").val(),
+            "EndDate": $("#enddate").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            data: savedata,
+            url: urlAddToCart,
+            success: function (result) {
+                if (result.response == false) {
+                    alert(result.message);
+                }
+                else {
+                    alert(result.message);
+                }
+            },
+            error: function (data) {
+                alert('Something Went Wrong');
+                startSpinner('loading..', 0);
+            }
+        });
+
+    }
+
+    function bookingNowClicked() {
+        var savedata = {
+            "SiteID": $("#SiteIDH").val(),
+            "SiteItemID": $("#SiteItemIDH").val(),
+            "SitePriceID": $("#SitePriceIDH").val(),
+            "Price": $("#HargaAwalH").val(),
+            "StartDate": $("#startdate").val(),
+            "EndDate": $("#enddate").val()
+        };
+        swal({
+            type: 'warning',
+            title: 'Are you sure?',
+            html: 'You want to submit this data',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d9534f'
+        }).then(function (isConfirm) {
+            if (isConfirm.value === true) {
+                $.ajax({
+                    type: "POST",
+                    data: savedata,
+                    url: urlAddtoBook,
+                    success: function (result) {
+                        console.log(JSON.stringify(result));
+
+                        if (result.response == false) {
+                            alert(result.message);
+                        }
+                        else {
+                            alert(result.message);
+
+                        }
+                    },
+                    error: function (data) {
+                        alert('Something Went Wrong');
+                        startSpinner('loading..', 0);
+                    }
+                });
+            }
+        });
+
+
+    }
+</script>

@@ -1,0 +1,33 @@
+﻿@model Billboard360.Web.Models.CityOutputModel
+@{
+    ViewData["Title"] = "Update City";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Update City </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when submitting.")
+			</div>
+		}
+		<form method="post" action="~/City/UpdateCity">
+			<input type="hidden" id="CityID" name="CityID" value="@Model.CityID">
+			<input type="text" id="kode" class="fadeIn first form-control" name="kode" placeholder="Kode Kota" value="@Model.Kode" data-val="true" data-val-required="The city code is required" />
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="kode" data-valmsg-replace="true"></span>
+			<input type="text" id="nama" class="fadeIn second form-control" name="nama" placeholder="Nama Kota" value="@Model.Kota" data-val="true" data-val-required="The city name is required" />
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="nama" data-valmsg-replace="true"></span>
+			<input type="hidden" id="selectedProv" value="@Model.ProvinceID">
+			<select id="lstprovince" class="selop fadeIn second" data-val="true" data-val-required="The Province field is required." name="lstprovince"></select>
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Detail.Provinsi" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Update">
+		</form>
+	</div>
+</div>
+
+

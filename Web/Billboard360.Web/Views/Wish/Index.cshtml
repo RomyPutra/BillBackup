@@ -1,0 +1,62 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@*@model IEnumerable<Billboard360.Web.Models.SiteListOutputModel>*@
+@model List<Billboard360.Web.Models.WishListOutputModel>
+@{
+	ViewData["Title"] = "Wishlist";
+}
+<div class="row">
+	<div class="col-12">
+		<div class="box">
+			@*<div class="box-header">
+				<h3 class="box-title">Wishlist</h3>
+			</div>*@
+			<div class="shopping-cart">
+				<!-- Title -->
+				<div class="title">
+					Wish List
+				</div>
+
+				@foreach (var item in Model)
+				{
+				<div class="item">
+					<div class="buttons">
+						<span class="delete-btn btn-wish" style="margin-top:-10px" onclick="deleteWish('@Url.Action("DeleteFromWishList", "Wish")', '@item.WishlistID')"></span>
+						@*<span class="like-btn btn-wish" style="margin-top:10px;margin-left:40px;"></span>*@
+					</div>
+					<div class="image">
+						@if (item.Image.Count > 0)
+						{
+							<img src="@item.Image[0]" alt="" style="width:125px;height:85px;" />
+						}
+						else
+						{
+							<img src="~/image/NoImage.jpg" alt="" style="width:125px;height:85px;" />
+						}
+						@*<img src="~/image/NoImage.jpg" alt="" style="width:125px;height:85px;" />*@
+					</div>
+					<div class="description">
+						<span>@item.NoBillboard</span>
+						<span>@item.BillboardType</span>
+					</div>
+					<div class="description">
+						<span>@item.Kota</span>
+						<span>@item.Provinsi</span>
+					</div>
+					<div class="total-price">
+						<p>Rp. <span class="price">@item.Harga</span>,-</p>
+					</div>
+					<div class="buttons" style="margin:0px;">
+						<a asp-controller="Site" asp-action="ViewDetail" asp-route-id="@item.SiteID">
+							<span class="text-grey"> View Site </span>
+						</a>
+					</div>
+				</div>
+				}
+			</div>
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- /.col -->
+</div>

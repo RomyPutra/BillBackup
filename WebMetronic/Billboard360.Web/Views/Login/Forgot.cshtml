@@ -1,0 +1,25 @@
+﻿@{
+	ViewData["Title"] = "Forgot Password";
+}
+
+<div class="col-md-6 offset-md-3">
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<h3 class="card-label">Forgot Your Password?</h3>
+			</div>
+		</div>
+
+		<form method="post" action="ForgotPass">
+			<div class="card-body">
+				<div class="form-group">
+					<label>Your Email Address</label>
+					<input type="text" class="form-control" id="email" name="email"/>
+				</div>
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary mr-2" value="Send Email Reset">
+			</div>
+		</form>
+	</div>
+</div>

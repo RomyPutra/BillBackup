@@ -1,0 +1,55 @@
+﻿@model Billboard360.Web.Models.EditSite
+@{
+    ViewData["Title"] = "Update Site";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Update Site </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when updating.")
+			</div>
+		}
+		<form method="post" action="~/Site/UpdateSite">
+			<input type="hidden" asp-for="input.SiteID" value="@Model.val.Detail.SiteID">
+			<input type="text" class="fadeIn first form-control" placeholder="Billboard No" asp-for="input.NoBillboard" value="@Model.val.Detail.NoBillboard" data-val="true" data-val-required="The billboard number is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.NoBillboard" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="input.Address" value="@Model.val.Detail.Alamat" placeholder="Address" data-val="true" data-val-required="The Address field is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Detail.Alamat" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="input.Pulau" value="@Model.val.Detail.Pulau" placeholder="Pulau" data-val="true" data-val-required="The pulau field is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Detail.Pulau" data-valmsg-replace="true"></span>
+			<input type="hidden" id="selectedProv" value="@Model.val.Detail.Provinsi">
+			<select id="lstprovince" class="selop fadeIn second" data-val="true" data-val-required="The Province field is required." asp-for="input.Provinsi"></select>
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Detail.Provinsi" data-valmsg-replace="true"></span>
+			<input type="hidden" id="selectedCity" value="@Model.val.Detail.Kota">
+			<select id="lstcity" class="selop fadeIn second" data-val="true" data-val-required="The City field is required." asp-for="input.Kota"></select>
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Detail.Kota" data-valmsg-replace="true"></span>
+			<input type="text" class="form-control" asp-for="input.Cabang" value="@Model.val.Detail.Cabang" placeholder="Cabang" data-val="true" data-val-required="The branch is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.Cabang" data-valmsg-replace="true"></span>
+			<input type="text" class="form-control" asp-for="input.HorV" value="@Model.val.Detail.HorV" placeholder="Horisontal/Vertical" data-val="true" data-val-required="The horv is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.HorV" data-valmsg-replace="true"></span>
+
+			<input type="hidden" id="typeIDHidden" value="@Model.val.Detail.Tipe">
+			<select id="lsttype" class="selop fadeIn second" data-val="true" data-val-required="The type field is required." asp-for="input.Tipe"></select>
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Detail.Tipe" data-valmsg-replace="true"></span>
+			@*<input type="text" asp-for="input.Tipe" value="@Model.val.Detail.Tipe" placeholder="Tipe" data-val="true" data-val-required="The type is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.Tipe" data-valmsg-replace="true"></span>*@
+
+			<input type="text" class="form-control" asp-for="input.Longitude" value="@Model.val.Detail.Longitude" placeholder="Longitude" data-val="true" data-val-required="The Longitude is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.Longitude" data-valmsg-replace="true"></span>
+			<input type="text" class="form-control" asp-for="input.Latitude" value="@Model.val.Detail.Latitude" placeholder="Latitude" data-val="true" data-val-required="The Latitude is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.Latitude" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Update">
+		</form>
+	</div>
+</div>
+<script>
+	var siteEdit = @Html.Raw(Json.Serialize(Model));
+</script>
+

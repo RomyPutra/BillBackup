@@ -1,0 +1,243 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Iklan.Models.RegisterInputModel
+@{
+	ViewData["Title"] = "Daftar";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('input').keyup(function (event) {
+			var $this = $(this);
+			event.target.checkValidity();
+			$this.css({ "border-color": "#e6eaf3" });
+		}).bind('invalid', function(event) {
+			setTimeout(function () {
+				$(event.target).focus();
+				$(event.target).css({ "border-color": "red" });
+			}, 50);			
+		});
+	});
+	var urlDaftar = '@Url.Action("Regist","Login")';
+	function daftarBaru() {
+		var link = urlDaftar;
+		var firstame = $("#firstname").val();
+		var lastname = $("#lastname").val();
+		var username = $("#userlogin").val();
+		var namaperusahaan = $("#comname").val();
+		var emailperusahaan = $("#comemail").val();
+		var notelp = $("#comphone").val();
+		var kategori = $("#category").val();
+		var npwp = $("#npwp").val();
+		var website = $("#website").val();
+		var alamat = $("#comaddress").val();
+		var catatan = $("#notes").val();
+		var sandi = $("#pass").val();
+		var consandi = $("#conpass").val();
+		var validate = true;
+
+		var data = {
+			FirstName: firstame,
+			LastName: lastname,
+			UserName: username,
+			EmailPIC: username,
+			NamaPerusahaan: namaperusahaan,
+			EmailPerusahaan: emailperusahaan,
+			NoTelp: notelp,
+			Kategori: kategori,
+			NPWP: npwp,
+			Website: website,
+			Alamat: alamat,
+			Catatan: catatan,
+			Password: sandi
+		};
+
+		if (firstame === null || firstame === undefined || firstame === "") {
+			$("#firstname").css({ "border-color": "red" });
+			validate = false;
+		}
+		if (lastname === null || lastname === undefined || lastname === "") {
+			$("#lastname").css({ "border-color": "red" });
+			validate = false;
+		}
+		if (username === null || username === undefined || username === "") {
+			$("#userlogin").css({ "border-color": "red" });
+			validate = false;
+		}
+		if (namaperusahaan === null || namaperusahaan === undefined || namaperusahaan === "") {
+			$("#comname").css({ "border-color": "red" });
+			validate = false;
+		}
+		if (alamat === null || alamat === undefined || alamat === "") {
+			$("#comaddress").css({ "border-color": "red" });
+			validate = false;
+		}
+		if (notelp === null || notelp === undefined || notelp === "") {
+			$("#comphone").css({ "border-color": "red" });
+			validate = false;
+		}
+		if (emailperusahaan === null || emailperusahaan === undefined || emailperusahaan === "") {
+			$("#comemail").css({ "border-color": "red" });
+			validate = false;
+		}
+		if (kategori === null || kategori === undefined || kategori === "") {
+			$("#category").css({ "border-color": "red" });
+			validate = false;
+		}
+		if (npwp === null || npwp === undefined || npwp === "") {
+			$("#npwp").css({ "border-color": "red" });
+			validate = false;
+		}
+		if (sandi === null || sandi === undefined || sandi === "" || sandi !== consandi) {
+			$("#pass").css({ "border-color": "red" });
+			$("#conpass").css({ "border-color": "red" });
+			validate = false;
+		}
+
+		if (validate === true) {
+			$.ajax({
+				url: link,
+				data: data,
+				type: 'POST',
+				success: function (result) {
+					if (result.roleName === null) {
+						alert('Gagal Daftar');
+					} else {
+						var url = '@Url.Action("Index", "Home")';
+						window.location.href = url;
+						//location.reload(true);
+					}
+				}
+				//},
+				//error: function (data) {
+				//    alert('Something Went Wrong');
+				//    startSpinner('loading..', 0);
+				//}
+			});
+		}
+		else if (validate === false && username.split('@@').length <= 1)
+		{
+			alert('Nama Pengguna email format.');
+		}
+		else if (validate === false && !username.split('@@')[1].includes('.'))
+		{
+			alert('Nama Pengguna email format.');
+		}
+		else if (validate === false && emailperusahaan.split('@@').length <= 1)
+		{
+			alert('Email perusahaan email format.');
+		}
+		else if (validate === false && !emailperusahaan.split('@@')[1].includes('.'))
+		{
+			alert('Email perusahaan email format.');
+		}
+		else if (validate === false && sandi !== consandi)
+		{
+			alert('Sandi tidak sesuai.');
+		}
+		else
+		{
+			alert('Mohon Lengkapi data anda.');
+		}
+	}
+</script>
+<section class="gray">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 col-md-8 col-sm-12">
+				<div class="dashboard-wraper">
+					@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+					{
+						<div class="alert alert-danger" role="alert">
+							@Html.ValidationSummary(true, "Terjadi kesalahan saat perbaruan.")
+						</div>
+					}
+					<!-- Basic Information -->
+					<div class="form-submit">
+						<h4 style="margin-left:10px;">Daftar Baru</h4>
+						<div class="submit-section">
+							<div class="form-row">
+
+								<div class="form-group col-md-6">
+									<label>Nama Depan</label>
+									<input type="text" id="firstname" class="form-control" asp-for="FirstName" data-val="true" data-val-required="Nama depan wajib di isi." required>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Nama Belakang</label>
+									<input type="text" id="lastname" class="form-control" asp-for="LastName" data-val="true" data-val-required="Nama belakang wajib di isi." required>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Nama Pengguna</label>
+									<input type="email" id="userlogin" class="form-control" asp-for="Username" data-val="true" data-val-required="Nama pengguna wajib di isi." data-val-email="User name using email format.">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Sandi</label>
+									<input type="password" id="pass" class="form-control" asp-for="Password" data-val="true" data-val-required="Sandi wajib di isi." required>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Ulang Sandi</label>
+									<input type="password" id="conpass" class="form-control" data-val="true" data-val-required="Ulang sandi wajib di isi." required>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Nama Perusahaan</label>
+									<input type="text" id="comname" class="form-control" asp-for="NamaPerusahaan" data-val="true" data-val-required="Nama perusahaan wajib di isi." required>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Alamat Perusahaan</label>
+									<input type="text" id="comaddress" class="form-control" asp-for="Alamat" data-val="true" data-val-required="Alamat perusahaan wajib di isi." required>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Telp Perusahaan</label>
+									<input type="number" id="comphone" class="form-control" asp-for="NoTelp" data-val="true" data-val-required="Telp perusahaan wajib di isi." required>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Email Perusahaan</label>
+									<input type="email" id="comemail" class="form-control" asp-for="EmailPerusahaan" data-val="true" data-val-required="Email perusahaan wajib di isi." data-val-email="Email format is wrong">
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>NPWP</label>
+									<input type="number" id="npwp" class="form-control" asp-for="NPWP" data-val="true" data-val-required="NPWP wajib di isi." required>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Kategori</label>
+									<input type="text" id="category" class="form-control" asp-for="Kategori" oninvalid="this.setCustomValidity('Kategori wajib di isi.')" required>
+								</div>
+
+								<div class="form-group col-md-6">
+									<label>Situs Web (Opsional)</label>
+									<input type="url" id="website" class="form-control" asp-for="Website">
+								</div>
+
+								<div class="form-group col-md-12">
+									<label>Catatan (Opsional)</label>
+									<textarea id="notes" class="form-control" asp-for="Catatan"></textarea>
+								</div>
+
+								<div class="form-group col-lg-12 col-md-12">
+									<button class="btn btn-theme" type="submit" onclick="daftarBaru()">Daftar</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+

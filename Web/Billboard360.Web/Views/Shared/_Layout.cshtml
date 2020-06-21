@@ -1,0 +1,1911 @@
+﻿@*<!DOCTYPE html>*@
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
+	<title>@ViewData["Title"] - Billboardindo</title>
+
+	<environment include="Development">
+		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="~/css/font-awesome.min.css" />
+	</environment>
+	<environment exclude="Development">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+			  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+			  crossorigin="anonymous"
+			  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+			  asp-fallback-href="~/css/font-awesome.min.css"
+			  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+			  crossorigin="anonymous" />
+	</environment>
+	<style type="text/css">
+
+		#map_canvas {
+			height: 400px;
+		}
+
+		#map {
+			height: 400px;
+		}
+	</style>
+
+	<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="~/css/jquery-ui.css" />
+	<link rel="stylesheet" href="~/css/bootstrap/bootstrap-datetimepicker.css" />
+	<link rel="stylesheet" href="~/css/simple-sidebar.css" />
+	<link rel="stylesheet" href="~/css/basic.css" />
+	<link rel="stylesheet" href="~/css/dropzone.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
+	<link rel="stylesheet" href="~/css/login.css" />
+	<link rel="stylesheet" href="~/css/custom.css" />
+	<link rel="stylesheet" href="~/css/buttons.dataTables.min.css" />
+	<link rel="stylesheet" href="~/css/jquery.dataTables.min.css" />
+</head>
+@*<body class="debug_mode">*@
+<body>
+	<div id="loading" style="display:block;z-index:999999;"></div>
+	<div class="d-flex" id="wrapper">
+		<div id="loadmodal" class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content" style="width: 48px">
+					<span class="fa fa-spinner fa-spin fa-3x"></span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Sidebar -->
+		<div class="bg-light border-right bg-header" id="sidebar-wrapper" style="display:none;">
+			<div class="sidebar-heading" style="background:white;"><a class="nav-link txt-black" style="background:white !important;" asp-area="" asp-controller="Home" asp-action="Index">Billboardindo</a></div>
+			<div class="list-group list-group-flush">
+				<a id="homeMenu" class="nav-link txt-white" style="border-style:groove;margin-left:-3px;width:101%;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+				<a id="dashboardMenu" class="nav-link txt-white" style="border-style:groove;margin-left:-3px;width:101%;" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+				<a id="uploadsiteMenu" class="nav-link txt-white" style="border-style:groove;margin-left:-3px;width:101%;" asp-area="" asp-controller="ExportImport" asp-action="Index">
+					<img src="~/image/iconupl.svg" style="width:25px"> Upload Site
+				</a>
+				<a id="userMenu" class="nav-link txt-white" style="border-style:groove;margin-left:-3px;width:101%;" asp-area="" asp-controller="Users" asp-action="Index">
+					<img src="~/image/iconusp.svg" style="width:25px"> User
+				</a>
+				<a id="mownerMenu" class="nav-link txt-white" style="border-style:groove;margin-left:-3px;width:101%;" asp-area="" asp-controller="Dashboard" asp-action="Index">Media Owner</a>
+				<a id="orderMenu" class="nav-link txt-white" style="border-style: groove; margin-left: -3px; width: 101%;" asp-area="" asp-controller="Dashboard" asp-action="Index">Order</a>
+				<a id="listsiteMenu" class="nav-link txt-white" style="border-style:groove;margin-left:-3px;width:101%;" asp-area="" asp-controller="Site" asp-action="Index">
+					<img src="~/image/iconlst.svg" style="width:25px"> List Site
+				</a>
+				@*<a id="bankaccountMenu" class="nav-link txt-white" style="border-style:groove;margin-left:-3px;width:101%;" asp-area="" asp-controller="BankAccount" asp-action="Index">
+					<img src="~/image/iconbac.svg" style="width:25px"> Bank Accounts
+				</a>*@
+				<button id="regionMenu" class="dropdown-btn txt-white" style="border-style:groove;margin-left:-3px;width:101%;">
+					Region
+					<i class="fa fa-caret-down"></i>
+				</button>
+				<div class="dropdown-container" style="background:darkred;">
+					<a class="nav-link txt-white" style="background:darkred !important;" asp-area="" asp-controller="Province" asp-action="Index">Provinsi</a>
+					<a class="nav-link txt-white" style="background:darkred !important;" asp-area="" asp-controller="City" asp-action="Index">Kota</a>
+					@*<a class="nav-link  txt-white" asp-area="" asp-controller="BillboardType" asp-action="Index">BillBoard Type</a>
+						<a class="nav-link  txt-white" asp-area="" asp-controller="ExportImport" asp-action="Image">Upload Images</a>*@
+				</div>
+				@*<a class="nav-link  txt-white" asp-area="" asp-controller="Bank" asp-action="Index">Banks List</a>*@
+			</div>
+		</div>
+		<!-- Page Content -->
+		<div id="page-content-wrapper" style="margin-bottom:10%;">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom bg-header">
+				<button class="btn txt-white" id="menu-toggle" style="display:none;">Menu</button>
+				<a id="homeMDB" class="nav-link txt-white" style="display:block;padding:0px;padding-left:5%;" asp-area="" asp-controller="Home" asp-action="Index">
+					<span style="font-size:1.6rem;">BILLBOARDINDO</span>
+					<span style="display:block;">Solusi Iklan Masa Depan</span>
+				</a>
+				<button class="navbar-toggler" id="top-toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				@*<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse txt-white" id="navbarSupportedContent">*@
+				<div class="navbar-collapse collapse txt-white" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+						<li id="bookMenu" title="Booking List" class="nav-item" style="padding-left:15px;display:none;">
+							<a class="nav-link txt-white" asp-area="" asp-controller="Booking" asp-action="Index">
+								<i class="fas fa-tag" style="font-size:25px;"></i>
+							</a>
+						</li>
+						<li id="cartMenu" title="Keranjang" class="nav-item" style="padding-left:15px;display:none;">
+							<a class="nav-link txt-white" asp-area="" asp-controller="Wish" asp-action="Keranjang">
+								<i class="fas fa-shopping-cart" style="font-size:25px;"></i>
+							</a>
+						</li>
+						<li id="wishMenu" title="Wish List" class="nav-item" style="padding-left:15px;display:none;">
+							<a class="nav-link txt-white" asp-area="" asp-controller="Wish" asp-action="Index">
+								<i class="fa fa-heart" style="font-size:25px;"></i>
+							</a>
+						</li>
+						<li id="profileMenu" class="nav-item dropdown" style="display:none;">
+							<button class="dropbtn-nav txt-white">
+								<img src="~/image/user.png" class="profile-image img-circle" style="width:25px"> @HttpContextAccessor.HttpContext.Session.GetString("_FNAME") <i class="fa fa-caret-down"></i>
+							</button>
+							<div class="dropdown-content" style="left:0;padding-left:25px;">
+								<a id="addspv" style="display:none;" class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="Register">Add Supervisor</a>
+								@*<a id="bankaccountMDB" class="nav-link txt-grey" style="display:none;" asp-area="" asp-controller="BankAccount" asp-action="Index">Bank Accounts</a>*@
+								<a class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="Update">Edit Profile</a>
+								<a class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="ChangePassword">Change Password</a>
+								<a class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="LogOut">Log Out</a>
+							</div>
+							@*<a class="nav-link dropdown-toggle txt-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<img src="~/image/user.png" class="profile-image img-circle" style="width:25px"> @HttpContextAccessor.HttpContext.Session.GetString("_FNAME") <b class="caret"></b>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+									<a class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="Update">Edit Profile</a>
+									<a class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="ChangePassword">Change Password</a>
+									<a class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="LogOut">Log Out</a>
+								</div>*@
+						</li>
+						<li id="loginMenu" class="nav-item dropdown" style="display:none;">
+							@*<a class="nav-link txt-white" asp-area="" asp-controller="Login" asp-action="Logon">Login</a>*@
+							<button class="dropbtn-nav txt-white">
+								Login Area <i class="fa fa-caret-down"></i>
+							</button>
+							<div class="dropdown-content" style="left:0;padding-left:25px;">
+								<a class="nav-link txt-grey" asp-area="" asp-controller="Login" asp-action="BuyerLogon">Media Buyer</a>
+								<a class="nav-link txt-grey" asp-area="" asp-controller="Login" asp-action="OwnerLogon">Media Owner</a>
+								<a class="nav-link txt-grey" asp-area="" asp-controller="Login" asp-action="AdminLogon">Admin/SPV</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<div id="mainDiv" class="container container-fluid" style="height:100%;">
+				<partial name="_CookieConsentPartial" />
+				<main role="main" class="pb-3">
+					@RenderBody()
+				</main>
+			</div>
+			<div id="loadingDiv" style="text-align: center; display: none; margin-bottom: 20px;">
+				<span class="fa fa-spinner fa-spin fa-3x"></span>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+		<footer class="border-top footer text-muted bg-header footer">
+			<div id="footerFull" class="container" style="display:none;">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="footer-content1">
+							<h4 style="margin-top:10px;margin-bottom:-10px;">BILLBOARDINDO</h4>
+							<P style="height:10px;">Solusi iklan masa depan anda</P>
+							<img class="img-responsive" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="" width="250px">
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="footer-content">
+							<h5 style="margin-top:10px;margin-bottom:-10px;">Company</h5>
+							<p style="height:10px;"><a href="#">About</a></p>
+							<p style="height:10px;"><a href="#">Kontak</a></p>
+							<p style="height:10px;"><a href="#">FAQ</a></p>
+							<p style="height:10px;"><a href="#">Career</a></p>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="footer-content">
+							<h5 style="margin-top:10px;margin-bottom:-10px;">PRODUCT</h5>
+							<p style="height:10px;"><a href="#">Billboard</a></p>
+							<p style="height:10px;"><a href="#">Videotron</a></p>
+							<p style="height:10px;"><a href="#">Consultan</a></p>
+							<p style="height:10px;"><a href="#">Agency</a></p>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="footer-content">
+							<h5 style="margin-top:10px;margin-bottom:-10px;">Privacy</h5>
+							<p style="height:10px;"><a href="#">Legal</a></p>
+							<p style="height:10px;"><a href="#">Privacy</a></p>
+							<p style="height:10px;"><a href="#">Imprint</a></p>
+							<p style="height:10px;"><a href="#">Report Bug</a></p>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="footer-content"></div>
+						<h5 style="margin-top:10px;margin-bottom:-10px;">Customer</h5>
+						<p style="height:10px;"><a href="#">Complain</a></p>
+						<p style="height:10px;"><a href="#">Consulting</a></p>
+						<p style="height:10px;"><a href="#">Call Center</a></p>
+						<p style="height:10px;"><a href="#">Office</a></p>
+					</div>
+				</div>
+			</div>
+			<div id="footerOne" class="container">
+				<div class="row">
+					&copy; 2020 - Billboardindo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<!-- /#wrapper -->
+
+	<environment include="Development">
+		@*<script type="text/javascript" src="~/lib/jquery/dist/jquery.js" crossorigin="anonymous"></script>*@
+		<script type="text/javascript" src="~/js/jquery/V3.4.1/jquery-v3.4.1.js" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.bundle.js" crossorigin="anonymous"></script>
+	</environment>
+	<environment exclude="Development">
+		<script type="text/javascript" src="~/js/jquery/jquery-v3.4.1.js" crossorigin="anonymous"></script>
+		@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+					asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+					asp-fallback-test="window.jQuery"
+					crossorigin="anonymous"
+					integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+			</script>*@
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+				asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+				asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+				crossorigin="anonymous"
+				integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+		</script>
+	</environment>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="~/js/jquery/jquery-ui.js" asp-append-version="true"></script>
+	<script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+	<script type="text/javascript" src="~/js/dropzone.js" asp-append-version="true"></script>
+	<script type="text/javascript" src="~/js/dropzone.min.js" asp-append-version="true"></script>
+	@*<script type="text/javascript" async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCLo4CFnVHu7H7kxuWPZEnJYMQ6d1l6Mw&callback=initMap"></script>*@
+	@*<script type="text/javascript" async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCLo4CFnVHu7H7kxuWPZEnJYMQ6d1l6Mw&libraries=places&callback=initMap"></script>*@
+	<script type="text/javascript" src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<script type="text/javascript" src="~/js/Moment-with-local.js"></script>
+	<script type="text/javascript" src="~/js/canvasjs.min.js"></script>
+	<script type="text/javascript" src="~/js/dropzone.js"></script>
+	<script type="text/javascript" src="~/js/dropzone.min.js"></script>
+	<script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+	<script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+	<script type="text/javascript" src="~/js/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="~/js/bootstrap/bootsrap-datetimepicker.js"></script>
+	<script type="text/javascript" src="~/js/DataTable/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="~/js/DataTable/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" src="~/js/DataTable/buttons.flash.min.js"></script>
+	<script type="text/javascript" src="~/js/DataTable/buttons.html5.min.js"></script>
+	<script type="text/javascript" src="~/js/DataTable/buttons.print.min.js"></script>
+	<script type="text/javascript" src="~/js/DataTable/jszip.min.js"></script>
+	<script type="text/javascript" src="~/js/DataTable/pdfmake.min.js"></script>
+	<script type="text/javascript" src="~/js/DataTable/vfs_fonts.js"></script>
+	<script type="text/javascript" src="~/js/DataTable/buttons.colVis.min.js"></script>	
+	@*<script type="text/javascript" async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjrac-6MHc6-JNehr3r1lFBC-vqI_Wh88&callback=initMap"></script>*@
+	@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&callback=initMap"></script>*@
+	@using Microsoft.AspNetCore.Http
+	@inject IHttpContextAccessor HttpContextAccessor
+	<script>
+		@*var cities = @Html.Raw(Json.Serialize(Model));*@
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+		var dropdown = document.getElementsByClassName("dropdown-btn");
+		for (var i = 0; i < dropdown.length; i++) {
+			dropdown[i].addEventListener("click", function () {
+				this.classList.toggle("active");
+				var dropdownContent = this.nextElementSibling;
+				if (dropdownContent.style.display === "block") {
+					dropdownContent.style.display = "none";
+				} else {
+					dropdownContent.style.display = "block";
+				}
+			});
+		}
+		var mapsData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+		var cities;
+		if (mapsData != null)
+		{
+			cities = mapsData.Cities
+		}
+		var domain = '@HttpContextAccessor.HttpContext.Session.GetString("_Domain")';
+		//console.log("Domain: "+domain);
+		var BaseUrl = window.location.origin;
+		if (domain != "")
+		{
+			BaseUrl += "/" + domain;
+		}
+		var isFiltered = '@HttpContextAccessor.HttpContext.Session.GetString("_ROLE")';
+		var siteIndexUrl = '@Url.Action("Index", "Site")';
+
+		function modalShow() {
+			$("#loadmodal").modal("show");
+		}
+
+		function modalHide() {
+			$("#loadmodal").modal("hide");
+		}
+
+		//#region UploadImage
+		Dropzone.autoDiscover = false;
+		if (document.getElementById("dropzoneJsForm")) {
+			var myDropzone = new Dropzone("#dropzoneJsForm",
+				{
+					paramName: "file",
+					maxFilesize: 20,
+					maxFiles: 4,
+					acceptedFiles: "image/*",
+					dictMaxFilesExceeded: "Maximum files are 4 files 1 time.",
+					init: function () {
+						this.on("success", function (data) {
+							//console.log('Success');
+							//console.log(data);
+						});
+					}
+				}
+			);
+		}
+		//#endregion
+
+		//#region Dropdown
+		function FillBank() {
+			$.post(BaseUrl + "/Dashboard/GetBank", null, function (data) {
+				if (data) {
+					//console.log(data);
+					var bankid = $("#bankIDHidden").val();
+					$("#lstbank").append("<option value=''>Pilih Bank</option>");
+					$(data).each(function () {
+						if (this.bankID == bankid) {
+							$("#lstbank").append('<option value=' + this.bankID + ' selected>' + this.bank + '</option >');
+						} else {
+							$("#lstbank").append($('<option/>', { value: this.bankID }).html(this.bank));
+						}
+					});
+				}
+			}, 'json')
+		}
+
+		function FillType() {
+			$.post(BaseUrl + "/Dashboard/GetType", null, function (data) {
+				if (data) {
+					//console.log(data);
+					var typekode = $("#typeIDHidden").val();
+					$("#lsttype").append("<option value=''>Pilih Type</option>");
+					$(data).each(function () {
+						if (this.type == typekode) {
+							$("#lsttype").append('<option value=' + this.type + ' selected>' + this.type + '</option >');
+						} else {
+							$("#lsttype").append($('<option/>', { value: this.type }).html(this.type));
+						}
+						//$("#stypemenu").append('<a href="#" class="filter smenu">' + this.type + '</a>');
+					});
+				}
+			}, 'json')
+		}
+
+		function FillProvince() {
+			$.post(BaseUrl + "/Dashboard/GetProvince", null, function (data) {
+				if (data) {
+					//console.log(data);
+					var provID = $("#selectedProv").val();
+					$("#lstprovince").append("<option value=''>Pilih Provinsi</option>");
+					$(data).each(function () {
+						if (this.provinsi == provID || this.provinceID == provID) {
+							$("#lstprovince").append('<option value=' + this.kode + '|' + this.provinsi + ' selected>' + this.provinsi + '</option >');
+							$.post(BaseUrl + "/Dashboard/GetCity?kodeprov=" + this.kode, null, function (data) {
+								if (data) {
+									$("#lstcity").empty();
+									//console.log(data);
+									var cityID = $("#selectedCity").val();
+									$("#lstcity").append("<option value=''>Pilih Kota</option>");
+									$(data).each(function () {
+										//console.log(this);
+										if (this.kota == cityID) {
+											$("#lstcity").append('<option value=' + this.kota + ' selected>' + this.kota + '</option >');
+										} else {
+											$("#lstcity").append($('<option/>', { value: this.kota }).html(this.kota));
+										}
+									});
+								}
+							}, 'json')
+						} else {
+							$("#lstprovince").append($('<option/>', { value: this.kode + '|' + this.provinsi }).html(this.provinsi));
+						}
+					});
+				}
+			}, 'json')
+		}
+
+		$("#lstprovince").change(function () {
+			var kode = document.getElementById("lstprovince").value
+			if (kode != 0) {
+				kode = kode.split('|', 1);
+				$.post(BaseUrl + "/Dashboard/GetCity?kodeprov=" + kode, null, function (data) {
+					if (data) {
+						$("#lstcity").empty();
+						//console.log(data);
+						var cityID = $("#selectedCity").val();
+						$("#lstcity").append("<option value=''>Pilih Kota</option>");
+						$(data).each(function () {
+							//console.log(this);
+							if (this.kota == cityID) {
+								$("#lstcity").append('<option value=' + this.kota + ' selected>' + this.kota + '</option >');
+							} else {
+								$("#lstcity").append($('<option/>', { value: this.kota }).html(this.kota));
+							}
+						});
+					}
+				}, 'json')
+			}
+		});
+		//#endregion
+
+		//#region NumberFormat
+		function setInputFilter(textbox, inputFilter) {
+			if (textbox != null) {
+				["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+					textbox.addEventListener(event, function () {
+						if (inputFilter(this.value)) {
+							this.oldValue = this.value;
+							this.oldSelectionStart = this.selectionStart;
+							this.oldSelectionEnd = this.selectionEnd;
+						} else if (this.hasOwnProperty("oldValue")) {
+							this.value = this.oldValue;
+							this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+						} else {
+							this.value = "";
+						}
+					});
+				});
+			}
+		}
+
+		//#region Contoh
+		//Integer
+		//setInputFilter(document.getElementById("intTextBox"), function(value) {
+		//  return /^-?\d*$/.test(value); });
+		//Integer >= 0
+		//setInputFilter(document.getElementById("uintTextBox"), function(value) {
+		//  return /^\d*$/.test(value); });
+		//Integer ranges
+		//setInputFilter(document.getElementById("intLimitTextBox"), function(value) {
+		//  return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 500); });
+		//Float
+		//setInputFilter(document.getElementById("floatTextBox"), function(value) {
+		//  return /^-?\d*[.,]?\d*$/.test(value); });
+		//Currency
+		//setInputFilter(document.getElementById("currencyTextBox"), function(value) {
+		//  return /^-?\d*[.,]?\d{0,2}$/.test(value); });
+		//A-Z
+		//setInputFilter(document.getElementById("latinTextBox"), function(value) {
+		//  return /^[a-z]*$/i.test(value); });
+		//Hexadecimal
+		//setInputFilter(document.getElementById("hexTextBox"), function(value) {
+		//	return /^[0-9a-f]*$/i.test(value);
+		//});
+		//#endregion
+
+		function addCommas(nStr) {
+			//console.log(nStr);
+			nStr += '';
+			var comma = /,/g;
+			nStr = nStr.replace(comma, '');
+			x = nStr.split('.');
+			x1 = x[0];
+			x2 = x.length > 1 ? '.' + x[1] : '';
+			var rgx = /(\d+)(\d{3})/;
+			while (rgx.test(x1)) {
+				x1 = x1.replace(rgx, '$1' + ',' + '$2');
+			}
+			return x1 + x2;
+		}
+		//#endregion
+
+		//#region DateFormat
+		function formatDate(date) {
+			//console.log(date);
+			//var monthNames = [
+			//	"January", "February", "March",
+			//	"April", "May", "June", "July",
+			//	"August", "September", "October",
+			//	"November", "December"
+			//];
+			var monthNames = [
+				"Jan", "Feb", "Mar",
+				"Apr", "May", "Jun", "Jul",
+				"Aug", "Sep", "Oct",
+				"Nov", "Dec"
+			];
+
+
+			var day = date.getDate();
+			var monthIndex = date.getMonth();
+			var year = date.getFullYear();
+
+			return day + ' ' + monthNames[monthIndex] + ' ' + year;
+		}
+		//#endregion
+
+		//#region lOader
+		function showLoader() {
+			document.getElementById("loader").style.display = "block";
+			document.getElementById("divload").style.display = "none";
+		}
+
+		function showPage() {
+			document.getElementById("loader").style.display = "none";
+			document.getElementById("divload").style.display = "block";
+		}
+		//#endregion
+
+		//#region Cart
+		function addtoCart(target, bookID) {
+			document.getElementById("loading").style.display = "block";
+			$.post(target, { ID: bookID },
+				function (returnedData) {
+					document.getElementById("loading").style.display = "none";
+					var urls = "/" + domain + "/Wish/Keranjang";
+					urls = urls.includes("//") ? urls.replace("//", "/") : urls;
+					$.get(urls, function (data, status) {
+						//alert("Data added to Cart");
+						location.reload(true);
+					});
+				}).fail(function (e) {
+					document.getElementById("loading").style.display = "none";
+				});
+		}
+
+		function deleteCart(target, bookID) {
+			document.getElementById("loading").style.display = "block";
+			$.post(target, { ID: bookID },
+				function (returnedData) {
+					var urls = "/" + domain + "/Wish/Keranjang";
+					urls = urls.includes("//") ? urls.replace("//", "/") : urls;
+					$.get(urls, function (data, status) {
+						alert("Data Deleted from Cart");
+						location.reload(true);
+						document.getElementById("loading").style.display = "none";
+					});
+				}).fail(function (e) {
+					document.getElementById("loading").style.display = "none";
+				});
+		}
+		//#endregion
+
+		//#region AddtoWishList
+		function addWish(target, site, item) {
+			document.getElementById("loading").style.display = "block";
+			$.post(target, { Site: site, Item: item },
+				function (returnedData) {
+					alert("Data Added to WishList");
+					location.reload(true);
+					document.getElementById("loading").style.display = "none";
+				}).fail(function (e) {
+					document.getElementById("loading").style.display = "none";
+				});
+		}
+
+		function deleteWish(target, wishID) {
+			document.getElementById("loading").style.display = "block";
+			$.post(target, { ID: wishID },
+				function (returnedData) {
+					var urls = "/" + domain + "/Wish/Index";
+					urls = urls.includes("//") ? urls.replace("//", "/") : urls;
+					$.get(urls, function (data, status) {
+						alert("Data Deleted from Wishlist");
+						location.reload(true);
+						document.getElementById("loading").style.display = "none";
+					});
+				}).fail(function (e) {
+					document.getElementById("loading").style.display = "none";
+				});
+		}
+		//#endregion
+
+		//#region Compare
+		function addCompare(target, site, item) {
+			document.getElementById("loading").style.display = "block";
+			$.post(target, { Site: site, Item: item },
+				function (returnedData) {
+					var urls = "/" + domain + "/Rest/ViewCompare";
+					urls = urls.includes("//") ? urls.replace("//", "/") : urls;
+					alert("Data Added to Compare");
+					$.get(urls, function (data, status) {
+						$('#comview').html(data);
+						document.getElementById("loading").style.display = "none";
+					});
+				}).fail(function (e) {
+					document.getElementById("loading").style.display = "none";
+				});
+		}
+		function deleteCompare(target, compareid) {
+			document.getElementById("loading").style.display = "block";
+			$.post(target, { compareID: compareid },
+				function (returnedData) {
+					var urls = "/" + domain + "/Rest/ViewCompare";
+					urls = urls.includes("//") ? urls.replace("//", "/") : urls;
+					alert("Data deleted from Compare");
+					$.get(urls, function (data, status) {
+						$('#comview').html(data);
+						document.getElementById("loading").style.display = "none";
+					});
+				}).fail(function (e) {
+					document.getElementById("loading").style.display = "none";
+				});
+		}
+		//#endregion
+
+		function btnapprove(link) {
+			modalShow();
+			let target = link.split('|')[0];
+			let dofor = link.split('|')[1];
+			var urls = "/" + domain + "/Dashboard/Update";
+			urls = urls.includes("//") ? urls.replace("//", "/") : urls;
+			$.post(urls, { ID: target },
+				function (returnedData) {
+					if (dofor.split('&')[1] == 'accept') {
+						alert("Nomor booking " + dofor.split('&')[0] + " berhasil diapprove")
+					} else {
+						alert("Nomor booking " + dofor.split('&')[0] + " berhasil ditolak")
+					}
+					//alert("Data Updated");
+					var urlx = "/" + domain + "/Wish/Keranjang";
+					$.get(urlx, function (data, status) {
+						location.reload();
+					});
+					modalHide();
+				}).fail(function (e) {
+					alert("Fail to Update " + e);
+					modalHide();
+				});
+		}
+
+		//#region SC
+		(function () {
+			if (!$('body').hasClass('debug_mode')) {
+				var _z = console;
+				Object.defineProperty(window, "console", {
+					get: function () {
+						if ((window && window._z && window._z._commandLineAPI) || {}) {
+							return "Nice trick! but not permitted!";
+						}
+						return _z;
+					},
+					set: function (val) {
+						_z = val;
+					}
+				});
+			}
+		})();
+		//#endregion
+
+		window.onload = function () {
+			if (document.getElementById('chartContainer') != null) {
+				var dataPoints = [];
+				var chart = new CanvasJS.Chart("chartContainer", {
+					animationEnabled: true,
+					theme: "light2", // "light1", "light2", "dark1", "dark2"
+					title: {
+						text: "Billboard Monthly"
+					},
+					axisY: {
+						title: "Total Book"
+					},
+					data: [{
+						type: "column",
+						showInLegend: true,
+						legendMarkerColor: "grey",
+						legendText: "Total Book",
+						dataPoints: dataPoints,
+					}]
+				});
+				chart.render();
+				var dashboardData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+				if (dashboardData.Chard != null) {
+					dataPoints.push({ label: 'Jan', y: parseInt(dashboardData.Chard.januari) });
+					dataPoints.push({ label: 'Feb', y: parseInt(dashboardData.Chard.februari) });
+					dataPoints.push({ label: 'Mar', y: parseInt(dashboardData.Chard.maret) });
+					dataPoints.push({ label: 'Apr', y: parseInt(dashboardData.Chard.april) });
+					dataPoints.push({ label: 'May', y: parseInt(dashboardData.Chard.mei) });
+					dataPoints.push({ label: 'Jun', y: parseInt(dashboardData.Chard.juni) });
+					dataPoints.push({ label: 'Jul', y: parseInt(dashboardData.Chard.juli) });
+					dataPoints.push({ label: 'Aug', y: parseInt(dashboardData.Chard.agustus) });
+					dataPoints.push({ label: 'Sep', y: parseInt(dashboardData.Chard.september) });
+					dataPoints.push({ label: 'Oct', y: parseInt(dashboardData.Chard.oktober) });
+					dataPoints.push({ label: 'Nov', y: parseInt(dashboardData.Chard.november) });
+					dataPoints.push({ label: 'Dec', y: parseInt(dashboardData.Chard.desember) });
+				}
+				chart.render();
+			}
+			if (document.querySelectorAll('.cust-date') != null) {
+				var cdate = document.querySelectorAll('.cust-date');
+				for (var i = 0; i < cdate.length; i++) {
+					cdate[i].innerHTML = formatDate(new Date(cdate[i].innerHTML.toString()));
+				}
+			}
+			if (document.querySelectorAll('.cart-price') != null) {
+				var cprice = document.querySelectorAll('.cart-price');
+				for (var i = 0; i < cprice.length; i++) {
+					cprice[i].innerHTML = addCommas(cprice[i].innerHTML.toString());
+				}
+			}
+		}
+
+		//#region Wishlist
+		$(".like-btn").on("click", function () {
+			$(this).toggleClass("is-active");
+		});
+		$(".minus-btn").on("click", function (e) {
+			e.preventDefault();
+			var $this = $(this);
+			var $input = $this.closest("div").find("input");
+			var value = parseInt($input.val());
+
+			if (value > 1) {
+				value = value - 1;
+			} else {
+				value = 0;
+			}
+			$input.val(value);
+		});
+		$(".plus-btn").on("click", function (e) {
+			e.preventDefault();
+			var $this = $(this);
+			var $input = $this.closest("div").find("input");
+			var value = parseInt($input.val());
+
+			if (value < 100) {
+				value = value + 1;
+			} else {
+				value = 100;
+			}
+			$input.val(value);
+		});
+		//#endregion
+
+		//#region Maps
+		function initializeMap() {
+			if (cities != null && (document.getElementById('map_canvas') != undefined || document.getElementById('map_canvas2') != undefined)) {
+				google.maps.event.addDomListener(window, 'load', initMap);
+			}
+			if (Dcity != null && document.getElementById('map_canvas3') != undefined) {
+				google.maps.event.addDomListener(window, 'load', initMap3);
+			}
+		}
+
+		function initMap() {
+			// map options
+			var map, map2;
+			var marker, marker2;
+			var options = {
+				zoom: 5,
+				center: new google.maps.LatLng(-3.5058155, 122.6757871),
+				//mapTypeId: google.maps.MapTypeId.TERRAIN,
+				mapTypeControl: false,
+				panControl: false,
+				zoomControl: false,
+				streetViewControl: false
+			};
+			if (cities != null && (document.getElementById('map_canvas') != undefined || document.getElementById('map_canvas2') != undefined)) {
+				map = new google.maps.Map(document.getElementById('map_canvas'), options);
+				map2 = new google.maps.Map(document.getElementById('map_canvas2'), options);
+				//#region AutoComplete
+				var card = document.getElementById('pac-card');
+				var input = document.getElementById('pac-input');
+				map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+				var autocomplete = new google.maps.places.Autocomplete(input);
+				autocomplete.bindTo('bounds', map);
+				autocomplete.setFields(['address_components', 'geometry']);
+
+				var card2 = document.getElementById('pac-card2');
+				var input2 = document.getElementById('pac-input2');
+				map2.controls[google.maps.ControlPosition.TOP_RIGHT].push(card2);
+				var autocomplete2 = new google.maps.places.Autocomplete(input2);
+				autocomplete2.bindTo('bounds', map2);
+				autocomplete2.setFields(['address_components', 'geometry']);
+
+				var infowindow = new google.maps.InfoWindow();
+				//#endregion
+				for (var i = 0; i < cities.length; i++) {
+					// init markers
+					marker = new google.maps.Marker({
+						position: new google.maps.LatLng(cities[i]['Lat'], cities[i]['Lng']),
+						map: map,
+						title: cities[i]['Title'],
+			            anchorPoint: new google.maps.Point(0, -29)
+					});
+					var infowindow = new google.maps.InfoWindow({});
+					google.maps.event.addListener(marker, 'click', (function (marker, i) {
+						return function () {
+							var contentString = '<div id="content" style="display: flex;">' +
+								'<div class="col-md-5">' +
+								'<img src="' + cities[i]['Image'] + '" class="listimage" style="width:150px;height:150px;" />' +
+								'</div>' +
+								'<div class="col-md-7" style="text-align: left;">' +
+								'<h1>' + cities[i]['Title'] + '</h1>' +
+								'<p style="margin-bottom: 5px;">' + cities[i]['Kota'] + ' ' + cities[i]['Prov'] + '</p>' +
+								'<p style="margin-bottom: 5px;">H/V : ' + cities[i]['HorV'] + '</p>' +
+								'<p style="margin-bottom: 5px;">Tipe Billboard : ' + cities[i]['Tipe'] + '</p>' +
+								'<p style="margin-bottom: 5px;">Rp. <span class="price">' + cities[i]['Price'] + '</span>,-</p>' +
+								'</div>' +
+								'</div>';
+							infowindow.setContent(cities[i]['Title']);
+							infowindow.setContent(contentString);
+							infowindow.open(map, marker);
+						}
+					})(marker, i));
+					marker2 = new google.maps.Marker({
+						position: new google.maps.LatLng(cities[i]['Lat'], cities[i]['Lng']),
+						map: map2,
+						title: cities[i]['Title']
+					});
+					var infowindow2 = new google.maps.InfoWindow({});
+					google.maps.event.addListener(marker2, 'click', (function (marker2, i) {
+						return function () {
+							var contentString = '<div id="content" style="display: flex;">' +
+								'<div class="col-md-5">' +
+								'<img src="' + cities[i]['Image'] + '" class="listimage" style="width:150px;height:150px;" />' +
+								'</div>' +
+								'<div class="col-md-7" style="text-align: left;">' +
+								//'<h1>' + cities[i]['Title'] + '</h1>' +
+								'<h1><a href="' + BaseUrl + '/Home/ToDetail?NoBillboard=' + cities[i]['Title'] + '">' +
+								'<span class="text-black">' + cities[i]['Title'] + '</span>' +
+								'</a></h1>' +
+								'<p style="margin-bottom: 5px;">' + cities[i]['Kota'] + ' ' + cities[i]['Prov'] + '</p>' +
+								'<p style="margin-bottom: 5px;">H/V : ' + cities[i]['HorV'] + '</p>' +
+								'<p style="margin-bottom: 5px;">Tipe Billboard : ' + cities[i]['Tipe'] + '</p>' +
+								'<p style="margin-bottom: 5px;">Rp. <span class="price">' + cities[i]['Price'] + '</span>,-</p>' +
+								'</div>' +
+								'</div>';
+							infowindow2.setContent(cities[i]['Title']);
+							infowindow2.setContent(contentString);
+							infowindow2.open(map2, marker2);
+						}
+					})(marker2, i));
+				}
+				//#region Autocomplete2
+			    autocomplete.addListener('place_changed', function() {
+					infowindow.close();
+					marker.setVisible(false);
+					var place = autocomplete.getPlace();
+					if (!place.geometry) {
+			    		// User entered the name of a Place that was not suggested and
+			    		// pressed the Enter key, or the Place Details request failed.
+			    		window.alert("No details available for input: '" + place.name + "'");
+			    		return;
+					}
+
+					// If the place has a geometry, then present it on a map.
+					if (place.geometry.viewport) {
+			    		map.fitBounds(place.geometry.viewport);
+					} else {
+			    		map.setCenter(place.geometry.location);
+			    		map.setZoom(17);  // Why 17? Because it looks good.
+					}
+
+					var address = '';
+					if (place.address_components) {
+			    		address = [
+			    			(place.address_components[0] && place.address_components[0].short_name || ''),
+			    			(place.address_components[1] && place.address_components[1].short_name || ''),
+			    			(place.address_components[2] && place.address_components[2].short_name || '')
+			    		].join(' ');
+					}
+			    });
+
+			    autocomplete2.addListener('place_changed', function() {
+					infowindow.close();
+					marker2.setVisible(false);
+					var place = autocomplete2.getPlace();
+					if (!place.geometry) {
+			    		// User entered the name of a Place that was not suggested and
+			    		// pressed the Enter key, or the Place Details request failed.
+			    		window.alert("No details available for input: '" + place.name + "'");
+			    		return;
+					}
+
+					// If the place has a geometry, then present it on a map.
+					if (place.geometry.viewport) {
+			    		map2.fitBounds(place.geometry.viewport);
+					} else {
+			    		map2.setCenter(place.geometry.location);
+			    		map2.setZoom(17);  // Why 17? Because it looks good.
+					}
+
+					var address = '';
+					if (place.address_components) {
+			    		address = [
+			    			(place.address_components[0] && place.address_components[0].short_name || ''),
+			    			(place.address_components[1] && place.address_components[1].short_name || ''),
+			    			(place.address_components[2] && place.address_components[2].short_name || '')
+			    		].join(' ');
+					}
+			    });
+			    //#endregion
+			}
+		}
+        //#endregion
+
+		//#region DetailPage
+		var siteData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+		var Dcity;
+		if (siteData != null)
+		{
+			Dcity = siteData.Cities;
+		}
+
+		function initMap3() {
+			// map options
+			var map3;
+			var marker3;
+			var options = {
+				zoom: 5,
+				center: new google.maps.LatLng(-3.5058155, 122.6757871),
+				mapTypeId: google.maps.MapTypeId.TERRAIN,
+				mapTypeControl: false
+			};
+			if (Dcity != null && document.getElementById('map_canvas3') != undefined) {
+				if (Dcity.length > 0) {
+					options = {
+						zoom: 5,
+						center: new google.maps.LatLng(Dcity[0]['Lat'], Dcity[0]['Lng']),
+						mapTypeId: google.maps.MapTypeId.TERRAIN,
+						mapTypeControl: false
+					};
+				}
+				map3 = new google.maps.Map(document.getElementById('map_canvas3'), options);
+				for (var i = 0; i < Dcity.length; i++) {
+					// init markers
+					marker3 = new google.maps.Marker({
+						position: new google.maps.LatLng(Dcity[i]['Lat'], Dcity[i]['Lng']),
+						map: map3,
+						title: Dcity[i]['Title']
+					});
+					var infowindow = new google.maps.InfoWindow({});
+					google.maps.event.addListener(marker3, 'click', (function (marker3, i) {
+						return function () {
+							var contentString = '<div id="content" style="text-align: left;">' +
+								'<h1>' + cities[i]['Title'] + '</h1>' +
+								'<p style="margin-bottom: 5px;">' + cities[i]['Kota'] + ' ' + cities[i]['Prov'] + '</p>' +
+								'<p style="margin-bottom: 5px;">H/V : ' + cities[i]['HorV'] + '</p>' +
+								'<p style="margin-bottom: 5px;">Tipe Billboard : ' + cities[i]['Tipe'] + '</p>' +
+								'<p style="margin-bottom: 5px;">Rp. <span class="price">' + cities[i]['Price'] + '</span>,-</p>' +
+								'</div>';
+							infowindow.setContent(Dcity[i]['Title']);
+							infowindow.setContent(contentString);
+							infowindow.open(map3, marker3);
+						}
+					})(marker3, i));
+				}
+			}
+		}
+
+		//if (Dcity != null && document.getElementById('map_canvas3') != undefined) {
+		//	google.maps.event.addDomListener(window, 'load', initMap3);
+		//}
+
+		var Difference_In_Time = 0;
+		var Difference_In_Days = 0;
+		var dat1 = new Date();
+		var dat2 = new Date();
+
+		$(function () {
+			var oldDatecart = new Date();
+			var oldDatebook = new Date();
+			var today = new Date();
+			var date1 = new Date();
+			var date3 = new Date();
+			let duration = parseInt($("#siteDurasi").val());
+			today.setDate(today.getDate() + duration);
+			let today7 = ("0" + today.getMonth()).slice(-2) + "-" + ("0" + today.getDate()).slice(-2) + "-" + today.getFullYear();
+			$(".datePicker").datetimepicker();
+			$("#datepicker1 input").datetimepicker({
+				format: 'DD-MM-YYYY',
+				icons: {
+					today: "fas fa-bomb",
+					date: "fas fa-calendar",
+					time: "fas fa-clock-o",
+					up: "fa fa-arrow-up",
+					next: "fa fa-arrow-right",
+					down: "fa fa-arrow-down",
+					previous: "fa fa-arrow-left",
+					clear: "fas fa-circle-o",
+					close: "fas fa-times"
+				},
+				locale: 'en',
+                minDate: moment().format('MM-DD-YYYY'),
+			});
+			$("#datepicker2 input").datetimepicker({
+			    format: 'DD-MM-YYYY',
+				icons: {
+					today: "fas fa-bomb",
+					date: "fas fa-calendar",
+					time: "fas fa-clock-o",
+					up: "fa fa-arrow-up",
+					next: "fa fa-arrow-right",
+					down: "fa fa-arrow-down",
+					previous: "fa fa-arrow-left",
+					clear: "fas fa-circle-o",
+					close: "fas fa-times"
+				},
+				locale: 'en',
+                minDate: moment(today7).format('MM-DD-YYYY'),
+			});
+			$("#datepicker1").on("dp.change", function (e) {
+				date1 = e.date;
+				var curDate = new Date(e.date);
+				var newDate = new Date();
+				if (oldDatecart.getDate() != curDate.getDate()) {
+					newDate.setMonth(curDate.getMonth());
+					newDate.setDate(curDate.getDate() + duration);
+					oldDatecart = curDate;
+				} else {
+					newDate.setDate(oldDatebook.getDate() + duration);
+				}
+				$("#datepicker2 input").data("DateTimePicker").minDate(newDate);
+				$("#datepicker2 input").prop("disabled", false);
+				$("#popsubmit").prop("disabled", false);
+			});
+			$("#datepicker2").on("dp.change", function (e) {
+				dat1 = new Date(date1);
+				dat2 = new Date(e.date);
+				Difference_In_Time = dat2.getTime() - dat1.getTime();
+				Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+				$("#durasi").val(Difference_In_Days.toFixed(0));
+			});
+
+			$("#datepicker3 input").datetimepicker({
+				format: 'DD-MM-YYYY',
+				icons: {
+					today: "fas fa-bomb",
+					date: "fas fa-calendar",
+					time: "fas fa-clock-o",
+					up: "fa fa-arrow-up",
+					next: "fa fa-arrow-right",
+					down: "fa fa-arrow-down",
+					previous: "fa fa-arrow-left",
+					clear: "fas fa-circle-o",
+					close: "fas fa-times"
+				},
+				locale: 'en',
+                minDate: moment().format('MM-DD-YYYY'),
+			});
+			$("#datepicker4 input").datetimepicker({
+			    format: 'DD-MM-YYYY',
+				icons: {
+					today: "fas fa-bomb",
+					date: "fas fa-calendar",
+					time: "fas fa-clock-o",
+					up: "fa fa-arrow-up",
+					next: "fa fa-arrow-right",
+					down: "fa fa-arrow-down",
+					previous: "fa fa-arrow-left",
+					clear: "fas fa-circle-o",
+					close: "fas fa-times"
+				},
+				locale: 'en',
+                minDate: moment(today7).format('MM-DD-YYYY'),
+			});
+			$("#datepicker3").datetimepicker();
+			$("#datepicker4").datetimepicker({
+				useCurrent: false //Important! See issue #1075
+			});
+			$("#datepicker3").on("dp.change", function (e) {
+				date3 = e.date;
+				var curDate = new Date(e.date);
+				var newDate = new Date();
+				if (oldDatebook.getDate() != curDate.getDate()) {
+					newDate.setMonth(curDate.getMonth());
+					newDate.setDate(curDate.getDate() + duration);
+					oldDatebook = curDate;
+				} else {
+					newDate.setDate(oldDatebook.getDate() + duration);
+				}
+				$("#datepicker4 input").data("DateTimePicker").minDate(newDate);
+				$("#datepicker4 input").prop("disabled", false);
+				$("#popsubmitbook").prop("disabled", false);
+			});
+			$("#datepicker4").on("dp.change", function (e) {
+				dat1 = new Date(date3);
+				dat2 = new Date(e.date);
+				Difference_In_Time = dat2.getTime() - dat1.getTime();
+				Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+				$("#durasibook").val(Difference_In_Days.toFixed(0));
+			});
+
+
+			$(window).on('load', function () {
+				initializeMap();
+		   });
+		});
+
+		function addCart(target) {
+			document.getElementById("loading").style.display = "block";
+			let siteID = $("#siteID").val();
+			let sitePriceID = $("#sitePriceID").val();
+			let siteItemID = $("#siteItemID").val();
+			let price = $("#price").val();
+			let dura = $("#durasi").val();
+			let total = Number(price) * Number(dura);
+			$.post(target, { siteID: siteID, sitePriceID: sitePriceID, siteItemID: siteItemID, price: price, durasi: dura, totalprice: total, startDate: dat1.toISOString(), endDate: dat2.toISOString() },
+				function (returnedData) {
+					alert("Data Added to Cart");
+					var url = '@Url.Action("ViewDetail", "Site")?id=' + siteID;
+					window.location.href = url;
+					$("#cartModal").modal('hide');
+					document.getElementById("loading").style.display = "none";
+					//$.post(domain + "/Site/ViewDetail", { id: siteID }, function (data) {
+					//	$("#cartModal").modal('hide');
+					//});
+				}).fail(function (e) {
+					document.getElementById("loading").style.display = "none";
+					alert("Fail to Added Data");
+				});
+		}
+
+		function addBook(target) {
+			document.getElementById("loading").style.display = "block";
+			let siteID = $("#siteIDbook").val();
+			let sitePriceID = $("#sitePriceIDbook").val();
+			let siteItemID = $("#siteItemIDbook").val();
+			let price = $("#pricebook").val();
+			let dura = $("#durasibook").val();
+			let total = Number(price) * Number(dura);
+			$.post(target, { siteID: siteID, sitePriceID: sitePriceID, siteItemID: siteItemID, price: price, durasi: dura, totalprice: total, startDate: dat1.toISOString(), endDate: dat2.toISOString() },
+				function (returnedData) {
+					alert("Data Added to Book");
+					$("#bookModal").modal('hide');
+					var url = '@Url.Action("Index", "Booking")';
+					window.location.href = url;
+				}).fail(function (e) {
+					document.getElementById("loading").style.display = "none";
+					alert("Fail to Added Data");
+				});
+		}
+		//#endregion
+
+		//#region Booking
+		function bookDetail(ID) {
+			var url = '@Url.Action("BookDetail", "Booking")?id=' + ID;
+			window.location.href = url;
+		}
+		function gotoHome() {
+			var url = '@Url.Action("Index", "Home")';
+			window.location.href = url;
+		}
+		//#endregion
+
+		function loadScreen() {
+			document.getElementById("loading").style.display = "block";
+			setTimeout(function(){ document.getElementById("loading").style.display = "none"; }, 3000);
+		}
+
+		function homeSearch(page) {
+			let url = '@Url.Action("SearchFilter", "Home")';
+			let SData = page == 1 ? $("#hSearch").val() : $("#hSearchc").val();
+			$("#loadingDiv").show();
+			$.post(url, { "Data": SData, "Pages": page },
+				function (data) {
+					if (page == 1) {
+						BlockNumber = 1;
+						NoMoreData = data.NoMoreData;
+						$("#divlistlst").html(data.htmlString);
+						$("#divlistlst").each(function () {
+							var price = $(this).find('.price');
+							price.each(function () {
+								var tag = $(this);
+								tag[0].innerHTML = addCommas(tag[0].innerHTML);
+							})
+						});
+					} else {
+						BlockNumCom = 1;
+						NoMoreData = data.NoMoreData;
+						$("#comviewlst").html(data.htmlString);
+						$("#comviewlst").each(function () {
+							var price = $(this).find('.price');
+							price.each(function () {
+								var tag = $(this);
+								tag[0].innerHTML = addCommas(tag[0].innerHTML);
+							})
+						});
+					}
+					$("#loadingDiv").hide();
+					inProgress = false;
+				}).fail(function (e) {
+					$("#loadingDiv").hide();
+					inProgress = false;
+				});
+		}
+
+		var NoMoreData = false;
+		var inProgress = false;
+		$('#mainDiv').on('scroll', function () {
+			var vars = {};
+			var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+				vars[key] = value;
+			});
+			if (Math.floor($("#mainDiv").scrollTop()) >= Math.floor($("#mainDiv")[0].scrollHeight) - Math.floor($("#mainDiv").height() + 20) && !NoMoreData && !inProgress) {
+				inProgress = true;
+				let url = '@Url.Action("InfinateScrollAsync", "Home")';
+				let tipe = '';
+				let prov = ''
+				let city = ''
+				let minPrice = 0;
+				let maxPrice = 0;
+				if (Object.keys(vars).length !== 0) {
+					tipe = vars['tipeBillboard'];
+					prov = vars['provinsi'];
+					city = vars['kota'];
+					minPrice = vars['minHarga'];
+					maxPrice = vars['maxHarga'];
+				}
+				if ($('#dtlView').css('display') == 'block' && $('#divlist').css('display') == 'block' && $("#hSearch").val() == "") {
+					$("#loadingDiv").show();
+					$.post(url, { "BlockNumber": BlockNumber, "Pages": 1, "tipeBillboard": tipe, "provinsi": prov, "kota": city, "minHarga": minPrice, "maxHarga": maxPrice },
+						function (data) {
+							BlockNumber = BlockNumber + 1;
+							NoMoreData = data.NoMoreData;
+							$("#divlistlst").append(data.htmlString);
+							$("#divlistlst").each(function () {
+								var price = $(this).find('.price');
+								price.each(function () {
+									var tag = $(this);
+									tag[0].innerHTML = addCommas(tag[0].innerHTML);
+								})
+							});
+							$("#loadingDiv").hide();
+							inProgress = false;
+						}).fail(function (e) {
+							$("#loadingDiv").hide();
+							inProgress = false;
+						});
+				} else if ($('#dtlView').css('display') == 'block' && $('#divCompare').css('display') == 'block' && $("#hSearchc").val() == "" && Math.floor($("#mainDiv").scrollTop()) >= Math.floor($("#mainDiv")[0].scrollHeight) - Math.floor($("#mainDiv").height())) {
+					$("#loadingDiv").show();
+					$.post(url, { "BlockNumber": BlockNumCom, "Pages": 2, "tipeBillboard": tipe, "provinsi": prov, "kota": city, "minHarga": minPrice, "maxHarga": maxPrice },
+						function (data) {
+							BlockNumCom = BlockNumCom + 1;
+							NoMoreData = data.NoMoreData;
+							$("#comviewlst").append(data.htmlString);
+							$("#comviewlst").each(function () {
+								var price = $(this).find('.price');
+								price.each(function () {
+									var tag = $(this);
+									tag[0].innerHTML = addCommas(tag[0].innerHTML);
+								})
+							});
+							$("#loadingDiv").hide();
+							inProgress = false;
+						}).fail(function (e) {
+							$("#loadingDiv").hide();
+							inProgress = false;
+						});
+				} else {
+					inProgress = false;
+				}
+			}
+		});
+
+		$(document).ready(function () {
+            //#region NavBar
+			//console.log(isFiltered);
+			if (isFiltered == '') {
+				document.getElementById("menu-toggle").style.display = "none";
+				document.getElementById("sidebar-wrapper").style.display = "none";
+				document.getElementById("addspv").style.display = "none";
+				//document.getElementById("bankaccountMDB").style.display = "none";
+				document.getElementById("homeMDB").style.display = "block";
+				document.getElementById("footerFull").style.display = "none";
+				document.getElementById("footerOne").style.display = "block";
+				//document.getElementById("mainDiv").style.position = "relative";
+				document.getElementById("mainDiv").style.position = "absolute";
+				document.getElementById("mainDiv").style.height = "87%";
+				if (screen.availWidth > 700) {
+					document.getElementById("mainDiv").style.left = "8%";
+				} else {
+					document.getElementById("mainDiv").style.left = "0%";
+				}
+				//document.getElementById("wrapper").style.display = "none";
+				//document.getElementById("noLogin").style.display = "block";
+				document.getElementById("homeMenu").style.display = "none";
+				document.getElementById("dashboardMenu").style.display = "none";
+				document.getElementById("orderMenu").style.display = "none";
+				document.getElementById("userMenu").style.display = "none";
+				document.getElementById("mownerMenu").style.display = "none";
+				document.getElementById("listsiteMenu").style.display = "none";
+				document.getElementById("regionMenu").style.display = "none";
+				//document.getElementById("bankaccountMenu").style.display = "none";
+				document.getElementById("uploadsiteMenu").style.display = "none";
+				document.getElementById("profileMenu").style.display = "none";
+				document.getElementById("wishMenu").style.display = "none";
+				document.getElementById("cartMenu").style.display = "none";
+				document.getElementById("bookMenu").style.display = "none";
+				document.getElementById("loginMenu").style.display = "block";
+			} else if (isFiltered == 'ADM') {
+				document.getElementById("menu-toggle").style.display = "block";
+				document.getElementById("sidebar-wrapper").style.display = "block";
+				document.getElementById("addspv").style.display = "none";
+				//document.getElementById("bankaccountMDB").style.display = "none";
+				document.getElementById("homeMDB").style.display = "none";
+				document.getElementById("footerFull").style.display = "none";
+				document.getElementById("footerOne").style.display = "block";
+				document.getElementById("mainDiv").style.position = "absolute";
+				document.getElementById("mainDiv").style.left = "auto";
+				document.getElementById("mainDiv").style.height = "87%";
+				//document.getElementById("wrapper").style.display = "block";
+				//document.getElementById("noLogin").style.display = "none";
+				document.getElementById("homeMenu").style.display = "none";
+				document.getElementById("dashboardMenu").style.display = "block";
+				document.getElementById("orderMenu").style.display = "none";
+				document.getElementById("userMenu").style.display = "block";
+				document.getElementById("mownerMenu").style.display = "none";
+				document.getElementById("listsiteMenu").style.display = "block";
+				document.getElementById("regionMenu").style.display = "block";
+				//document.getElementById("bankaccountMenu").style.display = "block";
+				document.getElementById("uploadsiteMenu").style.display = "block";
+				document.getElementById("profileMenu").style.display = "block";
+				document.getElementById("wishMenu").style.display = "none";
+				document.getElementById("cartMenu").style.display = "none";
+				document.getElementById("bookMenu").style.display = "none";
+				document.getElementById("loginMenu").style.display = "none";
+			} else if (isFiltered == 'SPV') {
+				document.getElementById("menu-toggle").style.display = "block";
+				document.getElementById("sidebar-wrapper").style.display = "block";
+				document.getElementById("addspv").style.display = "none";
+				//document.getElementById("bankaccountMDB").style.display = "none";
+				document.getElementById("homeMDB").style.display = "none";
+				document.getElementById("footerFull").style.display = "none";
+				document.getElementById("footerOne").style.display = "block";
+				document.getElementById("mainDiv").style.position = "absolute";
+				document.getElementById("mainDiv").style.left = "auto";
+				document.getElementById("mainDiv").style.height = "87%";
+				//document.getElementById("wrapper").style.display = "block";
+				//document.getElementById("noLogin").style.display = "none";
+				document.getElementById("homeMenu").style.display = "none";
+				document.getElementById("dashboardMenu").style.display = "block";
+				document.getElementById("orderMenu").style.display = "none";
+				document.getElementById("userMenu").style.display = "none";
+				document.getElementById("mownerMenu").style.display = "none";
+				document.getElementById("listsiteMenu").style.display = "block";
+				document.getElementById("regionMenu").style.display = "block";
+				//document.getElementById("bankaccountMenu").style.display = "block";
+				document.getElementById("uploadsiteMenu").style.display = "block";
+				document.getElementById("profileMenu").style.display = "block";
+				document.getElementById("wishMenu").style.display = "none";
+				document.getElementById("cartMenu").style.display = "none";
+				document.getElementById("bookMenu").style.display = "none";
+				document.getElementById("loginMenu").style.display = "none";
+			} else if (isFiltered == 'MDO') {
+				document.getElementById("menu-toggle").style.display = "block";
+				document.getElementById("sidebar-wrapper").style.display = "block";
+				document.getElementById("addspv").style.display = "none";
+				//document.getElementById("bankaccountMDB").style.display = "none";
+				document.getElementById("homeMDB").style.display = "none";
+				document.getElementById("footerFull").style.display = "none";
+				document.getElementById("footerOne").style.display = "block";
+				document.getElementById("mainDiv").style.position = "absolute";
+				document.getElementById("mainDiv").style.left = "auto";
+				document.getElementById("mainDiv").style.height = "87%";
+				//document.getElementById("wrapper").style.display = "block";
+				//document.getElementById("noLogin").style.display = "none";
+				document.getElementById("homeMenu").style.display = "none";
+				document.getElementById("dashboardMenu").style.display = "block";
+				document.getElementById("orderMenu").style.display = "none";
+				document.getElementById("userMenu").style.display = "none";
+				document.getElementById("mownerMenu").style.display = "none";
+				document.getElementById("listsiteMenu").style.display = "block";
+				document.getElementById("regionMenu").style.display = "none";
+				//document.getElementById("bankaccountMenu").style.display = "block";
+				document.getElementById("uploadsiteMenu").style.display = "none";
+				document.getElementById("profileMenu").style.display = "block";
+				document.getElementById("wishMenu").style.display = "none";
+				document.getElementById("cartMenu").style.display = "none";
+				document.getElementById("bookMenu").style.display = "none";
+				document.getElementById("loginMenu").style.display = "none";
+			} else {
+				document.getElementById("menu-toggle").style.display = "none";
+				document.getElementById("sidebar-wrapper").style.display = "none";
+				document.getElementById("addspv").style.display = "none";
+				//document.getElementById("bankaccountMDB").style.display = "block";
+				document.getElementById("homeMDB").style.display = "block";
+				document.getElementById("footerFull").style.display = "none";
+				document.getElementById("footerOne").style.display = "block";
+				document.getElementById("mainDiv").style.position = "absolute";
+				document.getElementById("mainDiv").style.height = "82%";
+				if (screen.availWidth > 700) {
+					document.getElementById("mainDiv").style.left = "8%";
+				} else {
+					document.getElementById("mainDiv").style.left = "0%";
+				}
+				//document.getElementById("wrapper").style.display = "none";
+				//document.getElementById("noLogin").style.display = "block";
+				document.getElementById("homeMenu").style.display = "none";
+				document.getElementById("dashboardMenu").style.display = "none";
+				document.getElementById("orderMenu").style.display = "none";
+				document.getElementById("userMenu").style.display = "none";
+				document.getElementById("mownerMenu").style.display = "none";
+				document.getElementById("listsiteMenu").style.display = "none";
+				document.getElementById("regionMenu").style.display = "none";
+				//document.getElementById("bankaccountMenu").style.display = "block";
+				document.getElementById("uploadsiteMenu").style.display = "none";
+				document.getElementById("profileMenu").style.display = "block";
+				document.getElementById("wishMenu").style.display = "block";
+				document.getElementById("cartMenu").style.display = "block";
+				document.getElementById("bookMenu").style.display = "block";
+				document.getElementById("loginMenu").style.display = "none";
+            }
+            //#endregion
+
+			$("#top-toggle").click(function () {
+				if ($("#navbarSupportedContent").hasClass('show')) {
+					$("#navbarSupportedContent").removeClass('show');
+					$("#top-toggle").attr("aria-expanded","false");
+					alert('Hide');
+				} else {
+					$("#navbarSupportedContent").addClass('show');
+					alert('Show');
+				}
+			});
+
+			//setInputFilter(document.getElementById("lowPrice"), function(value) {
+			//  return /^-?\d*[.,]?\d{0,2}$/.test(value); });
+			//setInputFilter(document.getElementById("hightPrice"), function(value) {
+			//  return /^-?\d*[.,]?\d{0,2}$/.test(value); });
+
+			$("#keranjang").click(function () {
+				$("#cartModal").modal('show');
+			});
+			$("#btnHideModal").click(function () {
+				$("#cartModal").modal('hide');
+			});
+			$("#booknow").click(function () {
+				$("#bookModal").modal('show');
+			});
+			$("#btnHideModalbook").click(function () {
+				$("#bookModal").modal('hide');
+			});
+			$("#filtered").click(function () {
+				$("#filterModal").modal('show');
+			});
+			$("#btnHideModalfilter").click(function () {
+				$("#filterModal").modal('hide');
+			});
+			$("#reportSite").click(function (data) {
+				$("#siteReport").text($("#siteDetail").text());
+				$("#reportModal").modal('show');
+			});
+			$("#btnHideModalreport").click(function () {
+				$("#reportModal").modal('hide');
+			});
+			$("#btnHideModalchange").click(function () {
+				$("#changeModal").modal('hide');
+			});
+
+			$('.optradio').change(function (e) {
+				var selectedValue = $(this).val();
+				$('#amtBayar').val(selectedValue);
+				$('#pamount').text(addCommas(selectedValue));
+			});
+			//#region ThousandSeparator
+			$('#Harga').keyup(function () {
+				setInputFilter(document.getElementById("Harga"), function (value) {
+					return /^[0-9.,]+$/.test(value);
+				});
+				var num = $('#Harga').val();
+				var comma = /,/g;
+				num = num.replace(comma, '');
+				$('#Hargax').val(num);
+				var numCommas = addCommas(num);
+				$('#Harga').val(numCommas);
+			});
+			//#endregion
+
+			FillBank();
+			FillType();
+			FillProvince();
+			$("#lstcity").append("<option value=''>Pilih Kota</option>");
+
+			if (document.getElementById("dtlPrice") != null) {
+				document.getElementById("dtlPrice").innerHTML = addCommas(document.getElementById("dtlPrice").innerHTML);
+			}
+
+			$("#example1").each(function () {
+				var price = $(this).find('.price');
+				price.each(function () {
+					var tag = $(this);
+					tag[0].innerHTML = addCommas(tag[0].innerHTML);
+				})
+				var cdate = $(this).find('.custom-date');
+				cdate.each(function () {
+					var tag = $(this);
+					if (tag[0].innerHTML != "") {
+						tag[0].innerHTML = formatDate(new Date(tag[0].innerHTML.toString()));
+					}
+				})
+			})
+
+			$('#example1').DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					'copy', 'csv', 'excel', 'pdf', 'print'
+				]
+			});
+
+			//#region Table
+			//#region ListSite
+			if (isFiltered == 'ADM' || isFiltered == 'MDO') {
+				$('#listSite').css('min-height','400');
+				$('#listSite').DataTable({
+					//dom: 'Bfrtip',
+					dom: 'lBfrtip',
+					buttons: [
+						//'copy', 'csv', 'excel', 'pdf', 'print'
+						'colvis',
+						{
+							extend: 'csv',
+							exportOptions: {
+								columns: ':visible'
+							}
+						},
+						{
+							extend: 'excel',
+							exportOptions: {
+								columns: ':visible'
+							}
+						},
+						{
+							extend: 'pdf',
+							exportOptions: {
+								columns: ':visible'
+							}
+						},
+						{
+							extend: 'print',
+							exportOptions: {
+								columns: ':visible'
+							}
+						}
+					],
+					sAjaxSource: "@Url.Action("lstSite", "Site")",
+					bServerSide: true,
+					bProcessing: true,
+					bSearchable: false,
+					pagingType: "full_numbers",
+					order: [[1, 'asc']],
+					lengthMenu: [[10, 50, 100, -1], [10, 50, 100, "All"]],
+					language: {
+						emptyTable: "No record found.",
+						processing:
+							'<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+					},
+					columns: [
+						{
+							data: 'noBillboard',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'alamat',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'kota',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'provinsi',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'pulau',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'cabang',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'tipe',
+							autoWidth: true,
+							searchable: true
+						}
+					],
+					columnDefs: [
+						{
+							targets: 7,
+							data: 'siteID',
+							render: function (data, type, row, meta) {
+								return '<a href="Site/IndexItem/' + data + '">Detail</a>';
+							}
+						},
+						{
+							targets: 8,
+							data: null,
+							render: function (data, type, row, meta) {
+								return '<a href="" onclick="Disabled(\'' + row.siteID + '\',\'' + row.status + '\',\'' + row.noBillboard + '\')">' + row.status + '</a> | <a href="Site/Update/' + row.siteID + '">Update</a> | <a href="" onclick="Delete(\'' + row.siteID + '\')">Delete</a>';
+							}
+						}
+					]
+				});
+			} else if (isFiltered == 'SPV') {
+				$('#listSite').css('min-height','400');
+				$('#listSite').DataTable({
+					//dom: 'Bfrtip',
+					dom: 'lBfrtip',
+					buttons: [
+						'copy', 'csv', 'excel', 'pdf', 'print'
+					],
+					sAjaxSource: "@Url.Action("lstSite", "Site")",
+					bServerSide: true,
+					bProcessing: true,
+					bSearchable: false,
+					pagingType: "full_numbers",
+					order: [[1, 'asc']],
+					lengthMenu: [[10, 50, 100, -1], [10, 50, 100, "All"]],
+					language: {
+						emptyTable: "No record found.",
+						processing:
+							'<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+					},
+					columns: [
+						{
+							data: 'noBillboard',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'alamat',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'kota',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'provinsi',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'pulau',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'cabang',
+							autoWidth: true,
+							searchable: true
+						},
+						{
+							data: 'tipe',
+							autoWidth: true,
+							searchable: true
+						}
+					]
+				});
+			}
+			//#endregion
+			//#endregion
+			$("#tdasboard").each(function () {
+				var price = $(this).find('.price');
+				price.each(function () {
+					var tag = $(this);
+					tag[0].innerHTML = addCommas(tag[0].innerHTML);
+				})
+				var cdate = $(this).find('.custom-date');
+				cdate.each(function () {
+					var tag = $(this);
+					if (tag[0].innerHTML != "") {
+						tag[0].innerHTML = formatDate(new Date(tag[0].innerHTML));
+					}
+				})
+			})
+
+			$('#tdasboard').DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					'copy', 'csv', 'excel', 'pdf', 'print'
+				],
+				autoWidth: false,
+				columnDefs: [
+					{ 'width': '80px', 'targets': 2 },
+					{ 'width': '80px', 'targets': 3 }
+				]
+			});
+
+			$("#tdasboard1").each(function () {
+				var price = $(this).find('.price');
+				price.each(function () {
+					var tag = $(this);
+					tag[0].innerHTML = addCommas(tag[0].innerHTML);
+				})
+				var cdate = $(this).find('.custom-date');
+				cdate.each(function () {
+					var tag = $(this);
+					if (tag[0].innerHTML != "") {
+						tag[0].innerHTML = formatDate(new Date(tag[0].innerHTML));
+					}
+				})
+			})
+
+			$('#tdasboard1').DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					'copy', 'csv', 'excel', 'pdf', 'print'
+				],
+				autoWidth: false,
+				columnDefs: [
+					{ 'width': '350px', 'targets': 4 }
+				]
+			});
+
+			$("#divlistlst").each(function () {
+				var price = $(this).find('.price');
+				price.each(function () {
+					var tag = $(this);
+					tag[0].innerHTML = addCommas(tag[0].innerHTML);
+				})
+			})
+
+			$("#divfilter").each(function () {
+				var price = $(this).find('.price');
+				price.each(function () {
+					var tag = $(this);
+					tag[0].innerHTML = addCommas(tag[0].innerHTML);
+				})
+			})
+
+			$("#divCompare").each(function () {
+				var price = $(this).find('.price');
+				price.each(function () {
+					var tag = $(this);
+					tag[0].innerHTML = addCommas(tag[0].innerHTML);
+				})
+			})
+
+			//#region UploadPage
+			$('#btnUpload').on('click', function () {
+				var fileExtension = ['xls', 'xlsx'];
+				var filename = $('#fUpload').val();
+				if (filename.length == 0) {
+					alert("Please select a file.");
+					return false;
+				}
+				else {
+					var extension = filename.replace(/^.*\./, '');
+					if ($.inArray(extension, fileExtension) == -1) {
+						alert("Please select only excel files.");
+						return false;
+					}
+					else if (!filename.includes("BillboardIndo_Site")) {
+						alert("Please upload BillboardIndo_Site Document.");
+						return false;
+					}
+				}
+				var fdata = new FormData();
+				var fileUpload = $("#fUpload")[0];
+				var files = fileUpload.files;
+				fdata.append(files[0].name, files[0]);
+				showLoader();
+				$.ajax({
+					type: "POST",
+					url: "@Url.Action("OnPostImport", "ExportImport")",
+					beforesend: function (xhr) {
+						xhr.setrequestheader("xsrf-token", $('input:hidden[name="__requestverificationtoken"]').val());
+					},
+					data: fdata,
+					contentType: false,
+					processData: false,
+					success: function (response) {
+						if (response.length == 0)
+						{
+							alert('Some error occured while uploading');
+						}
+						else
+						{
+							$('#dvData').html(response);
+						}
+						showPage();
+					},
+					error: function (e) {
+						//$('#dvData').html(e.responseText);
+						$('#dvData').html('Mohon check file input anda!' + e.responseText.toString());
+						showPage();
+					}
+				});
+			});
+            $('#btnUploadImage').on('click', function () {
+                var fileExtension = ['jpg', 'png', 'jpeg'];
+				var filename = $('#iUpload').val();
+                if (filename.length == 0) {
+                    alert("Please select a file.");
+                    return false;
+                }
+				else
+				{
+					var extension = filename.replace(/^.*\./, '');
+					if ($.inArray(extension, fileExtension) == -1) {
+						alert("Please select only image files.");
+						return false;
+					}
+                }
+                var fdata = new FormData();
+                var fileUpload = $("#iUpload")[0];
+				var files = fileUpload.files;
+				var newUrl = '@Url.Action("Index", "Site")';
+                fdata.append(files[0].name, files[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddImage", "Site")",//"/ExportImport?handler=Import",
+                    beforesend: function (xhr) {
+                        xhr.setrequestheader("xsrf-token",
+                            $('input:hidden[name="__requestverificationtoken"]').val());
+                    },
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        //alert(response);
+                        if (response.length == 0)
+                            alert('Some error occured while uploading');
+                        else {
+							alert('Success Uploaded');
+							window.location.href = newUrl;
+                        }
+                    },
+                    error: function (e) {
+						alert(e);
+                    }
+                });
+            })
+            $('#btnUpdateImage').on('click', function () {
+                var fileExtension = ['jpg', 'png', 'jpeg'];
+				var filename = $('#iUpdate').val();
+                if (filename.length == 0) {
+                    alert("Please select a file.");
+                    return false;
+                }
+				else
+				{
+					var extension = filename.replace(/^.*\./, '');
+					if ($.inArray(extension, fileExtension) == -1) {
+						alert("Please select only image files.");
+						return false;
+					}
+                }
+                var fdata = new FormData();
+				var fileUpload = $("#iUpdate")[0];
+				var files = fileUpload.files;
+				var newUrl = '@Url.Action("Index", "Site")';
+                fdata.append(files[0].name, files[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("UpdateI", "Site")",//"/ExportImport?handler=Import",
+                    beforesend: function (xhr) {
+                        xhr.setrequestheader("xsrf-token",
+                            $('input:hidden[name="__requestverificationtoken"]').val());
+                    },
+                    data: fdata,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        //alert(response);
+                        if (response.length == 0)
+                            alert('Some error occured while uploading');
+                        else {
+							alert('Success Updated');
+							window.location.href = newUrl;
+                        }
+                    },
+                    error: function (e) {
+						alert(e);
+                    }
+                });
+            })
+            //#endregion
+
+			document.getElementById("loading").style.display = "none";
+        })
+		$(document).on('click', '#backLink', function () {
+			history.go(-1);
+		})
+
+	</script>
+	@*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjrac-6MHc6-JNehr3r1lFBC-vqI_Wh88&callback=initAutocomplete&libraries=places" type="text/javascript"></script>*@
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjrac-6MHc6-JNehr3r1lFBC-vqI_Wh88&callback=initializeMap&libraries=places" type="text/javascript"></script>
+	@RenderSection("Scripts", required: false)
+</body>
+</html>

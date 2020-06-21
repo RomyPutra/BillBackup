@@ -1,0 +1,74 @@
+﻿@model Billboard360.Web.Models.CustomSiteDetailItemModel
+@{
+	ViewData["Title"] = "Tambah Item Site";
+}
+
+<div class="col-md-6 offset-md-3">
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<h3 class="card-label">Tambah Item Site</h3>
+			</div>
+		</div>
+
+		<form method="post" action="AddSiteItem">
+			<div class="card-body">
+				@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+				{
+					<div class="alert alert-danger" role="alert">
+						@Html.ValidationSummary(true, "Error when submitting.")
+					</div>
+				}
+
+				<input type="hidden" asp-for="SiteItemID">
+				<input type="hidden" asp-for="SitePriceID">
+
+				<div class="form-group">
+					<label>Kode Arah Lokasi</label>
+					<input type="text" class="form-control" asp-for="KodeLokasi" data-val="true" data-val-required="Kode Lokasi harus di isi"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="KodeArahLokasi" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Arah Lokasi</label>
+					<input type="text" class="form-control" asp-for="ArahLokasi" data-val="true" data-val-required="Arah Lokasi harus di isi"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="ArahLokasi" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Panjang</label>
+					<input type="text" class="form-control" asp-for="Panjang" data-val="true" data-val-required="Panjang harus di isi"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Panjang" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Lebar</label>
+					<input type="text" class="form-control" asp-for="Lebar" data-val="true" data-val-required="Lebar harus di isi"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Lebar" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Dasar</label>
+					<input type="text" class="form-control" asp-for="MinimDasar" data-val="true" data-val-required="Dasar Order harus di isi"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="MinimDasar" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Minimum Order</label>
+					<input type="text" class="form-control" asp-for="MinimOrder" data-val="true" data-val-required="Min Order harus di isi"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="MinimOrder" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Harga Awal</label>
+					<input type="text" class="form-control" asp-for="HargaAwal" data-val="true" data-val-required="Harga harus di isi"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="HargaAwal" data-valmsg-replace="true"></span>
+				</div>
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary mr-2" value="Simpan">
+				<button type="button" id="backLink" class="btn btn-secondary">Batal</button>
+			</div>
+		</form>
+	</div>
+</div>

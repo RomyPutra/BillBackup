@@ -1,0 +1,51 @@
+﻿@model Billboard360.Web.Models.EditProfile
+@{
+    ViewData["Title"] = "Update Profile";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Update Profile </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when updating.")
+			</div>
+		}
+		<form method="post" action="~/Profile/UpdateProfile">
+			<div style="margin:auto; width:80%" class="regis">
+				<div class="row" style="margin-left:5%;">
+					<input type="text" class="fadeIn second form-control" asp-for="input.FirstName" value="@Model.val.FirstName" placeholder="First Name" data-val="true" data-val-required="The first name is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.FistName" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn second form-control" asp-for="input.LastName" value="@Model.val.LastName" placeholder="Last Name" data-val="true" data-val-required="The last name is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.LastName" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn second form-control" asp-for="input.UserName" value="@Model.val.UserName" placeholder="user name" data-val="true" data-val-required="The user name is required" data-val-email="User name using email format.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.Username" data-valmsg-replace="true"></span>
+				</div>
+				@*<div class="row" style="border-bottom:double;"></div>*@
+				<div class="row" style="margin-left:5%;">
+					<input type="text" class="fadeIn third form-control" asp-for="input.NamaPerusahaan" value="@Model.val.NamaPerusahaan" placeholder="Company Name" data-val="true" data-val-required="The company name is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.NamaPerusahaan" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="input.EmailPerusahaan" value="@Model.val.EmailPerusahaan" placeholder="Company Email" data-val="true" data-val-required="The company email is required" data-val-email="Email format is wrong">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.EmailPerusahaan" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="input.NoTelp" value="@Model.val.NoTelp" placeholder="Company Phone" data-val="true" data-val-required="The company phone is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.NoTelp" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="input.Kategori" value="@Model.val.Kategori" placeholder="category" data-val="true" data-val-required="The category is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.Kategori" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="input.NPWP" value="@Model.val.NPWP" placeholder="NPWP" data-val="true" data-val-required="The NPWP is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.NPWP" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="input.Alamat" value="@Model.val.Alamat" placeholder="Company Address" data-val="true" data-val-required="The company address is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.Alamat" data-valmsg-replace="true"></span>
+					<input type="text" class="fadeIn third form-control" asp-for="input.Website" value="@Model.val.Website" placeholder="Website (Optional)">
+					<input type="text" class="fadeIn third form-control" asp-for="input.Catatan" value="@Model.val.Catatan" placeholder="Note (Optional)">
+				</div>
+				<input type="submit" class="fadeIn fourth" value="Submit">
+			</div>
+		</form>
+	</div>
+</div>
+

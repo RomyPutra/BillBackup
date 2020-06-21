@@ -1,0 +1,223 @@
+﻿@model List<Iklan.Models.ViewResultBookModel>
+@{
+	ViewData["Title"] = "Status Pesanan";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<script src="~/scripts/Booking/Index.js" asp-append-version="true"></script>
+<script>
+	function bookDetail(ID) {
+		var url = '@Url.Action("BookDetail", "Booking")?id=' + ID;
+		window.location.href = url;
+	}
+	function gotoHome() {
+		var url = '@Url.Action("Index", "Home")';
+		window.location.href = url;
+	}
+</script>
+<section class="gray">
+	<div class="container-fluid">
+		<div class="row">
+
+			<div class="col-lg-3 col-md-4 col-sm-12">
+				<div class="dashboard-navbar">
+
+					<div class="d-user-avater">
+						<img src="~/images/user.png" class="img-fluid avater" alt="">
+						<h4>@HttpContextAccessor.HttpContext.Session.GetString("_FNAME")</h4>
+					</div>
+
+					<div class="d-navigation">
+						<ul>
+							@*<li><a href="dashboard.html"><i class="ti-dashboard"></i>Dashboard</a></li>*@
+							<li><a asp-area="" asp-controller="Profile" asp-action="Update"><i class="ti-user"></i>Profil</a></li>
+							<li class="active"><a asp-area="" asp-controller="Booking" asp-action="Index"><i class="ti-layers"></i>Pesanan</a></li>
+							<li><a asp-area="" asp-controller="Wish" asp-action="Index"><i class="ti-heart"></i>Item Tersimpan</a></li>
+							<li><a asp-area="" asp-controller="Profile" asp-action="ChangePassword"><i class="ti-unlock"></i>Ganti Sandi</a></li>
+							<li><a asp-area="" asp-controller="Profile" asp-action="LogOut"><i class="ti-power-off"></i>Keluar</a></li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-lg-9 col-md-8 col-sm-12">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<div class="shorting-wrap">
+							<div class="shorting-right">
+								<label>Filter By:</label>
+								<div class="dropdown">
+									<a class="btn btn-filter dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span class="selection">Semua</span>
+									</a>
+									<div class="drp-select dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 32px, 0px); top: 0px; left: 0px; will-change: transform;">
+										<a class="dropdown-item" href="JavaScript:Void(0);">Semua</a>
+										<a class="dropdown-item" href="JavaScript:Void(0);">On Progress</a>
+										<a class="dropdown-item" href="JavaScript:Void(0);">Approve</a>
+										<a class="dropdown-item" href="JavaScript:Void(0);">Paid</a>
+										<a class="dropdown-item" href="JavaScript:Void(0);">Reject</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="dashboard-wrapers col-sm-12">
+						<div class="dashboard-gravity-list">
+							<h4>Status Pesanan</h4>
+							<ul>
+								@foreach (var list in Model)
+								{
+									@foreach (var detail in list.ListBookDetail)
+									{
+										@if (@detail.StatusPerItem == "Reject")
+										{
+											<li class="canceled-booking">
+												<div class="list-box-listing bookings">
+													<div class="list-box-listing-img">
+														@if (detail.Site.Item.Image.Count > 0)
+														{
+															<img src="@detail.Site.Item.Image[0].Image" alt="" style="width:140px;height:120px;" />
+														}
+														else
+														{
+															<img src="~/images/NoImage.jpg" alt="" style="width:140px;height:120px;" />
+														}
+													</div>
+													<div class="list-box-listing-content">
+														<div class="inner">
+															<h3><strong>@detail.Site.NoBillboard</strong> <span class="booking-status">Dibatalkan</span></h3>
+															<div class="inner-booking-list">
+																<h5>Nomor Pesanan:</h5>
+																<ul class="booking-list">
+																	<li class="highlighted"><i><strong>@list.BookNo</strong></i></li>
+																</ul>
+															</div>
+															<div class="inner-booking-list">
+																<h5>Tanggal Pesan:</h5>
+																<ul class="booking-list">
+																	<li class="highlighted"><span class="cust-date">@Html.DisplayFor(x => list.CreateDate)</span></li>
+																</ul>
+															</div>
+															<div class="inner-booking-list">
+																<h5>Harga:</h5>
+																<ul class="booking-list">
+																	<li class="highlighted">Rp. @detail.TotalHargaPerItem.ToString("#,##0.00"),-</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="buttons-to-right">
+													<a href="#" onclick="bookDetail('@list.BookID')" class="button gray approve"><i class="ti-layers"></i> Detail</a>
+												</div>
+											</li>
+										}
+										else if (@detail.StatusPerItem == "On Progress")
+										{
+											<li class="pending-booking">
+												<div class="list-box-listing bookings">
+													<div class="list-box-listing-img">
+														@if (detail.Site.Item.Image.Count > 0)
+														{
+															<img src="@detail.Site.Item.Image[0].Image" alt="" style="width:140px;height:120px;" />
+														}
+														else
+														{
+															<img src="~/images/NoImage.jpg" alt="" style="width:140px;height:120px;" />
+														}
+													</div>
+													<div class="list-box-listing-content">
+														<div class="inner">
+															<h3><strong>@detail.Site.NoBillboard</strong> <span class="booking-status pending">Tertunda</span><span class="booking-status unpaid">Belum Terbayar</span></h3>
+															<div class="inner-booking-list">
+																<h5>Nomor Pensanan:</h5>
+																<ul class="booking-list">
+																	<li class="highlighted"><i><strong>@list.BookNo</strong></i></li>
+																</ul>
+															</div>
+															<div class="inner-booking-list">
+																<h5>Tanggal Pesan:</h5>
+																<ul class="booking-list">
+																	<li class="highlighted"><span class="cust-date">@Html.DisplayFor(x => list.CreateDate)</span> <span class="cust-time">@list.CreateDate.ToString("MM/dd/yyyy HH:mm:ss")</span></li>
+																</ul>
+															</div>
+															<div class="inner-booking-list">
+																<h5>Harga:</h5>
+																<ul class="booking-list">
+																	<li class="highlighted">Rp. @detail.TotalHargaPerItem.ToString("#,##0.00"),-</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="buttons-to-right">
+													<a href="#" class="button gray reject"><i class="ti-close"></i> Batal</a>
+													<a href="#" onclick="bookDetail('@list.BookID')" class="button gray approve"><i class="ti-layers"></i> Detail</a>
+												</div>
+											</li>
+										}
+										else
+										{
+											<li class="approved-booking">
+												<div class="list-box-listing bookings">
+													<div class="list-box-listing-img">
+														@if (detail.Site.Item.Image.Count > 0)
+														{
+															<img src="@detail.Site.Item.Image[0].Image" alt="" style="width:140px;height:120px;" />
+														}
+														else
+														{
+															<img src="~/images/NoImage.jpg" alt="" style="width:140px;height:120px;" />
+														}
+													</div>
+													<div class="list-box-listing-content">
+														<div class="inner">
+															@if (@detail.StatusPerItem == "Approve")
+															{
+																<h3><strong>@detail.Site.NoBillboard</strong> <span class="booking-status">Approved</span><span class="booking-status unpaid">Belum Terbayar</span></h3>
+															}
+															else if (@detail.StatusPerItem == "Paid")
+															{
+																<h3><strong>@detail.Site.NoBillboard</strong> <span class="booking-status">Approved</span><span class="booking-status">Terbayar</span></h3>
+															}
+															<div class="inner-booking-list">
+																<h5>Nomor Pensanan:</h5>
+																<ul class="booking-list">
+																	<li class="highlighted"><i><strong>@list.BookNo</strong></i></li>
+																</ul>
+															</div>
+															<div class="inner-booking-list">
+																<h5>Tanggal Pesan:</h5>
+																<ul class="booking-list">
+																	<li class="highlighted">@list.CreateDate</li>
+																</ul>
+															</div>
+															<div class="inner-booking-list">
+																<h5>Harga:</h5>
+																<ul class="booking-list">
+																	<li class="highlighted">Rp. @detail.TotalHargaPerItem.ToString("#,##0.00"),-</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="buttons-to-right">
+													<a href="#" onclick="bookDetail('@list.BookID')" class="button gray approve"><i class="ti-layers"></i> Detail</a>
+												</div>
+											</li>
+										}
+									}
+								}
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>

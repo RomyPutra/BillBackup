@@ -1,0 +1,59 @@
+﻿
+a.paginate_button {
+  color: black!important;
+}
+a.paginate_button:hover {
+  color: black!important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  color: #fff!important;
+  background: none;
+  background-color: #f24e30!important;
+  border-color: #f24e30;
+  border-radius: 8px;
+  display: inline-block!important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover{
+  background: none!important;
+}
+
+button.dt-button.buttons-columnVisibility.active {
+  color: #fff!important;
+  background: none!important;
+  background-color: #f24e30!important;
+  border-color: #f24e30;
+  border-radius: 8px;
+  border-style: solid!important;
+  box-shadow: none!important;
+}
+
+button.dt-button.buttons-columnVisibility {
+  color: #f24e30!important;
+  background: none!important;
+  border-color: #f24e30;
+  border-radius: 8px;
+  border-style: solid!important;
+  box-shadow: none!important;
+}
+
+button.dt-button {
+  color: #f24e30!important;
+  background: none!important;
+  border-color: #f24e30;
+  border-radius: 8px;
+  border-style: solid!important;
+  box-shadow: none!important;
+}
+
+button.dt-button:hover {
+  color: #fff!important;
+  background: none!important;
+  background-color: #f24e30!important;
+  border-color: #f24e30!important;
+  border-radius: 8px;
+  border-style: solid!important;
+  box-shadow: none!important;
+}

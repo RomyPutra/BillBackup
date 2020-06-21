@@ -1,0 +1,30 @@
+﻿@model Billboard360.Web.Models.ProvinceOutputModel
+@{
+    ViewData["Title"] = "Update Provinsi";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Update Provinsi </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when updating.")
+			</div>
+		}
+		<form method="post" action="~/Province/UpdateProvince">
+			<input type="hidden" id="provinceID" name="provinceID" value="@Model.ProvinceID">
+			<input type="text" id="kode" class="fadeIn first form-control" name="kode" placeholder="Kode Provinsi" value="@Model.Kode" data-val="true" data-val-required="The province code is required" />
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="kode" data-valmsg-replace="true"></span>
+			<input type="text" id="nama" class="fadeIn second form-control" name="nama" placeholder="Nama Provinsi" value="@Model.Provinsi" data-val="true" data-val-required="The province name is required" />
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="nama" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Update">
+		</form>
+	</div>
+</div>
+
+

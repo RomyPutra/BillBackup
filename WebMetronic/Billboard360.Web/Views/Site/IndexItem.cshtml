@@ -1,0 +1,134 @@
+﻿@model List<Billboard360.Web.Models.CustomSiteDetailItemModel>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+	ViewData["Title"] = "Site Detail";
+}
+
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="card-label">Site Detail</h3>
+		</div>
+		<div class="card-toolbar">
+			<a class="btn btn-secondary font-weight-bolder" id="backLink">
+				<span class="svg-icon svg-icon-md">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<polygon points="0 0 24 0 24 24 0 24"/>
+							<path d="M6.70710678,15.7071068 C6.31658249,16.0976311 5.68341751,16.0976311 5.29289322,15.7071068 C4.90236893,15.3165825 4.90236893,14.6834175 5.29289322,14.2928932 L11.2928932,8.29289322 C11.6714722,7.91431428 12.2810586,7.90106866 12.6757246,8.26284586 L18.6757246,13.7628459 C19.0828436,14.1360383 19.1103465,14.7686056 18.7371541,15.1757246 C18.3639617,15.5828436 17.7313944,15.6103465 17.3242754,15.2371541 L12.0300757,10.3841378 L6.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 11.999999) scale(-1, 1) rotate(-270.000000) translate(-12.000003, -11.999999) "/>
+						</g>
+					</svg>
+				</span>	Kembali
+			</a>
+
+			<a class="btn btn-primary font-weight-bolder ml-3" asp-area="" asp-controller="Site" asp-action="CreateItem">
+				<span class="svg-icon svg-icon-md">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<circle fill="#000000" cx="9" cy="15" r="6" />
+							<path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+						</g>
+					</svg>
+				</span>	Tambah Item
+			</a>
+		</div>
+	</div>		
+
+	<div class="card-body">
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Terjadi kesalahan saat mendapatkan data.")
+			</div>
+		}
+
+		<!--begin: Datatable-->
+		<table id="example1" class="table table-bordered table-hover table-checkable" style="margin-top: 13px !important">
+			<thead>
+				<tr>
+					<th>Nama Item</th>
+					<th>Arah Lokasi</th>
+					<th>Panjang</th>
+					<th>Lebar</th>
+					<th>Min Order</th>
+					<th>Harga</th>
+					<th>Image</th>
+					@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+					{
+						<th>Lihat</th>
+						<th>Aksi</th>
+					}
+				</tr>
+			</thead>
+			<tbody>
+        @foreach (var item in Model)
+				{
+					<tr>
+						<td>@Html.DisplayFor(modelItem => item.ItemName)</td>
+						<td>@Html.DisplayFor(modelItem => item.ArahLokasi)</td>
+						<td>@Html.DisplayFor(modelItem => item.Panjang)</td>
+						<td>@Html.DisplayFor(modelItem => item.Lebar)</td>
+						<td>@Html.DisplayFor(modelItem => item.MinimDasar)</td>
+						<td class="price">@Html.DisplayFor(modelItem => item.HargaAwal)</td>
+						<td><img src="@item.Image" style="height: 75px;width: 75px;cursor:pointer;" onclick="imgDetail('@item.Image')" /></td>
+						@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+						{
+							<td><a class="btn btn-warning btn-sm" asp-controller="Site" asp-action="IndexImage" asp-route-id="@item.SiteItemID">Lihat Gambar</a></td>
+							<td><a class="btn btn-info btn-sm" href="#" onclick="updateDetail('@Url.Action("UpdateItem", "Site")', '@item.SiteItemID', '@item.SitePriceID')">Perbarui</a></td>
+						}
+					</tr>
+				}
+			</tbody>
+		</table>
+		<!--end: Datatable-->
+	</div>
+</div>
+
+<!-- page script -->
+<script>
+	function updateDetail(target, item, price) {
+		var url = target + "?itemid=" + item + "&priceid=" + price;
+		window.location.href = url;
+	}
+
+	function imgDetail(target) {
+		var dom = '@HttpContextAccessor.HttpContext.Session.GetString("_Domain")';
+		var BUrl = window.location.origin;
+		if (dom != "")
+		{
+			BUrl = BUrl.replace("/" + dom, "");
+		}
+		var url = BUrl + target;
+		window.location.href = url;
+	}
+
+    function Delete(id){
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "Site")',
+                data: {
+                    id: id
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+                        var baseUrl="/Site";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,45 @@
+﻿@model Billboard360.Web.Models.ProvinceOutputModel
+@{
+    ViewData["Title"] = "Perbarui Provinsi";
+}
+
+<div class="col-md-6 offset-md-3">
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<h3 class="card-label">Perbarui Provinsi</h3>
+			</div>
+		</div>
+
+		<form method="post" action="~/Province/UpdateProvince">
+			<div class="card-body">
+				@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+				{
+					<div class="alert alert-danger" role="alert">
+						@Html.ValidationSummary(true, "Terjadi kesalahan saat memperbarui.")
+					</div>
+				}
+
+				<input type="hidden" id="provinceID" name="provinceID" value="@Model.ProvinceID">
+
+				<div class="form-group">
+					<label>Kode Provinsi</label>
+					<input type="text" class="form-control" id="kode" name="kode" placeholder="Kode Provinsi" value="@Model.Kode" data-val="true" data-val-required="The province code is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="kode" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Nama Provinsi</label>
+					<input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Provinsi" value="@Model.Provinsi" data-val="true" data-val-required="The province name is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="nama" data-valmsg-replace="true"></span>
+				</div>
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary mr-2" value="Perbarui">
+				<button type="button" id="backLink" class="btn btn-secondary">Batal</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+

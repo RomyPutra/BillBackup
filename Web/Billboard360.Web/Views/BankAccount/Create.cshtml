@@ -1,0 +1,34 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Billboard360.Web.Models.AddBankAccountInputModel
+@{
+	ViewData["Title"] = "Add Bank Account";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Add Bank Account </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when submitting.")
+			</div>
+		}
+		<form method="post" action="AddBankAccount">
+			<input type="text" class="fadeIn first form-control" asp-for="AccountNumber" placeholder="Account Number" data-val="true" data-val-required="The Account number is required" data-val-regex="Valid input is numbers only" data-val-regex-pattern="^\d+$">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="AccountNumber" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="AccountName" placeholder="Account Name" data-val="true" data-val-required="The Account Name is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="AccountName" data-valmsg-replace="true"></span>
+			<select id="lstbank" class="selop fadeIn second" data-val="true" data-val-required="The Bank field is required." asp-for="BankID"></select>
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="BankID" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Submit">
+		</form>
+	</div>
+</div>
+
+

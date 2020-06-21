@@ -1,0 +1,48 @@
+﻿@model Iklan.Models.ForMaps
+
+@foreach (var item in Model.BillBoard)
+{
+    <div class="column4  @item.Tipe">
+        @if (item.Img != "-")
+        {
+            <img src="@item.Img" class="listimage" />
+        }
+        else
+        {
+            <img src="~/image/NoImage.jpg" class="listimage" />
+        }
+        <div class="detailprod">
+            <h3 class="pheader">@item.NoBillBoard</h3>
+            <p class="pdetail">Tipe    : @item.Tipe</p>
+            <p class="pdetail">Ukuran  : @item.Pjg X @item.Lbr Meter</p>
+            <p class="pdetail">H/V     : @item.HorV</p>
+            <p class="pdetail">Alamat  : @item.Alamat</p>
+        </div>
+        <div class="ml-auto" style="font-size: 12px;padding: 0 15px 0px 15px;text-align: right;height:20px;">
+            @{ int score = (int)Math.Round(item.RateScoreAvg); }
+            @for (int i = 0; i < 5; i++)
+            {
+                if (i < score)
+                {
+                    <span class="fa fa-star checked"></span>
+                }
+                else
+                {
+                    <span class="fa fa-star"></span>
+                }
+            }
+            <p style="display:inline-block;">(@item.RateScoreAvg)</p>
+        </div>
+        <div class="detailprice">
+            <p>Rp. <span class="price">@item.Hawl</span>,-</p>
+        </div>
+        <div class="detailbtn">
+            <button class="btn btn-tersier" style="font-size:1rem;height:35px;">
+                @*<span class="text-dark">View Detail</span>*@
+                <a asp-controller="Site" asp-action="ViewDetail" asp-route-id="@item.SiteID">
+                    <span class="text-white">View Detail</span>
+                </a>
+            </button>
+        </div>
+    </div>
+}

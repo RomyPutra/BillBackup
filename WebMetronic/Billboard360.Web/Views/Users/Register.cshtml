@@ -1,0 +1,105 @@
+﻿@model Billboard360.Web.Models.RegisterInputModel
+@{
+	ViewData["Title"] = "Tambah SPV";
+}
+
+<div class="col-md-6 offset-md-3">
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<h3 class="card-label">Tambah SPV</h3>
+			</div>
+		</div>
+
+		<form method="post" action="Regist">
+			<div class="card-body">
+				@Html.ValidationMessage("Error")
+
+				<input type="hidden" id="registype" name="registype" value="SPV">
+
+				<div class="form-group">
+					<label>Nama Depan</label>
+					<input type="text" class="form-control" asp-for="FirstName" placeholder="" data-val="true" data-val-required="The first name is required">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Nama Belakang</label>
+					<input type="text" class="form-control" asp-for="LastName" placeholder="" data-val="true" data-val-required="The last name is required">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Email Pengguna</label>
+					<input type="text" class="form-control" asp-for="Username" placeholder="" data-val="true" data-val-required="The user name is required" data-val-email="User name using email format.">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Username" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Kata Sandi</label>
+					<input type="password" class="form-control" asp-for="Password" placeholder="" data-val="true" data-val-required="The password is required">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Konfirmasi Kata Sandi</label>
+					<input type="password" class="form-control" id="conpassword" name="conpassword" placeholder="" data-val="true" data-val-required="The re-password is required">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="conpassword" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Nama Perusahaan</label>
+					<input type="text" class="form-control" asp-for="NamaPerusahaan" placeholder="" data-val="true" data-val-required="The company name is required">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="NamaPerusahaan" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Email Perusahaan</label>
+					<input type="text" class="form-control" asp-for="EmailPerusahaan" placeholder="" data-val="true" data-val-required="The company email is required" data-val-email="User name using email format."/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="EmailPerusahaan" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>No. Telepon Perusahaan</label>
+					<input type="text" class="form-control" asp-for="NoTelp" placeholder="" data-val="true" data-val-required="The company phone is required">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="NoTelp" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Kategori</label>
+					<input type="text" class="form-control" asp-for="Kategori" placeholder="" data-val="true" data-val-required="The category is required">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Kategori" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>NPWP</label>
+					<input type="text" class="form-control" asp-for="NPWP" placeholder="" data-val="true" data-val-required="The NPWP is required">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="NPWP" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Alamat Perusahaan</label>
+					<input type="text" class="form-control" asp-for="Alamat" placeholder="" data-val="true" data-val-required="The company address is required">
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="Alamat" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Website (Opsional)</label>
+					<input type="text" class="form-control" asp-for="Website" placeholder="">
+				</div>
+
+				<div class="form-group">
+					<label>Deskripsi (Opsional)</label>
+					<input type="text" class="form-control" asp-for="Catatan" placeholder="">
+				</div>
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary mr-2" value="Daftarkan">
+				<button type="button" id="backLink" class="btn btn-secondary">Batal</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+

@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Add Bank";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Add Bank </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when submitting.")
+			</div>
+		}
+		<form method="post" action="AddBank">
+			<input type="text" id="kode" class="fadeIn first form-control" name="kode" placeholder="kode" data-val="true" data-val-required="The bank code is required" />
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="kode" data-valmsg-replace="true"></span>
+			<input type="text" id="nama" class="fadeIn second form-control" name="nama" placeholder="nama bank" data-val="true" data-val-required="The bank name is required" />
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="nama" data-valmsg-replace="true"></span>
+			@*			<input type="hidden" id="logoBank" class="fadeIn third" name="logoBank" placeholder="logo bank">*@
+			<input type="submit" class="fadeIn fourth" value="Submit">
+		</form>
+	</div>
+</div>
+
+

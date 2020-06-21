@@ -1,0 +1,95 @@
+﻿@model List<Billboard360.Web.Models.ProvinceOutputModel>
+@{
+	ViewData["Title"] = "Data Provinsi";
+}
+
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="card-label">Data Provinsi</h3>
+		</div>
+		<div class="card-toolbar">
+			<!--begin::Button-->
+			<a class="btn btn-primary font-weight-bolder" asp-area="" asp-controller="Province" asp-action="Create">
+				<span class="svg-icon svg-icon-md">
+					<!--begin::Svg Icon | path:/metronic/themes/metronic/theme/html/demo2/dist/assets/media/svg/icons/Design/Flatten.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<circle fill="#000000" cx="9" cy="15" r="6" />
+							<path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+						</g>
+					</svg><!--end::Svg Icon-->
+				</span>	Tambah Provinsi
+			</a>
+			<!--end::Button-->
+		</div>
+	</div>		
+
+	<div class="card-body">
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Terjadi kesalahan saat mendapatkan data.")
+			</div>
+		}
+
+		<!--begin: Datatable-->
+		<table id="example1" class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
+			<thead>
+				<tr>
+					<th>Kode</th>
+					<th>Provinsi</th>
+					<th>Aksi</th>
+				</tr>
+			</thead>
+			<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>@Html.DisplayFor(modelItem => item.Kode)</td>
+					<td>@Html.DisplayFor(modelItem => item.Provinsi)</td>
+					<td><a href="Province/Update/@item.ProvinceID" class="btn btn-info btn-sm">Perbarui</a></td>
+				</tr>
+			}
+			</tbody>
+		</table>
+		<!--end: Datatable-->
+	</div>
+</div>
+<!-- DataTables -->
+@*<script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>*@
+@*<script src="~/js/jquery.dataTables.min.js"></script>
+<script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>*@
+<!-- page script -->
+<script>
+    //$(function () {
+    //    $('#example1').DataTable();
+    //});
+    function Delete(id){
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "Province")',
+                data: {
+                    id: id
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+                        var baseUrl="/Province";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,68 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Billboard360.Web.Models.RegisterInputModel
+@{
+	ViewData["Title"] = "Add SPV";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="regContent">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Add SPV </h2>
+		<!-- Login Form -->
+		@Html.ValidationMessage("Error")
+		<form method="post" action="Regist">
+			<div style="margin:auto; width:80%" class="regis">
+				<div class="row" style="margin-left:5%;">
+					<input type="hidden" id="registype" name="registype" value="SPV">
+					<label>First Name</label>
+					<input type="text" class="fadeIn second form-control" asp-for="FirstName" placeholder="" data-val="true" data-val-required="The first name is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="FistName" data-valmsg-replace="true"></span>
+					<label>Last Name</label>
+					<input type="text" class="fadeIn second form-control" asp-for="LastName" placeholder="" data-val="true" data-val-required="The last name is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+					<label>User Name</label>
+					<input type="text" class="fadeIn second form-control" asp-for="Username" placeholder="" data-val="true" data-val-required="The user name is required" data-val-email="User name using email format.">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Username" data-valmsg-replace="true"></span>
+					<label>Password</label>
+					<input type="password" class="fadeIn second form-control" asp-for="Password" placeholder="" data-val="true" data-val-required="The password is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+					<label>Confirm Password</label>
+					<input type="password" class="form-control" id="conpassword" class="fadeIn second" name="conpassword" placeholder="" data-val="true" data-val-required="The re-password is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="conpassword" data-valmsg-replace="true"></span>
+				</div>
+				@*<div class="row" style="border-bottom:double;"></div>*@
+			<div class="row" style="margin-left:5%;">
+				<label>Company Name</label>
+				<input type="text" class="fadeIn third form-control" asp-for="NamaPerusahaan" placeholder="" data-val="true" data-val-required="The company name is required">
+				<span style="display:block;" class="field-validation-valid" data-valmsg-for="NamaPerusahaan" data-valmsg-replace="true"></span>
+				<label>Company Email</label>
+				<input type="text" class="fadeIn third form-control" asp-for="EmailPerusahaan" placeholder="" data-val="true" data-val-required="The company email is required" data-val-email="Email format is wrong">
+				<span style="display:block;" class="field-validation-valid" data-valmsg-for="EmailPerusahaan" data-valmsg-replace="true"></span>
+				<label>Company Phone</label>
+				<input type="text" class="fadeIn third form-control" asp-for="NoTelp" placeholder="" data-val="true" data-val-required="The company phone is required">
+				<span style="display:block;" class="field-validation-valid" data-valmsg-for="NoTelp" data-valmsg-replace="true"></span>
+				<label>Category</label>
+				<input type="text" class="fadeIn third form-control" asp-for="Kategori" placeholder="" data-val="true" data-val-required="The category is required">
+				<span style="display:block;" class="field-validation-valid" data-valmsg-for="Kategori" data-valmsg-replace="true"></span>
+				<label style="width:55px;">NPWP</label>
+				<input type="text" class="fadeIn third form-control" asp-for="NPWP" placeholder="" data-val="true" data-val-required="The NPWP is required">
+				<span style="display:block;" class="field-validation-valid" data-valmsg-for="NPWP" data-valmsg-replace="true"></span>
+				<label>Company Address</label>
+				<input type="text" class="fadeIn third form-control" asp-for="Alamat" placeholder="" data-val="true" data-val-required="The company address is required">
+				<span style="display:block;" class="field-validation-valid" data-valmsg-for="Alamat" data-valmsg-replace="true"></span>
+				<label>Website (Optional)</label>
+				<input type="text" class="fadeIn third form-control" asp-for="Website" placeholder="">
+				<label>Note (Optional)</label>
+				<input type="text" class="fadeIn third form-control" asp-for="Catatan" placeholder="">
+			</div>
+				<input type="submit" class="fadeIn fourth" value="Register">
+			</div>
+		</form>
+	</div>
+</div>
+
+

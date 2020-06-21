@@ -1,0 +1,264 @@
+﻿
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Iklan.Models.SiteListResponseModel
+
+<div class="clearfix"></div>
+<!-- ============================================================== -->
+<!-- Top header  -->
+<!-- ============================================================== -->
+<!-- ============================ Hero Banner  Start================================== -->
+<div class="fs-container half-map">
+
+    <div class="fs-left-map-box">
+        <div class="home-map fl-wrap">
+            <div class="map-container fw-map">
+                <div id="map-main"></div>
+            </div>
+        </div>
+
+        <!-- Color Switcher -->
+        <div class="style-switcher">
+            <div class="css-trigger"><a href="#"><i class="ti-angle-double-right"></i></a></div>
+            <div>
+                <div class="map-side-search">
+                    <div class="map-side-search-wrap simple-light-form">
+
+                        <div class="filter-side">
+                            <h4>Filter</h4>
+                            <a href="#" class="theme-cl">Clear All</a>
+                        </div>
+
+                        <!-- Single Item -->
+                        <div class="form-group">
+                            <div class="input-with-icon">
+                                <input type="text" class="form-control" placeholder="Keyword...">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Hotel Type</label>
+                            <div class="input-simle">
+                                <select id="hotel-type" class="form-control">
+                                    <option value="">&nbsp;</option>
+                                    <option value="1">Los Angeles, CA</option>
+                                    <option value="2">New York City, NY</option>
+                                    <option value="3">Chicago, IL</option>
+                                    <option value="4">Houston, TX</option>
+                                    <option value="5">Philadelphia, PA</option>
+                                    <option value="6">San Antonio, TX</option>
+                                    <option value="7">San Jose, CA</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Single Item -->
+                        <div class="form-group">
+                            <label>Date</label>
+                            <div class="row">
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group mb-0">
+                                        <input type="text" class="form-control" name="checkin" placeholder="Check In" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group mb-0">
+                                        <input type="text" class="form-control" name="checkout" placeholder="Check Out" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Single Item -->
+                        <div class="form-group">
+                            <label>No. Of Rooms</label>
+                            <div class="input-simle">
+                                <select id="rooms" class="form-control">
+                                    <option value="">&nbsp;</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Single Item -->
+                        <div class="form-group">
+                            <label>Members</label>
+                            <div class="row">
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="input-simle">
+                                        <select id="m-adults" class="form-control">
+                                            <option value="">&nbsp;</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="input-simle">
+                                        <select id="m-child" class="form-control">
+                                            <option value="">&nbsp;</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Single Item -->
+                        <div class="form-group">
+                            <label>Rating</label>
+
+                        </div>
+
+                        <!-- Single Item -->
+                        <div class="form-group">
+                            <label>Price Range</label>
+                            <div class="distance-title">around selected destination <span class="theme-cl"></span> km</div>
+                            <input class="distance-radius rangeslider--horizontal" type="range" min="1" max="100" step="1" value="1" data-title="Radius around selected destination">
+                        </div>
+
+                        <!-- Single Item -->
+                        <div class="form-group">
+                            <label>Language</label>
+                            <div class="input-simle">
+                                <select id="s-language" class="form-control">
+                                    <option value="">&nbsp;</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Single Item -->
+                        <div class="form-group">
+                            <label>Amenties</label>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Color Switcher -->
+
+    </div>
+
+    <div class="fs-inner-container">
+        <div class="fs-content">
+
+            
+
+            <!--- All List -->
+            <div class="row">
+
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="shorting-wrap">
+                        @*<h5 class="shorting-title">507 Results</h5>*@
+                        <div class="shorting-right">
+                            <label>Short By:</label>
+                            <div class="dropdown show">
+                                <a class="btn btn-filter dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="selection">Most Rated</span>
+                                </a>
+                                <div class="drp-select dropdown-menu">
+                                    <a class="dropdown-item" href="JavaScript:Void(0);">Most Rated</a>
+                                    <a class="dropdown-item" href="JavaScript:Void(0);">Most Viewd</a>
+                                    <a class="dropdown-item" href="JavaScript:Void(0);">News Listings</a>
+                                    <a class="dropdown-item" href="JavaScript:Void(0);">High Rated</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row m-0">
+
+                @foreach (var item in Model.data)
+                {
+                    <!-- Single Tour Place -->
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="tour-simple-wrap style-3">
+                            <span class="onsale-section"><span class="onsale">@item.Status</span></span>
+                            <div class="tour-simple-thumb">
+                                <a asp-area="" asp-controller="MediaBuyer" asp-action="ViewDetail" asp-route-id="@item.SiteID"><img src="@item.ImageHeader" class="img-fluid img-responsive" alt="" /></a>
+                            </div>
+                            <div class="tour-simple-caption">
+                                <div class="ts-caption-lation">
+                                    <div class="ovrall-rating">
+                                        <span>@item.Tipe</span>  &nbsp;  <span class="dimensionLabel">@item.SiteItem.FirstOrDefault().Panjang x @item.SiteItem.FirstOrDefault().Lebar M </span>
+                                    </div>
+                                    <p class="ts-title"><a asp-area="" asp-controller="MediaBuyer" asp-action="ViewDetail" asp-route-id="@item.SiteID">@item.Alamat</a></p>
+                                    <p class="ts-title"><a asp-area="" asp-controller="MediaBuyer" asp-action="ViewDetail" asp-route-id="@item.SiteID">@item.Kota, @item.Provinsi</a></p>
+                                    <h5 class="ts-price theme-cl">Rp. @item.HargaPerhari.ToString("#,##0.00") /Hari</h5>
+                                    <div class="ovrall-rating">
+                                        <span>Minimal Order: @item.MinimOrder @item.MinimDasar</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tour-simple-footer">
+                                <ul>
+                                    <li><i class="ti-eye"></i>@item.TotalView View</li>
+                                    <li  style="flex:100;text-align:right;"><i class="ti-location-pin"></i>@item.Kota</li>
+                                </ul>
+                                <button id="viewdetail" class="btn btn-primary pull-right" style="width:100%;">View Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<script src="~/assets/js/cl-switch.js"></script>
+
+<!-- Map -->
+<script src="https://maps.google.com/maps/api/js"></script>
+<script src="~/assets/js/map_infobox.js"></script>
+<script src="~/assets/js/markerclusterer.js"></script>
+<script src="~/assets/js/map.js"></script>
+<!-- ============================================================== -->
+<!-- This page plugins -->
+<!-- ============================================================== -->

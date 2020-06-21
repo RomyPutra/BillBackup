@@ -1,0 +1,303 @@
+﻿
+@{
+    ViewData["Title"] = "ViewDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Iklan.Models.SiteDetailResponseModel
+@*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjrac-6MHc6-JNehr3r1lFBC-vqI_Wh88"></script>*@
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyDjrac-6MHc6-JNehr3r1lFBC-vqI_Wh88"></script>
+<script>
+    var urlAddToCart = '@Url.Action("AddtoCart", "MediaBuyer")';
+    var urlAddtoBook = '@Url.Action("AddtoBookNew", "Booking")';
+</script>
+<script src="~/scripts/MediaBuyer/ViewDetail.js" asp-append-version="true"></script>
+
+
+<section class="spd-wrap">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-12 col-md-12">
+
+                <div class="slide-property-detail">
+
+                    <div class="slide-property-first">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8" style="margin-left:40px;">
+                                <div class="row">
+                                    <input type="hidden" id="LatitudeH" value="@Model.data.Detail.Latitude" />
+                                    <input type="hidden" id="longitudeH" value="@Model.data.Detail.Longitude" />
+                                    <input type="hidden" id="SiteIDH" value="@Model.data.Detail.SiteID" />
+                                    <input type="hidden" id="SitePriceIDH" value="@Model.data.Item.FirstOrDefault().Price.FirstOrDefault().SitePriceID" />
+
+                                    <input type="hidden" id="SiteItemIDH" value="@Model.data.Item.FirstOrDefault().SiteItemID" />
+                                    <input type="hidden" id="HargaAwalH" value="@Model.data.Item.FirstOrDefault().Price.FirstOrDefault().HargaAwal" />
+
+                                    <!-- Single Items -->
+                                    <div class="col-xs-6 col-lg-3 col-md-6">
+                                        <div class="singles_item">
+                                            <div class="icon">
+                                                <i class="icofont-eye"></i>
+                                            </div>
+                                            <div class="info">
+                                                <h4 class="name">View(s)</h4>
+                                                <p class="value">@Model.data.Detail.TotalView</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Single Items -->
+                                    <div class="col-xs-6 col-lg-3 col-md-6">
+                                        <div class="singles_item">
+                                            <div class="icon">
+                                                <i class="icofont-billboard"></i>
+                                            </div>
+                                            <div class="info">
+                                                <h4 class="name">Type</h4>
+                                                <p class="value">@Model.data.Detail.Tipe</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Single Items -->
+                                    <div class="col-xs-6 col-lg-3 col-md-6" style="max-width:100%;flex:100;">
+                                        <div class="singles_item">
+                                            <div class="icon">
+                                                <i class="icofont-location-pin"></i>
+                                            </div>
+                                            <div class="info">
+                                                <h4 class="name">@Model.data.Detail.Alamat</h4>
+                                                <p class="value">@Model.data.Detail.Kota, @Model.data.Detail.Provinsi</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ============================ Hero Banner End ================================== -->
+<!-- ============================ Property Detail Start ================================== -->
+<section class="gray pt-5">
+    <div class="container">
+        <div class="row">
+
+            <!-- property main detail -->
+            <div class="col-lg-8 col-md-12 col-sm-12 order-lg-1 order-md-2 order-2">
+
+                <div class="block-wrap">
+
+                    <div class="block-body">
+                        <div id="owl-demo" class="owl-carousel owl-theme">
+                            @if (Model.data.Item.FirstOrDefault().Image != null)
+                            {
+                                @foreach (var img in Model.data.Item.FirstOrDefault().Image)
+                                {
+                                    <div><a href="@img.Image" class="mfp-gallery "><img src="@img.Image" class=" img-responsive" alt="" /></a></div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Block Wrap -->
+                <div class="block-wrap">
+
+                    <div class="block-header">
+                        <h4 class="block-title">Details</h4>
+                    </div>
+
+                    <div class="block-body">
+                        @if (Model.data != null)
+                        {
+
+                            <div class="col-md-12">
+
+                                <div style="display: flex;flex-wrap: nowrap;">
+                                    <div style="border: 1px solid #e7eff9; padding: 10px; text-align: center; width: 20%;">
+                                        @if (Model.data.Item.Count > 0)
+                                        {
+                                            <p style="margin-bottom:5px;">Ukuran</p>
+                                            <p style="margin-bottom:0px;"><b>@Model.data.Item[0].Panjang X @Model.data.Item[0].Lebar Meter</b></p>
+                                        }
+                                        else
+                                        {
+                                            <p style="margin-bottom:5px;">Ukuran</p>
+                                            <p style="margin-bottom:0px;"><b>0 Meter</b></p>
+                                        }
+                                    </div>
+                                    <div style="border: 1px solid #e7eff9; padding: 10px; text-align: center; width: 20%;">
+                                        <p style="margin-bottom:5px;">Bentuk</p>
+                                        <p style="margin-bottom:0px;" id="HorV"><b>@Model.data.Detail.HorV</b></p>
+                                    </div>
+                                    <div style="border: 1px solid #e7eff9; padding: 10px; text-align: center; width: 20%;">
+                                        <p style="margin-bottom:5px;">Tipe</p>
+                                        <p style="margin-bottom:0px;" id="tipe"><b>@Model.data.Detail.Tipe</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+
+                <!-- Single Block Wrap -->
+                <div class="block-wrap">
+
+                    <div class="block-header">
+                        <h4 class="block-title">Maps</h4>
+                    </div>
+
+                    <div class="home-map fl-wrap">
+                        <div class="map-container fw-map">
+                            <div id="map-main"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- property Sidebar -->
+            <div class="col-lg-4 col-md-12 col-sm-12 order-lg-2 order-md-1 order-1">
+
+                <div class="side-booking-wraps ">
+                    <div class="side-booking-wrap hotel-booking">
+
+                        <div class="side-booking-header light">
+                            <div class="author-with-rate">
+                                <div class="head-author">
+                                    <h5 id="alamat">@Model.data.Detail.Alamat</h5>
+                                    <span id="kota"><i class="ti-location-pin"></i>@Model.data.Detail.Kota, @Model.data.Detail.Provinsi</span>
+                                </div>
+                                <div class="head-ratting">
+                                    @*<div class="ht-star">
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star filled"></i>
+                                            <i class="fa fa-star"></i>
+                                            <span>102 Reviews</span>
+                                        </div>*@
+                                    <h4 class="head-list-titleup">@Model.data.Detail.Tipe</h4>
+                                    <h4 class="head-list-titleup">@Model.data.Detail.NoBillboard</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="side-booking-body">
+                            <!-- Single Row Booking -->
+                            <div class="single-row-booking">
+                                <input type="hidden" id="imgH" value="@Model.data.Detail.ImageHeader" />
+                                @if (Model.data.Item.FirstOrDefault().Price.Count > 0)
+                                {
+                                    <input type="hidden" id="priceH" value="@Model.data.Item.FirstOrDefault().Price.FirstOrDefault().HargaAwal.ToString("#,##0")" />
+                                    <span class="onsale-section"><span class="onsale" style="max-width:185px;width:100%;">Rp. @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().HargaAwal.ToString("#,##0.00")<small>per @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().MinimDasar</small></span></span>
+
+                                }
+                                else
+                                {
+                                    <span class="onsale-section"><span class="onsale" style="max-width:185px;width:100%;">Rp. 0</span></span>
+
+                                    <input type="hidden" id="priceH" value="0" />
+                                }
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 small-spilx">
+                                        @if (Model.data.Item.FirstOrDefault().Price.Count > 0)
+                                        {
+                                            <h4 class="booking-title">Minimal @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().MinimOrder @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().MinimDasar</h4>
+
+                                        }
+
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12 small-spilx">
+                                        <div class="form-group">
+                                            <div class="guests">
+                                                <div class="advance-bboking">
+
+                                                    <div class="guest-type">
+                                                        <h5>Start Date</h5>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="cld-box">
+                                                            <i class="ti-calendar"></i>
+                                                            <input type="text" name="startdate" id="startdate" class="form-control" value="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 small-spilx brl">
+                                        <div class="form-group">
+                                            <div class="guests">
+                                                <div class="advance-bboking">
+
+                                                    <div class="guest-type">
+                                                        <h5>End Date</h5>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="cld-box">
+                                                            <i class="ti-calendar"></i>
+                                                            <input type="text" name="enddate" id="enddate" class="form-control" value="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Single Row Booking -->
+
+                        </div>
+
+                        <div class="side-booking-footer light">
+                            <div class="stbooking-footer-top">
+                                <div class="stbooking-left">
+                                    <h5 class="st-subtitle">Duration</h5>
+                                </div>
+                                <h4 class="stbooking-title"><span id="totDuration" style="font-size: 17px;font-weight: 700;">0 </span><span id="totDuration" style="font-size: 17px;font-weight: 700;"> @Model.data.Item.FirstOrDefault().Price.FirstOrDefault().MinimDasar</span></h4>
+                            </div>
+                            <div class="stbooking-footer-top">
+                                <div class="stbooking-left">
+                                    <h5 class="st-subtitle">Total Amount</h5>
+                                </div>
+                                <h4 class="stbooking-title"><span id="totAmt" style="font-size: 17px;font-weight: 700;">Rp 0</span></h4>
+                            </div>
+                            <div class="stbooking-footer-bottom">
+                                @if (Model.isLogin == true)
+                                {
+                                    <a onclick="addToCartClicked()" class="books-btn btn-theme">Add Cart</a>
+                                    <a onclick="bookingNowClicked()" class="books-btn black">Booking Now</a>
+                                }
+                                else
+                                {
+                                    <a href="#" data-toggle="modal" data-target="#login" class="books-btn btn-theme">Add Cart</a>
+                                    <a href="#" data-toggle="modal" data-target="#login" class="books-btn black">Booking Now</a>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map -->
+@*<script src="https://maps.google.com/maps/api/js"></script>
+    <script src="~/assets/js/map_infobox.js"></script>
+    <script src="~/assets/js/markerclusterer.js"></script>
+    <script src="~/assets/js/map.js"></script>*@
+

@@ -1,0 +1,443 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>IKLAN</title>
+
+    <!-- All Plugins Css -->
+    <link rel="stylesheet" href="~/assets/css/plugins.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/assets/css/nav.css" asp-append-version="true" />
+
+    <!-- Custom CSS -->
+    <link href="~/assets/css/styles.css" rel="stylesheet" asp-append-version="true">
+    @*<link href="~/css/custom.css" rel="stylesheet" asp-append-version="true">*@
+
+    <!-- Custom Color Option -->
+    <link href="~/assets/css/colors.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assets/css/owl.carousel.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/assets/css/owl.theme.default.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/bootstrap-xl.css" rel="stylesheet" asp-append-version="true" />
+</head>
+
+<body class="orange-skin">
+
+    <script type="text/javascript">
+        var urlGetBillBoardType = '@Url.Action("GetBillBoardType", "Base")';
+        var urlGetCity = '@Url.Action("GetCity", "Base")';
+        var urlLogin = '@Url.Action("Login","Login")';
+        var urlSearchBar = '@Url.Action("SearchMedia","MediaBuyer")';
+    </script>
+
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div id="preloader"><div class="preloader"><span></span><span></span></div></div>
+
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+        <!-- Start Navigation -->
+
+        <div class="header header-light nav-left-side">
+            <nav class="headnavbar">
+                <div class="nav-header">
+                    <a href="@Url.Action("Index","Home")" class="brand"><img src="~/images/logo.png" alt="" /></a>
+                    <button class="toggle-bar"><span class="ti-align-justify"></span></button>
+                </div>
+                <ul class="menu">
+                    <li>
+                        <section class="banner-form-search">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12">
+                                        <form class="st-search-form-tour icon-frm withlbl">
+                                            <div class="g-field-search">
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-4 border-right mxnbr">
+                                                        <div class="form-group">
+                                                            @*<i class="ti-location-pin field-icon"></i>*@
+                                                            <label>Lokasi</label>
+                                                            <input id="location" type="text" class="form-control font-filter" placeholder="Cari Lokasi?" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-4 border-right mxnbr">
+                                                        <div class="form-group">
+
+                                                            <label>Tanggal</label>
+                                                            <input type="text" class="form-control font-filter check-in-out" id="dateFilter" name="dates" placeholder="Mulai - Sampai" value="" autocomplete="off" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2 col-md-4 border-right mxnbr" style="padding-right: 0px;">
+                                                        <div class="form-group">
+                                                            @*<i class="ti-calendar field-icon"></i>*@
+                                                            <label>Tipe Billboard</label>
+                                                            <select id="tour-category" class="form-control font-filter searh-dropdown">
+                                                                <option value="">&nbsp;</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-2 col-md-4 border-right mxnbr">
+                                                        <div class="form-group">
+                                                            @*<i class="ti-calendar field-icon"></i>*@
+                                                            <label>Kota</label>
+                                                            <select id="choose-city" class="form-control font-filter">
+                                                                <option value="">&nbsp;</option>
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-2 col-md-12 p-0">
+                                                        <div class="form-group search">
+                                                            <button onclick="searchBarAction(); return false;" class="btn btn-theme btn-search search-btn-custom" type="submit">Cari</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </li>
+                </ul>
+
+                <ul class="attributes">
+                    <li id="signin"><a href="#" data-toggle="modal" data-target="#login">Masuk</a></li>
+                    <li id="signup"><a asp-area="" asp-controller="Login" asp-action="Register">Daftar</a></li>
+                    <li id="bookMenu" title="Daftar Pesanan">
+                        <a class="nav-link txt-black" asp-area="" asp-controller="Booking" asp-action="Index">
+                            <i class="ti-bookmark-alt" style="font-size:20px;"></i>
+                        </a>
+                    </li>
+                    <li id="cartMenu" title="Keranjang">
+                        <a class="nav-link txt-black" asp-area="" asp-controller="Wish" asp-action="Keranjang">
+                            <i class="ti-shopping-cart-full" style="font-size:20px;"></i>
+                        </a>
+                    </li>
+                    <li id="wishMenu" title="Item Tersimpan">
+                        <a class="nav-link txt-black" asp-area="" asp-controller="Wish" asp-action="Index">
+                            <i class="ti-heart" style="font-size:20px;"></i>
+                        </a>
+                    </li>
+                    <li id="profileMenu" class="login-attri" style="display:none;">
+                        <div class="btn-group account-drop">
+                            <button type="button" class="btn btn-order-by-filt theme-cl" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="~/images/user.png" class="profile-image img-circle" style="width:25px"> @HttpContextAccessor.HttpContext.Session.GetString("_FNAME") <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-menu p-0 dm-lg pull-right animated flipInX">
+                                <a id="addspv" style="display:none;" class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="Register">Tambah Supervisor</a>
+                                <a class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="Update">Sunting Profil</a>
+                                <a class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="ChangePassword">Ganti Sandi</a>
+                                <a class="nav-link txt-grey" asp-area="" asp-controller="Profile" asp-action="LogOut">Keluar</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+        <!-- End Navigation -->
+        <!-- Sign In Modal -->
+        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Log In</h5>
+                        <span class="mod-close" data-dismiss="modal"><i class="ti-close"></i></span>
+                    </div>
+                    <div class="modal-body icon-form">
+                        <div class="login-form">
+                            <form role="form" id="loginModalForm">
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <div class="input-with-icon">
+                                        <input type="email" class="form-control" id="username" name="username" placeholder="Username" required />
+                                        @*<input type="email" class="form-control" id="username" name="username" placeholder="Username" data-val="true" data-val-required="The user name is required" data-val-email="The format is wrong" value="">*@
+                                        @*<input type="text" class="form-control" placeholder="Username">*@
+                                        <i class="ti-user"></i>
+                                        @*<span style="display:block;" class="field-validation-valid" data-valmsg-for="username" data-valmsg-replace="true"></span>*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Sandi</label>
+                                    <div class="input-with-icon">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="*******" required />
+                                        @*<input type="password" class="form-control" id="password" name="password" placeholder="*******" data-val="true" data-val-required="The password is required" value="">*@
+                                        @*<input type="password" class="form-control" placeholder="*******">*@
+                                        <i class="ti-unlock"></i>
+                                        @*<span style="display: block;" class="field-validation-valid" data-valmsg-for="password" data-valmsg-replace="true"></span>*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-md full-width pop-login" onclick="loginBuyer(); return false;">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                        @*<div class="modal-divider"><span>Or login via</span></div>
+                            <div class="social-login mb-3">
+                                <ul>
+                                    <li><a href="#" class="btn connect-fb"><i class="ti-facebook"></i>Facebook</a></li>
+                                    <li><a href="#" class="btn connect-google"><i class="ti-google"></i>Google</a></li>
+                                    <li><a href="#" class="btn connect-twitter"><i class="ti-twitter"></i>Twitter</a></li>
+                                </ul>
+                            </div>*@
+                        <div class="text-center">
+                            <p class="mt-3"><a asp-area="" asp-controller="Login" asp-action="Forgot" class="link">Lupa sandi?</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+        <!-- Sign Up Modal -->
+        <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Create An Account</h5>
+                        <span class="mod-close" data-dismiss="modal"><i class="ti-close"></i></span>
+                    </div>
+                    <div class="modal-body icon-form">
+                        <div class="login-form">
+                            <form>
+
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <div class="input-with-icon">
+                                        <input type="text" class="form-control" placeholder="Full Name">
+                                        <i class="ti-user"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Email ID</label>
+                                    <div class="input-with-icon">
+                                        <input type="text" class="form-control" placeholder="Email ID">
+                                        <i class="ti-email"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <div class="input-with-icon">
+                                        <input type="text" class="form-control" placeholder="Username">
+                                        <i class="ti-user"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Sandi</label>
+                                    <div class="input-with-icon">
+                                        <input type="password" class="form-control" placeholder="*******">
+                                        <i class="ti-unlock"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-md full-width pop-login">Register</button>
+                                </div>
+
+                            </form>
+                        </div>
+                        @*<div class="modal-divider"><span>Or login via</span></div>
+                            <div class="social-login mb-3">
+                                <ul>
+                                    <li><a href="#" class="btn connect-fb"><i class="ti-facebook"></i>Facebook</a></li>
+                                    <li><a href="#" class="btn connect-google"><i class="ti-google"></i>Google</a></li>
+                                    <li><a href="#" class="btn connect-twitter"><i class="ti-twitter"></i>Twitter</a></li>
+                                </ul>
+                            </div>*@
+                        <div class="text-center">
+                            <p class="mt-3">Already Have an Account? <a href="#" class="link">Login</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+        <!-- Video Modal -->
+        @*<div class="modal fade" id="popup-video" tabindex="-1" role="dialog" aria-labelledby="popup-video" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <iframe class="embed-responsive-item" width="100%" height="480" src="https://www.youtube.com/embed/qN3OueBm9F4?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>*@
+        <!-- End Video Modal -->
+
+        <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+
+
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/assets/js/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/assets/js/circleMagic.min.js" asp-append-version="true"></script>
+    <script src="~/assets/js/popper.min.js" asp-append-version="true"></script>
+    <script src="~/assets/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/assets/js/rangeslider.js" asp-append-version="true"></script>
+    <script src="~/assets/js/select2.full.js" asp-append-version="true"></script>
+    <script src="~/assets/js/select2.min.js" asp-append-version="true"></script>
+
+    <script src="~/assets/js/aos.js" asp-append-version="true"></script>
+
+    <script src="~/assets/js/jquery.magnific-popup.min.js" asp-append-version="true"></script>
+    <script src="~/assets/js/slick.js" asp-append-version="true"></script>
+    <script src="~/assets/js/slider-bg.js" asp-append-version="true"></script>
+    <script src="~/assets/js/lightbox.js" asp-append-version="true"></script>
+    <script src="~/assets/js/imagesloaded.js" asp-append-version="true"></script>
+    <script src="~/assets/js/isotope.min.js" asp-append-version="true"></script>
+    <script src="~/assets/js/coreNavigation.js" asp-append-version="true"></script>
+    <script src="~/assets/js/custom.js" asp-append-version="true"></script>
+    <script src="~/scripts/Layout.js" asp-append-version="true"></script>
+    <script src="~/assets/js/owl.carousel.min.js" asp-append-version="true"></script>
+    <script src="~/assets/js/date.js" asp-append-version="true"></script>
+    <script src="~/assets/js/time.js" asp-append-version="true"></script>
+
+    @*sweetalert*@
+    <script type="text/javascript" src="~/lib/sweetalert/js/sweetalert2.all.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/lib/sweetalert/js/sweetalert2.all.min.js" asp-append-version="true"></script>
+    <link rel="stylesheet" type="text/css" href="~/lib/sweetalert/css/sweetalert2.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/lib/sweetalert/css/sweetalert2.min.css" asp-append-version="true" />
+    @using Microsoft.AspNetCore.Http
+    @inject IHttpContextAccessor HttpContextAccessor
+    <script>
+        var isFiltered = '@HttpContextAccessor.HttpContext.Session.GetString("_ROLE")';
+    </script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!-- Date Booking Script -->
+    <script src="~/assets/js/moment.min.js"></script>
+    <script src="~/assets/js/daterangepicker.js"></script>
+    <div class="container body-content">
+        <div>
+            @RenderBody()
+        </div>
+
+
+
+
+    </div>
+
+
+    <footer class="light-footer skin-light-footer">
+        <div>
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-3">
+                        <div class="footer-widget">
+                            <img src="~/images/logo.png" alt="" class="img-footer" />
+                            <div class="footer-add">
+                                <p><strong>Email:</strong></br><a href="#">hello@workstock.com</a></p>
+                                <p><strong>Call:</strong></br>91 855 742 62548</p>
+                                <ul class="footer-bottom-social mt-2">
+                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ti-twitter"></i></a></li>
+                                    <li><a href="#"><i class="ti-instagram"></i></a></li>
+                                    <li><a href="#"><i class="ti-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                        <div class="footer-widget">
+                            <h4 class="widget-title">Navigations</h4>
+                            <ul class="footer-menu">
+                                <li><a href="video.html">Video Home Page</a></li>
+                                <li><a href="#">Browse Candidates</a></li>
+                                <li><a href="#">Browse Employers</a></li>
+                                <li><a href="#">Advance Search</a></li>
+                                <li><a href="#">Job With Map</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-3">
+                        <div class="footer-widget">
+                            <h4 class="widget-title">The Highlights</h4>
+                            <ul class="footer-menu">
+                                <li><a href="#">Home Page 2</a></li>
+                                <li><a href="#">Home Page 3</a></li>
+                                <li><a href="#">Home Page 4</a></li>
+                                <li><a href="#">Home Page 5</a></li>
+                                <li><a href="#">LogIn</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-3">
+                        <div class="footer-widget">
+                            <h4 class="widget-title">My Account</h4>
+                            <ul class="footer-menu">
+                                <li><a href="#">Dashboard</a></li>
+                                <li><a href="#">Applications</a></li>
+                                <li><a href="#">Packages</a></li>
+                                <li><a href="#">resume.html</a></li>
+                                <li><a href="#">SignUp Page</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12">
+                        <div class="footer-widget">
+                            <h4 class="widget-title">Download Apps</h4>
+                            <a href="#" class="other-store-link">
+                                <div class="other-store-app">
+                                    <div class="os-app-icon">
+                                        <i class="ti-android theme-cl"></i>
+                                    </div>
+                                    <div class="os-app-caps">
+                                        Google Play
+                                        <span>Get It Now</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="other-store-link">
+                                <div class="other-store-app">
+                                    <div class="os-app-icon">
+                                        <i class="ti-apple theme-cl"></i>
+                                    </div>
+                                    <div class="os-app-caps">
+                                        App Store
+                                        <span>Now it Available</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row align-items-center">
+
+                    <div class="col-lg-6 col-md-6">
+                        <p class="mb-0">© 2020 Billboardindo. Copyright SunnySite All Rights Reserved</p>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

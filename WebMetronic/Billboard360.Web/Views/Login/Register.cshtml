@@ -1,0 +1,108 @@
+﻿@model Billboard360.Web.Models.RegisterInputModel
+@{
+	ViewData["Title"] = "Daftar";
+}
+
+<div class="col-md-6 offset-md-3">
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<h3 class="card-label">Daftar</h3>
+			</div>
+		</div>
+
+		<form method="post" action="Regist">
+			<div class="card-body">
+				@Html.ValidationMessage("Error")
+
+				<div class="form-group">
+					<label>Jenis Daftar</label>
+					<select id="registype" name="registype" class="form-control" data-val="true" data-val-required="The Register type field is required.">
+						<option value="MB">Media Buyer</option>
+						<option value="MO">Media Owner</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label>Nama Depan</label>
+					<input type="text" class="form-control" asp-for="FirstName" data-val="true" data-val-required="The first name is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Nama Belakang</label>
+					<input type="text" class="form-control" asp-for="LastName" data-val="true" data-val-required="The last name is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Email</label>
+					<input type="text" class="form-control" asp-for="Username" data-val="true" data-val-required="The email is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Username" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Kata Sandi</label>
+					<input type="password" class="form-control" asp-for="Password" data-val="true" data-val-required="The password is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Konfirmasi Kata Sandi</label>
+					<input type="password" id="conpassword" class="form-control" name="conpassword" data-val="true" data-val-required="The re-password is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="conpassword" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Nama Perusahaan</label>
+					<input type="text" class="form-control" asp-for="NamaPerusahaan" data-val="true" data-val-required="The company name is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="NamaPerusahaan" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Email Perusahaan</label>
+					<input type="text" class="form-control" asp-for="EmailPerusahaan" data-val="true" data-val-required="The company email is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="EmailPerusahaan" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>No. Telpon Perusahaan</label>
+					<input type="text" class="form-control" asp-for="NoTelp" data-val="true" data-val-required="The company phone is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="NoTelp" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Kategori</label>
+					<input type="text" class="form-control" asp-for="Kategori" data-val="true" data-val-required="The category is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Kategori" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>NPWP</label>
+					<input type="text" class="form-control" asp-for="NPWP" data-val="true" data-val-required="The NPWP is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="NPWP" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Alamat</label>
+					<input type="text" class="form-control" asp-for="Alamat" data-val="true" data-val-required="The address is required">
+					<span style="display:block;" class="field-validation-valid" data-valmsg-for="Alamat" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Website (opsional)</label>
+					<input type="text" class="form-control" asp-for="Website">
+				</div>
+
+				<div class="form-group">
+					<label>Deskripsi (opsional)</label>
+					<input type="text" class="form-control" asp-for="Catatan">
+				</div>
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary mr-2" value="Daftar">
+				<a asp-area="" asp-controller="Login" asp-action="Logon" class="btn btn-secondary">Masuk</a>
+			</div>
+		</form>
+	</div>
+</div>

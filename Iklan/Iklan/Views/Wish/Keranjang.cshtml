@@ -1,0 +1,142 @@
+﻿@model List<Iklan.Models.ViewResultCartModel>
+@{
+	ViewData["Title"] = "Keranjang Pesanan";
+}
+<div class="row">
+	<div class="col-12">
+		<div class="box">
+			<div class="box-header" style="text-align:center;margin-top:50px;">
+				<h3 class="box-title txt-red">Keranjang Pesanan</h3>
+			</div>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="row">
+						@foreach (var item in Model)
+						{
+						<div class="card-detail items">
+							<div class="card-title-box item-detail" style="margin-left:0px;">
+								<p style="margin-bottom:0px;" class="txt-grey"><strong>@item.Site.Detail.NoBillboard</strong></p>
+							</div>
+							<div class="row" style="padding: 10px 0px 10px 0px;margin-left:0px;margin-right:0px;">
+								<div class="col-md-4" style="text-align:center;padding-top:2%;">
+									@if (item.Site.Detail.Item.Image.Count > 0)
+									{
+										<img src="@item.Site.Detail.Item.Image[0].Image" alt="" style="margin-right: 5px;flex: 1;max-width: 150px;max-height: 150px;border-radius: 15%;overflow: hidden;" />
+									}
+									else
+									{
+										<img src="~/images/NoImage.jpg" alt="" style="margin-right: 5px;flex: 1;max-width: 150px;max-height: 150px;border-radius: 15%;overflow: hidden;" />
+									}
+								</div>
+								<div class="col-md-8" style="padding-left:5%;padding-top:2%;">
+									<div class="row" style="width:95%;">
+										<div class="col-md-8" style="padding:0px;">
+											<p style="margin-bottom:5px;">Ukuran: <b>@item.Site.Detail.Item.Panjang X @item.Site.Detail.Item.Lebar Meter</b></p>
+											<p style="margin-bottom:5px;">Tipe: <b>@item.Site.Detail.Tipe</b></p>
+										</div>
+										<div class="col-md-4" style="padding-right:0px !important;text-align:right;padding-top:10px;">
+											@{ int score = (int)Math.Round(item.Site.Detail.RateScoreAverage); }
+											@for (int i = 0; i < 5; i++)
+											{
+												if (i < score)
+												{
+													<span class="fa fa-star checked"></span>
+												}
+												else
+												{
+													<span class="fa fa-star"></span>
+												}
+											}
+										</div>
+									</div>
+									<div class="row" style="width:95%;">
+										<div class="col-md-6" style="text-align:left;padding-left:0px;">
+											<p style="font-size:1.2rem;"><strong>Durasi</strong></p>
+										</div>
+										<div class="col-md-6" style="text-align:right;padding-right:0px;">
+											<p style="font-size:1.2rem;margin-bottom:2px !important;"><strong>@item.EndDate.Subtract(item.StartDate).Days.ToString() Hari</strong></p>
+											<p style="font-size:0.8rem;margin-bottom:2px !important;"><span class="cust-date">@Html.DisplayFor(x => item.StartDate)</span> - <span class="cust-date">@Html.DisplayFor(x => item.EndDate)</span></p>
+										</div>
+									</div>
+									<div class="row" style="width:95%;height:25px;">
+										<div class="col-md-6" style="text-align:left;padding-left:0px;">
+											<p style="font-size:1.2rem;margin-bottom:2px !important;"><strong>Total Harga</strong></p>
+										</div>
+										<div class="col-md-6" style="text-align:right;padding-right:0px;">
+											<p style="font-size:1.2rem;margin-bottom:2px !important;" class="txt-red">Rp. <span class="cart-price">@item.TotalHargaPerItem</span>,-</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-12" style="padding: 10px 0px 10px 11%;margin-left:0px;margin-right:0px;">
+								<a href="#" onclick="delOnClick('@item.CartID')" class="keranjang button gray reject"><i class="ti-close"></i> Hapus</a>
+							</div>
+						</div>
+						}
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="box" style="-webkit-box-shadow: 0 0 20px rgba(124, 136, 160, 0.25) !important;border-radius: 6px !important;">
+						<div class="box-header" style="padding:5px 10px 0px 10px;background-color: #EBEEEE;margin: -10px -10px 0px -10px;">
+							<p style="font-size:1.5rem;"><b>Rincian Belanja</b></p>
+						</div>
+						@{int durasi = 0; double total = 0;}
+						@if (Model != null && Model.Count > 0)
+						{
+							@foreach (var item in Model)
+							{
+								durasi += item.EndDate.Subtract(item.StartDate).Days;
+								total += item.TotalHargaPerItem;
+							}
+							<div class="detailprod" style="height: 195px !important;margin:-10px -10px 10px -10px;padding:10px;">
+								<p style="font-size:1.3rem;padding: 2px 0px;margin:0px;">Total Durasi</p>
+								<p style="font-size:1.3rem;padding: 2px 0px;margin:0px;margin-top:-10px;"><strong>@durasi Hari</strong></p>
+								<p style="font-size:1.3rem;padding: 2px 0px;margin:0px;margin-top:15px;">Total Bayar</p>
+								<p style="font-size:1.3rem;padding: 2px 0px;margin:0px;margin-top:-10px;"><strong>Rp. <span id="dtlPrice">@total.ToString("#,##0.00")</span>,-</strong></p>
+							</div>
+							<div class="detailbtn" style="text-align:center !important;height:50px;margin: -10px -10px 0px -10px;">
+								<button class="btn btn-secondary" style="width:60%;background-color:#3054CB !important;">
+									<a asp-controller="Booking" asp-action="AddToBooked">
+										<span class="text-white">Booking</span>
+									</a>
+								</button>
+							</div>
+						}
+						else
+						{
+							<div class="detailprod" style="height: 195px !important;margin:-10px -10px 10px -10px;padding:10px;">
+								<p style="font-size:1.3rem;padding: 2px 0px;margin:0px;">Total Durasi</p>
+								<p style="font-size:1.3rem;padding: 2px 0px;margin:0px;margin-top:-10px;"><strong>@durasi Hari</strong></p>
+								<p style="font-size:1.3rem;padding: 2px 0px;margin:0px;margin-top:15px;">Total Bayar</p>
+								<p style="font-size:1.3rem;padding: 2px 0px;margin:0px;margin-top:-10px;"><strong>Rp. <span id="dtlPrice">@total.ToString("#,##0.00")</span>,-</strong></p>
+							</div>
+							<div class="detailbtn" style="text-align:center !important;height:50px;margin: -10px -10px 0px -10px;">
+								<button class="btn btn-secondary" style="width:60%;" disabled>
+									<span class="text-white">Booking</span>
+								</button>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- /.col -->
+</div>
+<div id="detailForm">
+</div>
+<script>
+	function delOnClick(id) {
+		var link = '@Url.Action("DeleteFromKeranjang", "Wish")';
+		var urlKeranjang = '@Url.Action("Keranjang", "Wish")';
+		var result = confirm("Anda ingin menghapus data ini?");
+		if (result) {
+			link = link + "/?ID=" + id;
+			$("#detailForm").load(link, function () {
+				window.location.href = urlKeranjang;
+			});
+		}
+	}
+
+</script>

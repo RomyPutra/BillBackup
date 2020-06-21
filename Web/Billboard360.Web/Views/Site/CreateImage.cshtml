@@ -1,0 +1,111 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	ViewData["Title"] = "Add Image";
+}
+
+<div>
+	<a class="arrowLeft" id="backLink">Back</a>
+</div>
+<div>
+	<h2 class="active"> Add Image </h2>
+	<p> Maksimal 4 file sekali upload </p>
+	@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+	{
+		<div class="alert alert-danger" role="alert">
+			@Html.ValidationSummary(true, "Error when submitting.")
+		</div>
+	}
+	<div class="jumbotron">
+		<form action="AddImage" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneJsForm">
+			@*<form action="AddImage" data-ajax-method="POST" data-ajax="true" class="dropzone" id="dropzoneJsForm">*@
+			<div class="fallback">
+				<input name="file" type="file" multiple />
+				<input type="submit" value="Submit All Files" />
+				@*<input type="button" id="dropUp" value="Submit All Files" />*@
+			</div>
+		</form>
+	</div>
+</div>
+@*<script>
+	//#region UploadImage
+	var siteIndexUrl = '@Url.Action("Index", "Site")';
+	Dropzone.options.dropzoneForm = {
+		init: function () {
+			this.on("complete", function (data) {
+				//var res = eval('(' + data.xhr.responseText + ')');
+				var res = JSON.parse(data.xhr.responseText);
+				//window.location.href = siteIndexUrl;
+			});
+			//this.on("success", function (data) {
+			//	window.location.href = siteIndexUrl;
+			//});
+		}
+	};
+	//#endregion
+
+</script>*@
+@*<div>
+		<h2 class="active"> Add Image </h2>
+		<form method="post" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-md-4">
+					<input type="file" id="iUpload" name="files" class="form-control" />
+				</div>
+				<div class="col-md-8">
+					<input type="button" id="btnUploadImage" value="Upload" />
+				</div>
+			</div>
+		</form>
+	</div>*@
+@*<script>
+	$(document).ready(function () {
+		$('#btnUploadImage').on('click', function () {
+			var fileExtension = ['jpg', 'png', 'jpeg'];
+			var filename = $('#iUpload').val();
+			if (filename.length == 0) {
+				alert("Please select a file.");
+				return false;
+			}
+			else
+			{
+				var extension = filename.replace(/^.*\./, '');
+				if ($.inArray(extension, fileExtension) == -1) {
+					alert("Please select only image files.");
+					return false;
+				}
+			}
+			var fdata = new FormData();
+			var fileUpload = $("#iUpload")[0];
+			var files = fileUpload.files;
+			var newUrl = '@Url.Action("Index", "Site")';
+			fdata.append(files[0].name, files[0]);
+			$.ajax({
+				type: "POST",
+				url: "@Url.Action("AddImage", "Site")",//"/ExportImport?handler=Import",
+				beforesend: function (xhr) {
+					xhr.setrequestheader("xsrf-token",
+						$('input:hidden[name="__requestverificationtoken"]').val());
+				},
+				data: fdata,
+				contentType: false,
+				processData: false,
+				success: function (response) {
+					//alert(response);
+					if (response.length == 0)
+						alert('Some error occured while uploading');
+					else {
+						alert('Success Uploaded');
+						window.location.href = newUrl;
+					}
+				},
+				error: function (e) {
+					alert(e);
+				}
+			});
+		})
+	})
+</script>*@
+
+

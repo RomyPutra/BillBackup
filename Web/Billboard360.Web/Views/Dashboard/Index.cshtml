@@ -1,0 +1,212 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model CustomDashboard
+@{
+	ViewData["Title"] = "Dashboard";
+}
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+	<div class="row" style="padding: 7px;margin-bottom: 10px;">
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when getting data.")
+			</div>
+		}
+		<div class="row" style="width:100%;margin-left:0px;">
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="card card-stats">
+					<div class="card-header card-header-icon" style="height:200px;">
+						<div class="card-icon" style="border-radius:6px;background:#F0A205 !important;">
+							<img src="~/image/iconplay.svg" style="width:80px">
+							@*<i class="material-icons">play_circle_filled</i>*@
+						</div>
+						<p class="card-category">Used Site</p>
+						<h3 class="card-title" style="margin-top:60px;">
+							<span class="cart-price">@Model.KotakEmpat.TotalUseSite</span>/<span class="cart-price">@Model.KotakEmpat.TotalSite</span>
+						</h3>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="card card-stats">
+					<div class="card-header card-header-icon" style="height:200px;">
+						<div class="card-icon" style="border-radius:6px;background:#34B14D;">
+							<img src="~/image/iconrev.svg" style="width:80px">
+							@*<i class="material-icons">insert_chart</i>*@
+						</div>
+						<p class="card-category">Revenue</p>
+						<h4 class="card-title" style="margin-top:60px;">
+							Rp <span class="cart-price">@Model.KotakEmpat.Revenue</span>
+							/Rp <small class="cart-price">@Model.KotakEmpat.TotalRevenue</small>
+						</h4>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="card card-stats">
+					<div class="card-header card-header-icon" style="height:200px;">
+						<div class="card-icon" style="border-radius:6px;background:#0E62AC">
+							<img src="~/image/iconunp.svg" style="width:80px">
+							@*<i class="material-icons">money_off</i>*@
+						</div>
+						<p class="card-category">Unpaid</p>
+						<h3 class="card-title" style="margin-top:60px;">
+							@Model.KotakEmpat.TotalBooking
+							<small>order</small>
+						</h3>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="card card-stats">
+					<div class="card-header card-header-icon" style="height:200px;">
+						<div class="card-icon" style="border-radius:6px;background:#E72F8B;">
+							<img src="~/image/iconto.svg" style="width:80px">
+							@*<i class="material-icons">library_books</i>*@
+						</div>
+						<p class="card-category">Total Order</p>
+						<h3 class="card-title" style="margin-top:60px;">
+							@Model.KotakEmpat.TotalOrder
+							<small>/month</small>
+						</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="chartContainer" class="myautoscroll" style="height: 350px; width: 100%; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);padding:5px;margin:10px;"></div>
+		<div class="row" style="width:100%; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow-x:auto;padding:5px;margin:10px;">
+			<div class="div-title">
+				<p>Daftar Transaksi</p>
+			</div>
+			<div class="box-body auto-table myautoscroll">
+				<table id="tdasboard" class="table table-bordered table-striped" style="width:100%;">
+					<thead>
+						<tr>
+							@*<th>No</th>*@
+							<th>Booking Number</th>
+							<th>User Name</th>
+							<th>No Billboard</th>
+							<th>Tanggal Book</th>
+							<th>Tanggal Start</th>
+							<th>Tanggal End</th>
+							<th>Tanggal Transaksi</th>
+							<th>Status</th>
+							<th>Status Pembayaran</th>
+							<th>Durasi</th>
+							<th>Unit</th>
+							<th>Harga</th>
+							<th>Total</th>
+							@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+							{
+								<th>Action</th>
+							}
+						</tr>
+					</thead>
+					<tbody>
+						@{int i = 1;}
+						@if (Model.PurchaseAndBook != null)
+						{
+							@foreach (var item in Model.PurchaseAndBook)
+							{
+								<tr>
+									@*<td>@(i++)</td>*@
+									<td>@Html.DisplayFor(modelItem => item.BookNo)</td>
+									<td>@Html.DisplayFor(modelItem => item.UserName)</td>
+									<td>@Html.DisplayFor(modelItem => item.NoBillBoard)</td>
+									<td class="custom-date">@Html.DisplayFor(modelItem => item.TglBook)</td>
+									<td class="custom-date">@Html.DisplayFor(modelItem => item.StartDate)</td>
+									<td class="custom-date">@Html.DisplayFor(modelItem => item.EndDate)</td>
+									<td class="custom-date">@Html.DisplayFor(modelItem => item.TglTrans)</td>
+									<td>@Html.DisplayFor(modelItem => item.Status)</td>
+									@if (item.Status.ToLower().Contains("progress"))
+									{
+										<td></td>
+									}
+									else if (item.TglTrans == null && item.Status.ToLower().Contains("approve"))
+									{
+										<td>Pending</td>
+									}
+									else if (item.TglTrans != null && item.Status.ToLower().Contains("approve"))
+									{
+										<td>Paid</td>
+									}
+									else
+									{
+										<td></td>
+									}
+									<td>@Html.DisplayFor(modelItem => item.Qty)</td>
+									<td>@Html.DisplayFor(modelItem => item.Unit)</td>
+									<td class="price">@Html.DisplayFor(modelItem => item.Harga)</td>
+									<td class="price">@Html.DisplayFor(modelItem => item.HargaTotal)</td>
+									@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+									{
+										@if (item.Status.ToLower().Contains("progress"))
+										{
+											<td><button class="btn btn-primary" onclick="btnapprove('1&@item.BookID|@item.BookNo&accept')">Accept</button><button class="btn btn-danger" onclick="btnapprove('2&@item.BookID|@item.BookNo&declined')">Decline</button></td>
+										}
+										else
+										{
+											<td><button class="btn btn-primary" disabled>Accept</button><button class="btn btn-danger" disabled>Decline</button></td>
+										}
+										@*<td><a asp-controller="Site" asp-action="IndexPrice" asp-route-id="@item.NoBillBoard">View Price</a> | <a asp-controller="Site" asp-action="IndexImage" asp-route-id="@item.NoBillBoard">View Image</a></td>*@
+									}
+								</tr>
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row" style="width:100%; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);overflow-x:auto;padding:5px;margin:10px;">
+			<div class="div-title">
+				<p>Laporan Permasalahan Site</p>
+			</div>
+			<div class="box-body auto-table myautoscroll">
+				<table id="tdasboard1" class="table table-bordered table-striped" style="width:100%;">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th>Report Number</th>
+							<th>User Name</th>
+							<th>No Billboard</th>
+							<th>Masalah</th>
+							@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+							{
+								<th>Action</th>
+							}
+						</tr>
+					</thead>
+					<tbody>
+						@{int x = 1;}
+						@if (Model.PurchaseAndBook != null)
+						{
+							@foreach (var item in Model.SiteProblem)
+							{
+								<tr>
+									<td>@(x++)</td>
+									<td>@Html.DisplayFor(modelItem => item.ReportNo)</td>
+									<td>@Html.DisplayFor(modelItem => item.From)</td>
+									<td>@Html.DisplayFor(modelItem => item.NoBillboard)</td>
+									<td>@Html.DisplayFor(modelItem => item.Desc)</td>
+									@if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+									{
+										@*@if (item.Status.ToLower().Contains("progress"))
+										{
+											<td><button class="btn btn-primary" onclick="btnapprove('1&@item.BookID|@item.BookNo&accept')">Accept</button><button class="btn btn-danger" onclick="btnapprove('2&@item.BookID|@item.BookNo&declined')">Decline</button></td>
+										}
+										else
+										{
+											<td><button class="btn btn-primary" disabled>Accept</button><button class="btn btn-danger" disabled>Decline</button></td>
+										}*@
+										<td><button class="btn btn-primary" disabled>Accept</button><button class="btn btn-danger" disabled>Decline</button></td>
+									}
+								</tr>
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,93 @@
+﻿@model Billboard360.Web.Models.EditProfile
+@{
+    ViewData["Title"] = "Perbarui Profil";
+}
+
+<div class="col-md-6 offset-md-3">
+	<div class="card card-custom">
+		<div class="card-header">
+			<div class="card-title">
+				<h3 class="card-label">Perbarui Profil</h3>
+			</div>
+		</div>
+
+		<form method="post" action="~/Profile/UpdateProfile">
+			<div class="card-body">
+				@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+				{
+					<div class="alert alert-danger" role="alert">
+						@Html.ValidationSummary(true, "Terjadi kesalahan saat memperbarui.")
+					</div>
+				}
+
+				<div class="form-group">
+					<label>Nama Depan</label>
+					<input type="text" class="form-control" asp-for="input.FirstName" data-val="true" value="@Model.val.FirstName" data-val-required="The first name is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="input.FirstName" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Nama Belakang</label>
+					<input type="text" class="form-control" asp-for="input.LastName" data-val="true" value="@Model.val.LastName" data-val-required="The last name is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="input.LastName" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Email</label>
+					<input type="text" class="form-control" asp-for="input.UserName" data-val="true" value="@Model.val.UserName" data-val-required="The user name is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="input.UserName" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Nama Perusahaan</label>
+					<input type="text" class="form-control" asp-for="input.NamaPerusahaan" data-val="true" value="@Model.val.NamaPerusahaan" data-val-required="The company name is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="input.NamaPerusahaan" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Email Perusahaan</label>
+					<input type="text" class="form-control" asp-for="input.EmailPerusahaan" data-val="true" value="@Model.val.EmailPerusahaan" data-val-required="The company email is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="input.EmailPerusahaan" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>No. Telepon Perusahaan</label>
+					<input type="text" class="form-control" asp-for="input.NoTelp" data-val="true" value="@Model.val.NoTelp" data-val-required="The company phone is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="input.NoTelp" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Kategori</label>
+					<input type="text" class="form-control" asp-for="input.Kategori" data-val="true" value="@Model.val.Kategori" data-val-required="The category name is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="input.Kategori" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>NPWP</label>
+					<input type="text" class="form-control" asp-for="input.NPWP" data-val="true" value="@Model.val.NPWP" data-val-required="The NPWP is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="input.NPWP" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Alamat Perusahaan</label>
+					<input type="text" class="form-control" asp-for="input.Alamat" data-val="true" value="@Model.val.Alamat" data-val-required="The company address is required"/>
+					<span style="display:block;" class="invalid-feedback" data-valmsg-for="input.Alamat" data-valmsg-replace="true"></span>
+				</div>
+
+				<div class="form-group">
+					<label>Website (opsional)</label>
+					<input type="text" class="form-control" asp-for="input.Website" value="@Model.val.Website"/>
+				</div>
+
+				<div class="form-group">
+					<label>Deskripsi (opsional)</label>
+					<input type="text" class="form-control" asp-for="input.Catatan" value="@Model.val.Catatan"/>
+				</div>
+			</div>
+			<div class="card-footer">
+				<input type="submit" class="btn btn-primary mr-2" value="Simpan">
+			</div>
+		</form>
+	</div>
+</div>
+

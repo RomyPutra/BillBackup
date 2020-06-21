@@ -1,0 +1,35 @@
+﻿@model Billboard360.Web.Models.EditBankAccount
+@{
+    ViewData["Title"] = "Update Bank Account";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Update Bank Account </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when updating.")
+			</div>
+		}
+		<form method="post" action="~/BankAccount/UpdateBank">
+			<input type="hidden" asp-for="input.ID" value="@Model.item.UserBankID">
+			<input type="hidden" id="bankIDHidden" value="@Model.item.BankID">
+			<input type="text" class="fadeIn first form-control" asp-for="input.AccountNumber" value="@Model.item.AccountNumber" placeholder="Account Number" data-val="true" data-val-required="The Account number is required" data-val-regex="Valid input is numbers only" data-val-regex-pattern="^\d+$">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="AccountNumber" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="input.AccountName" value="@Model.item.AccountName" placeholder="Account Name" data-val="true" data-val-required="The Account Name is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="AccountName" data-valmsg-replace="true"></span>
+			<select id="lstbank" class="selop fadeIn second" data-val="true" data-val-required="The Bank field is required." asp-for="input.BankID"></select>
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="BankID" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Update">
+		</form>
+	</div>
+</div>
+
+
+
+

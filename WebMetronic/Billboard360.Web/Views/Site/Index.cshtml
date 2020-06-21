@@ -1,0 +1,135 @@
+﻿@model List<Billboard360.Web.Models.SiteListOutputModel>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+	ViewData["Title"] = "Data Site";
+}
+
+<div class="card card-custom">
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="card-label">Data Site</h3>
+		</div>
+		<div class="card-toolbar">
+			<!--begin::Button-->
+			<a class="btn btn-primary font-weight-bolder" asp-area="" asp-controller="Site" asp-action="Create">
+				<span class="svg-icon svg-icon-md">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+						<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							<rect x="0" y="0" width="24" height="24" />
+							<circle fill="#000000" cx="9" cy="15" r="6" />
+							<path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+						</g>
+					</svg>
+				</span>	Tambah Site
+			</a>
+			<!--end::Button-->
+		</div>
+	</div>		
+
+	<div class="card-body">
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Terjadi kesalahan saat mendapatkan data.")
+			</div>
+		}
+
+		<!--begin: Datatable-->
+		<table id="listSite" class="table table-bordered table-hover table-checkable table-responsive" style="margin-top: 13px !important">
+			<thead>
+				<tr>
+					<th>Billboard No</th>
+          <th>Alamat</th> 
+          <th>Kota</th>
+          <th>Provinsi</th>
+          <th>Pulau</th>
+          <th>Cabang</th>
+          <th>Tipe</th>
+          <th style="display:none;">latitude</th>
+          <th style="display:none;">longitude</th>
+          @if (HttpContextAccessor.HttpContext.Session.GetString("_ROLE") != "SPV")
+          {
+              <th>Lihat</th>
+              <th>Aksi</th>
+          }
+				</tr>
+			</thead>
+			<tbody>
+        @foreach (var item in Model)
+        {
+          <tr>
+            <td>@Html.DisplayFor(modelItem => item.NoBillboard)</td>
+            <td>@Html.DisplayFor(modelItem => item.Alamat)</td>
+            <td>@Html.DisplayFor(modelItem => item.Kota)</td>
+            <td>@Html.DisplayFor(modelItem => item.Provinsi)</td>
+            <td>@Html.DisplayFor(modelItem => item.Pulau)</td>
+            <td>@Html.DisplayFor(modelItem => item.Cabang)</td>
+            <td>@Html.DisplayFor(modelItem => item.Tipe)</td>
+            <td style="display:none;">@Html.DisplayFor(modelItem => item.Latitude)</td>
+            <td style="display:none;">@Html.DisplayFor(modelItem => item.Longitude)</td>
+          </tr>
+        }
+			</tbody>
+		</table>
+		<!--end: Datatable-->
+	</div>
+</div>
+
+<!-- page script -->
+<script>
+  function Disabled(siteID, Mode, noBillboard){
+    var txt;
+    var r = Mode == "Disable" ? confirm("Are you sure you want to Disabled Billboard " + noBillboard + "?") : confirm("Are you sure you want to Enabled Billboard " + noBillboard + "?");
+    if (r == true) {
+      $.ajax(
+      {
+        type: "POST",
+        url: '@Url.Action("UpdateSiteStatus", "Site")',
+        data: {
+          siteID: siteID,
+          Mode: Mode
+        },
+        error: function (result) {
+          alert("error");
+        },
+        success: function (result) {
+          if (result == true) {
+            var baseUrl="/Site";
+            window.location.reload();
+          }
+          else {
+            alert("There is a problem, Try Later!");
+          }
+        }
+      });
+    }
+  }
+
+	function Delete(id) {
+    var txt;
+    var r = confirm("Are you sure you want to Delete?");
+    if (r == true) {
+      $.ajax(
+      {
+        type: "POST",
+        url: '@Url.Action("Delete", "Site")',
+        data: {
+          id: id
+        },
+        error: function (result) {
+          alert("error");
+        },
+        success: function (result) {
+          if (result == true) {
+            var baseUrl="/Site";
+            window.location.reload();
+          }
+          else {
+            alert("There is a problem, Try Later!");
+          }
+        }
+      });
+    }
+  }
+</script>

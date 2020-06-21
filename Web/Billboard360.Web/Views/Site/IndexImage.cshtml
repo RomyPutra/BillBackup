@@ -1,0 +1,88 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Billboard360.Web.Models.EditSite
+@{
+	ViewData["Title"] = "Image Listing";
+}
+@*<div>
+		<a class="arrowLeft" id="backLink">Back</a>
+	</div>*@
+<div class="row">
+	<div class="col-12">
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">Manage Image</h3>
+				<p align="right">
+					<a class="arrowLeft" id="backLink" style="float:left;">Back</a>
+					<a class="text-dark" style="padding: 5px;" asp-area="" asp-controller="Site" asp-action="CreateImage"><img src="~/image/add-create.png" style="height: 15px;width: 15px;" /> Add Image</a>
+				</p>
+			</div>
+			@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+			{
+				<div class="alert alert-danger" role="alert">
+					@Html.ValidationSummary(true, "Error when getting data.")
+				</div>
+			}
+			<!-- /.box-header -->
+			<div class="box-body auto-table">
+				<table id="example1" class="table table-bordered table-striped" style="width:100%;">
+					<thead>
+						<tr>
+							<th>Image ID</th>
+							<th>Image</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model.val.Item)
+						{
+							foreach (var image in item.Image)
+							{
+								<tr>
+									<td>@Html.DisplayFor(modelItem => image.SiteImageID)</td>
+									<td><img src="@image.Image" style="height: 75px;width: 75px;" /></td>
+								</tr>
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+	<!-- /.col -->
+</div>
+<!-- page script -->
+<script>
+    //$(function () {
+    //    $('#example1').DataTable();
+    //});
+    function Delete(id){
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "Site")',
+                data: {
+                    id: id
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+                        var baseUrl="/Site";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+    }
+</script>

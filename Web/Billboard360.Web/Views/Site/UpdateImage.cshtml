@@ -1,0 +1,68 @@
+﻿@model Billboard360.Web.Models.EditImage
+@{
+	ViewData["Title"] = "Update Image";
+}
+
+<div>
+	<h2 class="active"> Update Image </h2>
+	<form method="post" enctype="multipart/form-data">
+		<div class="row">
+			<div class="col-md-4">
+				<input type="file" id="iUpdate" name="files" class="form-control" />
+			</div>
+			<div class="col-md-8">
+				<input type="button" id="btnUpdateImage" value="Upload" />
+			</div>
+		</div>
+	</form>
+</div>
+@*<script>
+	$(document).ready(function () {
+        $('#btnUpdateImage').on('click', function () {
+            var fileExtension = ['jpg', 'png', 'jpeg'];
+			var filename = $('#iUpdate').val();
+            if (filename.length == 0) {
+                alert("Please select a file.");
+                return false;
+            }
+			else
+			{
+				var extension = filename.replace(/^.*\./, '');
+				if ($.inArray(extension, fileExtension) == -1) {
+					alert("Please select only image files.");
+					return false;
+				}
+            }
+            var fdata = new FormData();
+			var fileUpload = $("#iUpdate")[0];
+			var files = fileUpload.files;
+			var newUrl = '@Url.Action("Index", "Site")';
+            fdata.append(files[0].name, files[0]);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateI", "Site")",//"/ExportImport?handler=Import",
+                beforesend: function (xhr) {
+                    xhr.setrequestheader("xsrf-token",
+                        $('input:hidden[name="__requestverificationtoken"]').val());
+                },
+                data: fdata,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    //alert(response);
+                    if (response.length == 0)
+                        alert('Some error occured while uploading');
+                    else {
+						alert('Success Updated');
+						window.location.href = newUrl;
+                    }
+                },
+                error: function (e) {
+					alert(e);
+                }
+            });
+        })
+	})
+</script>*@
+
+

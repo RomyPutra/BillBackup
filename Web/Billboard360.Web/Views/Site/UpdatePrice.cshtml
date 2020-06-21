@@ -1,0 +1,34 @@
+﻿@model Billboard360.Web.Models.EditPrice
+@{
+    ViewData["Title"] = "Update Price";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Update Price </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Error when updating.")
+			</div>
+		}
+		<form method="post" action="~/Site/UpdateP">
+			<input type="hidden" asp-for="input.SitePriceID" value="@Model.val.SitePriceID">
+			<input type="text" class="fadeIn first form-control" asp-for="input.Dasar" placeholder="Dasar" value="@Model.val.Dasar" data-val="true" data-val-required="The basic is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.Dasar" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="input.Kelipatan" placeholder="input.Kelipatan" value="@Model.val.Kelipatan" data-val="true" data-val-required="The multiple is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Kelipatan" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn third form-control" asp-for="input.HargaAwal" placeholder="Harga Awal" value="@Model.val.HargaAwal" data-val="true" data-val-required="The first price is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.HargaAwal" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn third form-control" asp-for="input.HargaAkhir" placeholder="Harga Akhir" value="@Model.val.HargaAkhir" data-val="true" data-val-required="The final price is required">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="input.HargaAkhir" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Update">
+		</form>
+	</div>
+</div>
+
+

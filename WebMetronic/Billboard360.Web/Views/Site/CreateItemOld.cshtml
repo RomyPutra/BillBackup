@@ -1,0 +1,35 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Billboard360.Web.Models.AddSiteItemDetailInputModel
+@{
+	ViewData["Title"] = "Add Site Item";
+}
+
+<div class="wrapper fadeInDown">
+	<div id="formContent" class="regis">
+		<div style="text-align:right;">
+			<button type="button" id="backLink" style="background:red;"><span aria-hidden="true">&times;</span></button>
+		</div>
+		<h2 class="active"> Add Site Item </h2>
+		<!-- Login Form -->
+		@if (Html.ViewData.ModelState.ContainsKey(string.Empty))
+		{
+			<div class="alert alert-danger" role="alert">
+				@Html.ValidationSummary(true, "Terjadi kesalahan saat mengirim.")
+			</div>
+		}
+		<form method="post" action="AddSiteItem">
+			<input type="hidden" class="fadeIn first" asp-for="SiteID">
+			<input type="text" class="fadeIn second form-control" asp-for="KodeArahLokasi" placeholder="Kode Arah Lokasi" data-val="true" data-val-required="Kode Arah Lokasi harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="KodeArahLokasi" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="ArahLokasi" placeholder="Arah Lokasi" data-val="true" data-val-required="Arah Lokasi harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="ArahLokasi" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="Panjang" placeholder="Panjang" data-val="true" data-val-required="Panjang harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Panjang" data-valmsg-replace="true"></span>
+			<input type="text" class="fadeIn second form-control" asp-for="Lebar" placeholder="Lebar" data-val="true" data-val-required="Lebar harus di isi">
+			<span style="display:block;" class="field-validation-valid" data-valmsg-for="Lebar" data-valmsg-replace="true"></span>
+			<input type="submit" class="fadeIn fourth" value="Submit">
+		</form>
+	</div>
+</div>
